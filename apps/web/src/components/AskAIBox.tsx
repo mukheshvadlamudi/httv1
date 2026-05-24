@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Sparkles, Play, Pause, Square, Send, Key, Volume2, ShieldAlert, FileText, ArrowRight, HelpCircle } from "lucide-react";
+import React, { useState, useRef } from "react";
+import { Sparkles, Square, Send, Key, Volume2, ArrowRight } from "lucide-react";
 import { useVoice } from "../hooks/useVoice";
 
 interface AskAIBoxProps {
@@ -61,6 +61,7 @@ export function AskAIBox({ track, onSelectGuide, apiKey, onOpenSettings }: AskAI
   const [feedbackGiven, setFeedbackGiven] = useState<string | null>(null);
 
   const { speak, stop, isPlaying } = useVoice();
+  const typingIntervalRef = useRef<any>(null);
 
   // Simulated multi-step loading message
   const loadingMessages = [
@@ -90,74 +91,35 @@ export function AskAIBox({ track, onSelectGuide, apiKey, onOpenSettings }: AskAI
       await new Promise((resolve) => setTimeout(resolve, 800));
     }
 
-    // 1. Check if user has entered an OpenAI API Key
-    if (apiKey) {
-      try {
-        const response = await fetch("https://api.openai.com/v1/chat/completions", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${apiKey}`
-          },
-          body: JSON.stringify({
-            model: "gpt-4o-mini",
-            messages: [
-              {
-                role: "system",
-                content: "You are a gentle, patient technology coach for absolute beginners and senior citizens. Answer the user's question in plain language. Break it down into extremely clear, sequential steps (1, 2, 3). Do not use advanced terms. If you must use a term, explain it. Keep it concise."
-              },
-              {
-                role: "user",
-                content: question
-              }
-            ]
-          })
+    // Fetch from our local API route (which handles reading the API keys, RAG, and LLM queries)
+    try {
+      const response = await fetch("/api/ai/question", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ question })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setLiveAnswer(data.answer);
+        setLiveSimpleAnswer(data.simpleAnswer);
+        setFullResponse({
+          keywords: [],
+          answer: data.answer,
+          simpleAnswer: data.simpleAnswer,
+          relatedSlug: data.relatedSlug
         });
-
-        if (response.ok) {
-          const data = await response.json();
-          const answerText = data.choices[0].message.content;
-          setLiveAnswer(answerText);
-          
-          // Generate a simpler version too
-          const simpleResponse = await fetch("https://api.openai.com/v1/chat/completions", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": `Bearer ${apiKey}`
-            },
-            body: JSON.stringify({
-              model: "gpt-4o-mini",
-              messages: [
-                {
-                  role: "system",
-                  content: "Translate this instruction list into ultra-basic, short commands for a senior citizen. Maximum 5 short lines, starting with big numbers. Use zero technical words."
-                },
-                {
-                  role: "user",
-                  content: answerText
-                }
-              ]
-            })
-          });
-          
-          if (simpleResponse.ok) {
-            const sData = await simpleResponse.json();
-            setLiveSimpleAnswer(sData.choices[0].message.content);
-          } else {
-            setLiveSimpleAnswer("1. Click the button on screen.\n2. Follow the directions calmly.");
-          }
-
-          setLoading(false);
-          streamText(answerText);
-          return;
-        }
-      } catch (err) {
-        console.error("Live API error, falling back to simulated matching:", err);
+        setLoading(false);
+        streamText(data.answer);
+        return;
       }
+    } catch (err) {
+      console.error("Error calling RAG API route, falling back to offline simulation:", err);
     }
 
-    // 2. FALLBACK: Simulated Keyword Match
+    // Fallback: Offline local matching if API route fails
     const match = SIMULATED_ANSWERS.find((item) =>
       item.keywords.some((kw) => question.toLowerCase().includes(kw))
     );
@@ -176,16 +138,22 @@ export function AskAIBox({ track, onSelectGuide, apiKey, onOpenSettings }: AskAI
 
   // Typing streaming effect
   const streamText = (text: string) => {
+    if (typingIntervalRef.current) {
+      clearInterval(typingIntervalRef.current);
+    }
     let index = 0;
     setDisplayedAnswer("");
     
     const interval = setInterval(() => {
-      setDisplayedAnswer((prev) => prev + text.charAt(index));
       index++;
+      setDisplayedAnswer(text.slice(0, index));
       if (index >= text.length) {
         clearInterval(interval);
+        typingIntervalRef.current = null;
       }
-    }, 15);
+    }, 12);
+
+    typingIntervalRef.current = interval;
   };
 
   // Toggle "Explain Simpler" Mode

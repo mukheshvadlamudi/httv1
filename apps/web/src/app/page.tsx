@@ -8,7 +8,7 @@ import { GuideDetailView } from "../components/GuideDetailView";
 import { KnowledgeVault } from "../components/KnowledgeVault";
 import { AskAIBox } from "../components/AskAIBox";
 import { MOCK_GUIDES, Guide } from "../data/mock-guides";
-import { Search, Mail, ShieldAlert, Award, PhoneCall, Sparkles, BookOpen, Compass, ChevronRight, X, Key, ShieldCheck, Heart } from "lucide-react";
+import { Search, Mail, ShieldAlert, PhoneCall, Compass, ChevronRight, X, Key, ShieldCheck, Heart } from "lucide-react";
 
 // Visual Layout Expansion Imports
 import { AccessibilityToolbar, FontScale, ContrastTheme } from "../components/AccessibilityToolbar";
@@ -17,12 +17,54 @@ import { ToolFinder } from "../components/ToolFinder";
 import { UserDashboard } from "../components/UserDashboard";
 import { BusinessTraining } from "../components/BusinessTraining";
 import { AdminCMS } from "../components/AdminCMS";
+interface SearchSuggestion {
+  label: string;
+  slug: string;
+  category: string;
+  keywords: string[];
+}
+
+const SEARCH_SUGGESTIONS: SearchSuggestion[] = [
+  { label: "Reset Gmail password", slug: "gmail-password-reset", category: "Email", keywords: ["gmail", "google", "password", "reset", "email", "recovery", "g"] },
+  { label: "Create a strong password", slug: "strong-password-creation", category: "Security", keywords: ["password", "security", "passphrase", "safe", "g"] },
+  { label: "Set up Two-Factor Authentication (2FA)", slug: "two-factor-auth", category: "Security", keywords: ["2fa", "security", "two-step", "verification", "hacker", "safety"] },
+  { label: "Spot email scams and phishing", slug: "spot-scam-email", category: "Security", keywords: ["scam", "phishing", "fake", "email", "security", "safety"] },
+  { label: "Join a Zoom video meeting", slug: "zoom-meeting-join", category: "Communication", keywords: ["zoom", "meeting", "video", "call", "audio"] },
+  { label: "Share a Google Drive file", slug: "google-drive-share", category: "Files", keywords: ["google", "drive", "share", "send", "file", "g"] },
+  { label: "Install app on Android phone", slug: "install-app-android", category: "Mobile", keywords: ["android", "play store", "download", "app", "mobile"] },
+  { label: "Update iPhone software", slug: "update-iphone", category: "Mobile", keywords: ["iphone", "ios", "update", "mobile", "apple"] },
+  { label: "Save document as PDF", slug: "create-pdf", category: "Productivity", keywords: ["pdf", "save", "print", "document"] },
+  { label: "Use ChatGPT AI safely", slug: "chatgpt-safety", category: "AI & Tools", keywords: ["chatgpt", "ai", "privacy", "safety", "openai"] }
+];
+
+const getFilteredSuggestions = (query: string) => {
+  const q = query.trim().toLowerCase();
+  if (!q) {
+    return SEARCH_SUGGESTIONS.slice(0, 5);
+  }
+  const matches = SEARCH_SUGGESTIONS.filter(item => 
+    item.label.toLowerCase().includes(q) || 
+    item.keywords.some(kw => kw.toLowerCase().startsWith(q))
+  );
+  return matches.slice(0, 5);
+};
+
+const getCategoryIcon = (category: string, className = "w-3.5 h-3.5") => {
+  if (category === "Email") return <Mail className={className} />;
+  if (category === "Security") return <ShieldCheck className={`${className} text-rose-500`} />;
+  if (category === "Communication") return <PhoneCall className={`${className} text-emerald-500`} />;
+  return <Compass className={`${className} text-blue-500`} />;
+};
 
 export default function Page() {
   // Global Application State
   const [track, setTrack] = useState<"selector" | "everyday" | "developer">("selector");
   const [view, setView] = useState<"landing" | "library" | "detail" | "paths" | "tools" | "dashboard" | "b2b" | "admin">("landing");
   const [selectedGuideSlug, setSelectedGuideSlug] = useState<string | null>(null);
+  
+  // Autocomplete focus states
+  const [isHeroFocused, setIsHeroFocused] = useState(false);
+  const [isLibraryFocused, setIsLibraryFocused] = useState(false);
 
   // Global Accessibilities and Bookmarks
   const [bookmarks, setBookmarks] = useState<string[]>([]);
@@ -45,41 +87,43 @@ export default function Page() {
   useEffect(() => {
     if (typeof window !== "undefined") {
       const key = localStorage.getItem("how_to_tech_openai_key") || "";
-      setSavedApiKey(key);
-      setApiKeyInput(key);
+      setTimeout(() => {
+        setSavedApiKey(key);
+        setApiKeyInput(key);
 
-      const savedBookmarks = localStorage.getItem("how_to_tech_bookmarks");
-      if (savedBookmarks) {
-        try {
-          setBookmarks(JSON.parse(savedBookmarks));
-        } catch (e) {
-          console.error(e);
+        const savedBookmarks = localStorage.getItem("how_to_tech_bookmarks");
+        if (savedBookmarks) {
+          try {
+            setBookmarks(JSON.parse(savedBookmarks));
+          } catch (e) {
+            console.error(e);
+          }
         }
-      }
 
-      const savedCompleted = localStorage.getItem("how_to_tech_completed_steps");
-      if (savedCompleted) {
-        try {
-          setCompletedSteps(JSON.parse(savedCompleted));
-        } catch (e) {
-          console.error(e);
+        const savedCompleted = localStorage.getItem("how_to_tech_completed_steps");
+        if (savedCompleted) {
+          try {
+            setCompletedSteps(JSON.parse(savedCompleted));
+          } catch (e) {
+            console.error(e);
+          }
         }
-      }
 
-      const savedCustom = localStorage.getItem("how_to_tech_custom_guides");
-      if (savedCustom) {
-        try {
-          setCustomGuides(JSON.parse(savedCustom));
-        } catch (e) {
-          console.error(e);
+        const savedCustom = localStorage.getItem("how_to_tech_custom_guides");
+        if (savedCustom) {
+          try {
+            setCustomGuides(JSON.parse(savedCustom));
+          } catch (e) {
+            console.error(e);
+          }
         }
-      }
 
-      const savedFontScale = localStorage.getItem("how_to_tech_font_scale") as FontScale;
-      if (savedFontScale) setFontScale(savedFontScale);
+        const savedFontScale = localStorage.getItem("how_to_tech_font_scale") as FontScale;
+        if (savedFontScale) setFontScale(savedFontScale);
 
-      const savedTheme = localStorage.getItem("how_to_tech_theme") as ContrastTheme;
-      if (savedTheme) setTheme(savedTheme);
+        const savedTheme = localStorage.getItem("how_to_tech_theme") as ContrastTheme;
+        if (savedTheme) setTheme(savedTheme);
+      }, 0);
     }
   }, []);
 
@@ -349,6 +393,8 @@ export default function Page() {
                       type="text"
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
+                      onFocus={() => setIsHeroFocused(true)}
+                      onBlur={() => setTimeout(() => setIsHeroFocused(false), 200)}
                       placeholder="What are you trying to do? (e.g., reset Gmail password, join a Zoom meeting...)"
                       className="w-full pl-12 pr-28 py-3.5 border border-slate-200 focus:border-slate-400 rounded-full text-xs md:text-sm outline-none bg-white shadow-md transition-all"
                     />
@@ -358,6 +404,36 @@ export default function Page() {
                     >
                       Search
                     </button>
+
+                    {/* Autocomplete Suggestions Dropdown */}
+                    {isHeroFocused && (
+                      <div className="absolute left-0 right-0 top-full mt-2 bg-white/95 backdrop-blur-md border border-slate-200/60 rounded-3xl shadow-xl z-50 overflow-hidden text-left p-4 space-y-1.5 animate-in slide-in-from-top-2 duration-200">
+                        <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-3 mb-1.5 flex justify-between">
+                          <span>Suggested options</span>
+                          <span className="text-[8px] normal-case font-medium">Quick Access</span>
+                        </div>
+                        {getFilteredSuggestions(searchQuery).map((item) => (
+                          <div
+                            key={item.slug}
+                            onClick={() => {
+                              setSelectedGuideSlug(item.slug);
+                              setView("detail");
+                              setSearchQuery("");
+                            }}
+                            className="flex items-center gap-3 px-3 py-2.5 rounded-2xl hover:bg-slate-50 cursor-pointer transition-colors group"
+                          >
+                            <div className="w-7 h-7 rounded-xl bg-slate-100 flex items-center justify-center text-slate-650 shrink-0">
+                              {getCategoryIcon(item.category)}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <span className="text-xs font-bold text-slate-800 group-hover:text-slate-950 block">{item.label}</span>
+                              <span className="text-[9px] text-slate-400 font-bold block">{item.category}</span>
+                            </div>
+                            <ChevronRight className="w-3.5 h-3.5 text-slate-350 opacity-0 group-hover:opacity-100 -translate-x-1 group-hover:translate-x-0 transition-all shrink-0" />
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </form>
                 </section>
 
@@ -523,9 +599,40 @@ export default function Page() {
                         type="text"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
+                        onFocus={() => setIsLibraryFocused(true)}
+                        onBlur={() => setTimeout(() => setIsLibraryFocused(false), 200)}
                         placeholder="Search guide sheets..."
                         className="w-full pl-9 pr-4 py-1.5 border border-slate-200 focus:border-slate-400 rounded-full text-xs outline-none bg-white shadow-sm transition-all"
                       />
+
+                      {/* Suggestions Dropdown */}
+                      {isLibraryFocused && (
+                        <div className="absolute left-0 right-0 top-full mt-2 bg-white/95 backdrop-blur-md border border-slate-200/60 rounded-2xl shadow-xl z-50 overflow-hidden text-left p-3 space-y-1 animate-in slide-in-from-top-1 duration-200 w-80 sm:w-72 right-0 sm:left-auto">
+                          <div className="text-[9px] font-bold text-slate-400 uppercase tracking-widest px-2 mb-1">
+                            Suggestions
+                          </div>
+                          {getFilteredSuggestions(searchQuery).map((item) => (
+                            <div
+                              key={item.slug}
+                              onClick={() => {
+                                setSelectedGuideSlug(item.slug);
+                                setView("detail");
+                                setSearchQuery("");
+                              }}
+                              className="flex items-center gap-2 px-2.5 py-2 rounded-xl hover:bg-slate-50 cursor-pointer transition-colors group"
+                            >
+                              <div className="w-6 h-6 rounded-lg bg-slate-100 flex items-center justify-center text-slate-655 shrink-0">
+                                {getCategoryIcon(item.category, "w-3 h-3")}
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <span className="text-[11px] font-bold text-slate-800 group-hover:text-slate-950 block truncate">{item.label}</span>
+                                <span className="text-[8px] text-slate-400 font-bold block">{item.category}</span>
+                              </div>
+                              <ChevronRight className="w-3 h-3 text-slate-350 opacity-0 group-hover:opacity-100 transition-all shrink-0" />
+                            </div>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   </div>
 
@@ -674,7 +781,7 @@ export default function Page() {
                 <div>
                   <h4 className="text-[11px] font-bold text-emerald-800">100% Secure & Client-Side</h4>
                   <p className="text-[10px] text-emerald-600/90 leading-relaxed mt-0.5">
-                    Your key is saved directly inside your local browser's `localStorage` and only fires requests directly from your browser client to OpenAI. No servers are involved.
+                    Your key is saved directly inside your local browser&apos;s `localStorage` and only fires requests directly from your browser client to OpenAI. No servers are involved.
                   </p>
                 </div>
               </div>

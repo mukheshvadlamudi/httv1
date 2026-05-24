@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { Search, ExternalLink, Globe, Video, BookOpen, ChevronRight, ArrowLeft, CheckCircle, Code, Cpu, Shield, Sparkles, Layers, Award, PlayCircle, HelpCircle } from "lucide-react";
+import { ExternalLink, Globe, Video, BookOpen, ChevronRight, ArrowLeft, CheckCircle, Code, Cpu, Shield, Sparkles, Layers, Award, PlayCircle, HelpCircle } from "lucide-react";
 import vaultData from "../data/vault-resources.json";
-import { SYLLABUS_TRACKS, SyllabusTrack, SyllabusChapter, QuizQuestion } from "../data/syllabus-data";
+import { SYLLABUS_TRACKS, SyllabusTrack } from "../data/syllabus-data";
 
 // Custom helper to parse and format plain-language textbooks, rendering code blocks beautifully
 const renderFormattedText = (text: string) => {
@@ -67,7 +67,6 @@ const renderFormattedText = (text: string) => {
 export function KnowledgeVault() {
   // Navigation View State
   const [viewState, setViewState] = useState<"domains" | "subtracks" | "course">("domains");
-  const [activeDomain, setActiveDomain] = useState<string>("");
   const [selectedTrack, setSelectedTrack] = useState<SyllabusTrack | null>(null);
   const [activeChapterIndex, setActiveChapterIndex] = useState<number>(0);
   const [isQuizMode, setIsQuizMode] = useState<boolean>(false);
@@ -84,7 +83,9 @@ export function KnowledgeVault() {
     if (typeof window !== "undefined") {
       const saved = localStorage.getItem("how_to_tech_progress");
       if (saved) {
-        setCompletedLessons(JSON.parse(saved));
+        setTimeout(() => {
+          setCompletedLessons(JSON.parse(saved));
+        }, 0);
       }
     }
   }, []);
@@ -227,7 +228,6 @@ export function KnowledgeVault() {
               {/* Card 1: Web Development */}
               <div 
                 onClick={() => {
-                  setActiveDomain("webdev");
                   setViewState("subtracks");
                 }}
                 className="group cursor-pointer soft-clay-card p-6 md:p-8 flex flex-col justify-between hover:border-blue-200 transition-all bg-white relative overflow-hidden h-64"

@@ -1,0 +1,152 @@
+[
+  {
+    "id": 1,
+    "question": "How do I reset my Gmail password?",
+    "expected_guide_slug": "gmail-password-reset",
+    "required_terms": ["Forgot password", "verification code"]
+  },
+  {
+    "id": 2,
+    "question": "My Google password is lost, how to recover?",
+    "expected_guide_slug": "gmail-password-reset",
+    "required_terms": ["Forgot password"]
+  },
+  {
+    "id": 3,
+    "question": "What is a recovery email?",
+    "expected_guide_slug": "gmail-password-reset",
+    "required_terms": ["backup email address"]
+  },
+  {
+    "id": 4,
+    "question": "How can I make a strong password that is easy to remember?",
+    "expected_guide_slug": "strong-password-creation",
+    "required_terms": ["passphrase", "random words"]
+  },
+  {
+    "id": 5,
+    "question": "Is it safe to share my passwords on ChatGPT?",
+    "expected_guide_slug": "chatgpt-safety",
+    "required_terms": ["Never enter private info"]
+  },
+  {
+    "id": 6,
+    "question": "Why does ChatGPT make up fake stuff?",
+    "expected_guide_slug": "chatgpt-safety",
+    "required_terms": ["hallucination"]
+  },
+  {
+    "id": 7,
+    "question": "How do I join a video call with Zoom?",
+    "expected_guide_slug": "zoom-meeting-join",
+    "required_terms": ["invitation link", "Computer Audio"]
+  },
+  {
+    "id": 8,
+    "question": "How can I send a file using Google Drive?",
+    "expected_guide_slug": "google-drive-share",
+    "required_terms": ["Share", "Viewer or Editor"]
+  },
+  {
+    "id": 9,
+    "question": "How do I know if an email is a scam?",
+    "expected_guide_slug": "spot-scam-email",
+    "required_terms": ["phishing", "full email address"]
+  },
+  {
+    "id": 10,
+    "question": "What is phishing?",
+    "expected_guide_slug": "spot-scam-email",
+    "required_terms": ["scammers", "fake emails"]
+  },
+  {
+    "id": 11,
+    "question": "How do I download an application on my Android phone?",
+    "expected_guide_slug": "install-app-android",
+    "required_terms": ["Google Play Store", "Install"]
+  },
+  {
+    "id": 12,
+    "question": "How do I get the latest update on my iPhone?",
+    "expected_guide_slug": "update-iphone",
+    "required_terms": ["Settings", "Software Update"]
+  },
+  {
+    "id": 13,
+    "question": "How do I save a document as a PDF?",
+    "expected_guide_slug": "create-pdf",
+    "required_terms": ["Print", "Save as PDF"]
+  },
+  {
+    "id": 14,
+    "question": "What does PDF stand for and why do we use it?",
+    "expected_guide_slug": "create-pdf",
+    "required_terms": ["Portable Document Format"]
+  },
+  {
+    "id": 15,
+    "question": "What is two-factor authentication and how do I turn it on?",
+    "expected_guide_slug": "two-factor-auth",
+    "required_terms": ["2FA", "verification method"]
+  },
+  {
+    "id": 16,
+    "question": "What is an Authenticator App?",
+    "expected_guide_slug": "two-factor-auth",
+    "required_terms": ["generates fresh login verification codes"]
+  },
+  {
+    "id": 17,
+    "question": "How do I secure my account using two step verification?",
+    "expected_guide_slug": "two-factor-auth",
+    "required_terms": ["Settings", "Security"]
+  },
+  {
+    "id": 18,
+    "question": "What is a password manager?",
+    "expected_guide_slug": "strong-password-creation",
+    "required_terms": ["safe digital notebook"]
+  },
+  {
+    "id": 19,
+    "question": "Should I use my birthday in my password?",
+    "expected_guide_slug": "strong-password-creation",
+    "required_terms": ["Avoid personal details"]
+  },
+  {
+    "id": 20,
+    "question": "What is a Zoom link?",
+    "expected_guide_slug": "zoom-meeting-join",
+    "required_terms": ["web address that opens"]
+  },
+  {
+    "id": 21,
+    "question": "How do I turn on my computer sound in a video call?",
+    "expected_guide_slug": "zoom-meeting-join",
+    "required_terms": ["Join with Computer Audio"]
+  },
+  {
+    "id": 22,
+    "question": "What is Google Drive?",
+    "expected_guide_slug": "google-drive-share",
+    "required_terms": ["digital filing cabinet"]
+  },
+  {
+    "id": 23,
+    "question": "What is the difference between Viewer and Editor in Google Drive?",
+    "expected_guide_slug": "google-drive-share",
+    "required_terms": ["Viewer", "Editor"]
+  },
+  {
+    "id": 24,
+    "question": "What is the App Drawer on an Android phone?",
+    "expected_guide_slug": "install-app-android",
+    "required_terms": ["lists all of the applications"]
+  },
+  {
+    "id": 25,
+    "question": "Can I type my home address or telephone number into ChatGPT?",
+    "expected_guide_slug": "chatgpt-safety",
+    "required_terms": ["Never enter private info"]
+  }
+]

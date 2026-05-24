@@ -1,0 +1,44 @@
+{
+  "id": "create-pdf",
+  "slug": "create-pdf",
+  "title": "How to create a PDF document",
+  "description": "Learn how to save files (like word documents or web pages) as a PDF so they can be opened by anyone.",
+  "category": "Workplace Tech",
+  "audience": "Beginner",
+  "difficulty": "Easy",
+  "estimatedMinutes": 4,
+  "lastUpdated": "2026-05-24",
+  "steps": [
+    {
+      "order": 1,
+      "title": "Open your document",
+      "body": "Open the document, picture, or webpage you want to convert in your word processor (like Word or Google Docs) or browser."
+    },
+    {
+      "order": 2,
+      "title": "Open the Print menu",
+      "body": "Hold down the 'Control' key and press 'P' (or 'Command' and 'P' on a Mac). Alternatively, click File -> Print."
+    },
+    {
+      "order": 3,
+      "title": "Change Destination to Save as PDF",
+      "body": "Look for the setting that lists your paper printer. Click it and change the selection to 'Save as PDF' or 'Microsoft Print to PDF'."
+    },
+    {
+      "order": 4,
+      "title": "Click Save",
+      "body": "Tap the blue 'Save' (or 'Print') button. A box will open asking where to save the file on your computer. Choose a folder and click Save."
+    }
+  ],
+  "glossary": [
+    {
+      "term": "PDF",
+      "definition": "A file type (stands for Portable Document Format) that locks the formatting of your pages so it looks exactly the same on any screen or computer."
+    },
+    {
+      "term": "Print to PDF",
+      "definition": "A feature on computers that creates a digital PDF file instead of printing pages out on real paper."
+    }
+  ],
+  "tags": ["pdf", "convert document", "save file", "printing", "workplace tips"]
+}

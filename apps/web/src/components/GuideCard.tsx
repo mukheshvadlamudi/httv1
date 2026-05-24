@@ -1,5 +1,5 @@
 import React from "react";
-import { ArrowRight, Clock, Award } from "lucide-react";
+import { ArrowRight, Clock } from "lucide-react";
 import { Guide } from "../data/mock-guides";
 
 interface GuideCardProps {

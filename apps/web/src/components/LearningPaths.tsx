@@ -68,7 +68,7 @@ export function LearningPaths({ onSelectGuide, allGuides, completedLessons }: Le
           Beginner Learning Paths
         </h2>
         <p className="text-slate-500 text-xs md:text-sm mt-3 leading-relaxed">
-          Don't know where to start? Follow our step-by-step pathways curated to guide seniors and beginners safely through everyday technology.
+          Don&apos;t know where to start? Follow our step-by-step pathways curated to guide seniors and beginners safely through everyday technology.
         </p>
       </div>
 

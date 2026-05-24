@@ -1,0 +1,44 @@
+{
+  "id": "install-app-android",
+  "slug": "install-app-android",
+  "title": "How to install an app on Android",
+  "description": "A simple guide to safely finding and installing new apps on your Android phone using the Google Play Store.",
+  "category": "Mobile Tech",
+  "audience": "Beginner",
+  "difficulty": "Easy",
+  "estimatedMinutes": 4,
+  "lastUpdated": "2026-05-24",
+  "steps": [
+    {
+      "order": 1,
+      "title": "Open the Google Play Store app",
+      "body": "Find the colorful triangle icon on your phone's home screen or app drawer and tap it."
+    },
+    {
+      "order": 2,
+      "title": "Search for your app",
+      "body": "Tap the search bar at the top of the screen and type the name of the application you want (like 'WhatsApp' or 'Zoom')."
+    },
+    {
+      "order": 3,
+      "title": "Check reviews and developer details",
+      "body": "Tap on the app from the list. Verify that it has high ratings, a lot of downloads, and the developer name looks correct to avoid copycat apps."
+    },
+    {
+      "order": 4,
+      "title": "Tap Install",
+      "body": "Tap the green 'Install' button. Wait for the download to finish, and the app icon will appear on your phone."
+    }
+  ],
+  "glossary": [
+    {
+      "term": "Google Play Store",
+      "definition": "The official pre-installed app market on Android phones where you can safely download apps and games."
+    },
+    {
+      "term": "App Drawer",
+      "definition": "The screen on your mobile phone that lists all of the applications you currently have installed."
+    }
+  ],
+  "tags": ["android", "apps", "install", "google play store", "mobile safety"]
+}

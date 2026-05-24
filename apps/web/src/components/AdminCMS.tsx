@@ -190,7 +190,7 @@ export function AdminCMS({ onPublish }: AdminCMSProps) {
                 </label>
                 <select
                   value={difficulty}
-                  onChange={(e) => setDifficulty(e.target.value as any)}
+                  onChange={(e) => setDifficulty(e.target.value as "Easy" | "Medium" | "Hard")}
                   className="w-full px-4 py-2 border border-slate-200 focus:border-slate-400 rounded-xl text-xs bg-slate-50 shadow-inner outline-none text-slate-600"
                 >
                   <option value="Easy">Easy</option>

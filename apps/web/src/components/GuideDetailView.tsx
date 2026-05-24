@@ -309,7 +309,7 @@ export function GuideDetailView({
                       </div>
                     </div>
                     <span className="text-[9px] text-slate-400 text-center block mt-1 font-semibold">
-                      Mock Browser Screen (Tap the glowing 'Forgot password?' link)
+                      Mock Browser Screen (Tap the glowing &apos;Forgot password?&apos; link)
                     </span>
                   </div>
                 )}
@@ -343,7 +343,7 @@ export function GuideDetailView({
                     </div>
                     
                     <p className="text-xs font-mono bg-white p-3 border border-slate-100 rounded-xl text-slate-700 leading-relaxed select-all">
-                      "Act as a plain-language tech tutor. Explain what computer cookies are in a single sentence using no technical jargon."
+                      &quot;Act as a plain-language tech tutor. Explain what computer cookies are in a single sentence using no technical jargon.&quot;
                     </p>
                   </div>
                 )}

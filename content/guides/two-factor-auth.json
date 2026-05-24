@@ -1,0 +1,44 @@
+{
+  "id": "two-factor-auth",
+  "slug": "two-factor-auth",
+  "title": "How to set up Two-Factor Authentication (2FA)",
+  "description": "Learn how to add an extra layer of security to your online accounts to block hackers completely.",
+  "category": "Security",
+  "audience": "Beginner",
+  "difficulty": "Easy",
+  "estimatedMinutes": 5,
+  "lastUpdated": "2026-05-24",
+  "steps": [
+    {
+      "order": 1,
+      "title": "Log in and open Security Settings",
+      "body": "Go to the website you want to secure (like Google, Facebook, or your bank). Log in and find the 'Settings' or 'Security' panel."
+    },
+    {
+      "order": 2,
+      "title": "Find Two-Factor Authentication",
+      "body": "Look for a setting named 'Two-Factor Authentication', '2FA', or 'Two-Step Verification' and click turn on."
+    },
+    {
+      "order": 3,
+      "title": "Choose your verification method",
+      "body": "Choose 'Text Message' (SMS) if you want a short code texted to your phone, or 'Authenticator App' if you want to use an app like Google Authenticator."
+    },
+    {
+      "order": 4,
+      "title": "Enter the backup code to verify",
+      "body": "Type the verification code shown on your phone into the website screen to link your device. Write down any recovery codes provided and save them safely."
+    }
+  ],
+  "glossary": [
+    {
+      "term": "Two-Factor Authentication (2FA)",
+      "definition": "A security setup where you must provide two pieces of evidence to log in: your password and a temporary code sent to your phone."
+    },
+    {
+      "term": "Authenticator App",
+      "definition": "A secure application on your phone that generates fresh login verification codes every 30 seconds."
+    }
+  ],
+  "tags": ["2fa", "security", "two-step verification", "hacker protection", "authenticator"]
+}

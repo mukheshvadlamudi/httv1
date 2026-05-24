@@ -79,7 +79,7 @@ export function BusinessTraining() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 pt-8 items-center">
         <div>
           <span className="text-[10px] uppercase tracking-widest font-bold text-slate-400">
-            Let's Collaborate
+            Let&apos;s Collaborate
           </span>
           <h3 className="font-sans font-bold text-2xl md:text-3xl text-slate-900 mt-2">
             Upskill your team with FutureLab Studios

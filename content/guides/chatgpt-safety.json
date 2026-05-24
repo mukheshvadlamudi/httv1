@@ -1,0 +1,44 @@
+{
+  "id": "chatgpt-safety",
+  "slug": "chatgpt-safety",
+  "title": "How to use ChatGPT safely",
+  "description": "A guide on using artificial intelligence chat tools while protecting your personal privacy.",
+  "category": "AI Tools",
+  "audience": "Beginner",
+  "difficulty": "Easy",
+  "estimatedMinutes": 6,
+  "lastUpdated": "2026-05-24",
+  "steps": [
+    {
+      "order": 1,
+      "title": "Never enter private info",
+      "body": "Do not type passwords, home addresses, phone numbers, or credit card details into ChatGPT. The system saves questions to learn."
+    },
+    {
+      "order": 2,
+      "title": "Avoid work or medical secrets",
+      "body": "Do not upload sensitive corporate documents or write down personal medical problems in the chat box."
+    },
+    {
+      "order": 3,
+      "title": "Double-check AI facts",
+      "body": "AI can sometimes make up incorrect facts or figures (known as hallucinations). Always check important details using search engines."
+    },
+    {
+      "order": 4,
+      "title": "Treat AI like a public talk",
+      "body": "Only write questions and text that you would feel comfortable showing to a friendly helper in public."
+    }
+  ],
+  "glossary": [
+    {
+      "term": "Artificial Intelligence (AI)",
+      "definition": "Computer systems designed to understand language, answer questions, and solve problems like a human helper."
+    },
+    {
+      "term": "Hallucination",
+      "definition": "When an AI helper confidently gives you an answer that is completely made up or factually incorrect."
+    }
+  ],
+  "tags": ["chatgpt", "artificial intelligence", "privacy", "safety", "online help"]
+}

@@ -141,7 +141,7 @@ export function ToolFinder() {
           Product comparisons
         </span>
         <h2 className="font-sans font-bold text-3xl md:text-5xl text-slate-900 mt-4 tracking-tight">
-          Seniors' Tool Finder
+          Seniors&apos; Tool Finder
         </h2>
         <p className="text-slate-500 text-xs md:text-sm mt-3 leading-relaxed">
           Wondering which digital tools are safe, free, or easy to set up? Review our plain-language comparison table to find out.

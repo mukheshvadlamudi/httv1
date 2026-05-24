@@ -1,0 +1,44 @@
+{
+  "id": "zoom-meeting-join",
+  "slug": "zoom-meeting-join",
+  "title": "How to join a Zoom meeting",
+  "description": "Simple steps to connect to a Zoom video call with video and audio on your computer or phone.",
+  "category": "Communication",
+  "audience": "Beginner",
+  "difficulty": "Easy",
+  "estimatedMinutes": 5,
+  "lastUpdated": "2026-05-24",
+  "steps": [
+    {
+      "order": 1,
+      "title": "Find your invitation link",
+      "body": "Look inside your email or text messages for a blue web link that says 'Join Zoom Meeting' or starts with 'https://zoom.us/'."
+    },
+    {
+      "order": 2,
+      "title": "Click the link to open Zoom",
+      "body": "Click the link. If you do not have Zoom installed, follow the prompts on the screen to download the free Zoom software."
+    },
+    {
+      "order": 3,
+      "title": "Turn on your video",
+      "body": "When a box pops up asking for video access, click the button that says 'Join with Video'."
+    },
+    {
+      "order": 4,
+      "title": "Connect your computer sound",
+      "body": "Tap the button that says 'Join with Computer Audio' so you can hear others and speak through your microphone."
+    }
+  ],
+  "glossary": [
+    {
+      "term": "Zoom link",
+      "definition": "A web address that opens the Zoom software and connects you to a specific video call room."
+    },
+    {
+      "term": "Computer Audio",
+      "definition": "The system that links your computer's built-in microphone and speakers to the call."
+    }
+  ],
+  "tags": ["zoom", "video call", "communication", "meetings", "webcam"]
+}

@@ -38,3 +38,8 @@ task.md
 implementation_plan.md
 walkthrough.md
 *.log
+
+# Environment variables
+.env
+*.env
+ai/.env

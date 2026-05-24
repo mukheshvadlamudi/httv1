@@ -1,0 +1,44 @@
+{
+  "id": "spot-scam-email",
+  "slug": "spot-scam-email",
+  "title": "How to spot a scam email",
+  "description": "Learn to identify email tricks (phishing) used by online scammers to steal your passwords or money.",
+  "category": "Security",
+  "audience": "Beginner",
+  "difficulty": "Easy",
+  "estimatedMinutes": 6,
+  "lastUpdated": "2026-05-24",
+  "steps": [
+    {
+      "order": 1,
+      "title": "Examine the sender's full email address",
+      "body": "Do not just look at the sender's name. Click or tap on their name to reveal the full email address. If the name is 'Netflix' but the address is 'netflix-support@gmail-billing-checks.xyz', it is fake."
+    },
+    {
+      "order": 2,
+      "title": "Look for panic or urgency",
+      "body": "Scammers want you to act without thinking. Watch out for warnings like 'Your bank account will be closed in 24 hours' or 'You must pay this bill immediately'."
+    },
+    {
+      "order": 3,
+      "title": "Check the greeting and spelling",
+      "body": "Scams often start with generic greetings like 'Dear Customer' or 'Hello User' instead of your name. Look for spelling mistakes and bad grammar."
+    },
+    {
+      "order": 4,
+      "title": "Do not click links or open attachments",
+      "body": "If you are suspicious, do not click anything. Open a new browser window, search for the official bank or company website, and contact them directly."
+    }
+  ],
+  "glossary": [
+    {
+      "term": "Phishing",
+      "definition": "A trick where scammers send fake emails that look like they come from real businesses (like banks) to steal your information."
+    },
+    {
+      "term": "Attachment",
+      "definition": "A file (like a photo or document) sent inside an email that can contain malware if sent by a scammer."
+    }
+  ],
+  "tags": ["phishing", "scam", "email safety", "security", "inbox protection"]
+}

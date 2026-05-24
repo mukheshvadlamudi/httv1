@@ -1,5 +1,5 @@
 import React from "react";
-import { Settings, BookOpen, Cpu, Sparkles } from "lucide-react";
+import { Settings, Cpu, Sparkles } from "lucide-react";
 
 interface HeaderProps {
   currentTrack: "everyday" | "developer";

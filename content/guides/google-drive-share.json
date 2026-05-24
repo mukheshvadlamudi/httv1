@@ -1,0 +1,49 @@
+{
+  "id": "google-drive-share",
+  "slug": "google-drive-share",
+  "title": "How to share a Google Drive file",
+  "description": "Learn how to send files or documents to others using Google Drive links securely.",
+  "category": "Workplace Tech",
+  "audience": "Beginner",
+  "difficulty": "Easy",
+  "estimatedMinutes": 5,
+  "lastUpdated": "2026-05-24",
+  "steps": [
+    {
+      "order": 1,
+      "title": "Select your file in Google Drive",
+      "body": "Go to drive.google.com and locate the file you want to send. Right-click on it (or tap the three small dots)."
+    },
+    {
+      "order": 2,
+      "title": "Click the Share button",
+      "body": "Select 'Share' from the drop-down menu. A box will open on your screen."
+    },
+    {
+      "order": 3,
+      "title": "Add email addresses",
+      "body": "Type the email address of the person you want to send the file to in the text box."
+    },
+    {
+      "order": 4,
+      "title": "Choose Viewer or Editor permissions",
+      "body": "Change the setting next to their email. Choose 'Viewer' if they should only read the file, or 'Editor' if they are allowed to change the text."
+    },
+    {
+      "order": 5,
+      "title": "Click Send",
+      "body": "Tap the blue 'Send' button. They will receive an email link to open the file."
+    }
+  ],
+  "glossary": [
+    {
+      "term": "Google Drive",
+      "definition": "A digital filing cabinet on the internet where you can store documents, spreadsheets, and pictures safely."
+    },
+    {
+      "term": "Viewer permission",
+      "definition": "A setting that lets someone look at your document but prevents them from changing or deleting any of its content."
+    }
+  ],
+  "tags": ["google drive", "file sharing", "workplace", "send files", "collaboration"]
+}

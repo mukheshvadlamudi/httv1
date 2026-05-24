@@ -1,0 +1,49 @@
+{
+  "id": "update-iphone",
+  "slug": "update-iphone",
+  "title": "How to update your iPhone software",
+  "description": "Learn how to keep your Apple iPhone secure and up-to-date with the latest software patches.",
+  "category": "Mobile Tech",
+  "audience": "Beginner",
+  "difficulty": "Easy",
+  "estimatedMinutes": 4,
+  "lastUpdated": "2026-05-24",
+  "steps": [
+    {
+      "order": 1,
+      "title": "Connect to Wi-Fi and charger",
+      "body": "Plug your phone into power and make sure you are connected to a home Wi-Fi network. Updates take a lot of battery power and internet data."
+    },
+    {
+      "order": 2,
+      "title": "Open the Settings app",
+      "body": "Find the grey gear icon on your home screen and tap it."
+    },
+    {
+      "order": 3,
+      "title": "Go to General settings",
+      "body": "Scroll down a little bit and tap on the option that says 'General'."
+    },
+    {
+      "order": 4,
+      "title": "Tap Software Update",
+      "body": "Tap the second option from the top called 'Software Update'. The phone will check if an update is available."
+    },
+    {
+      "order": 5,
+      "title": "Download and Install",
+      "body": "If an update is listed, tap 'Download and Install'. Enter your phone passcode if prompted, and the screen will restart once the update is done."
+    }
+  ],
+  "glossary": [
+    {
+      "term": "Software Update",
+      "definition": "A package of fixes, security updates, and new features provided by the phone manufacturer (Apple) to keep your device working well."
+    },
+    {
+      "term": "Passcode",
+      "definition": "The numbers you type on your lock screen to unlock your phone."
+    }
+  ],
+  "tags": ["iphone", "apple", "software update", "ios", "phone security"]
+}

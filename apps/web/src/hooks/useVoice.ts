@@ -22,7 +22,9 @@ export function useVoice(): UseVoiceResult {
 
   useEffect(() => {
     if (typeof window !== "undefined" && window.speechSynthesis) {
-      setIsSupported(true);
+      setTimeout(() => {
+        setIsSupported(true);
+      }, 0);
       synthRef.current = window.speechSynthesis;
     }
 
