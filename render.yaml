@@ -3,12 +3,12 @@ services:
     name: howtotech-api
     runtime: docker
     dockerfilePath: ./apps/api/Dockerfile
-    dockerContext: ./apps/api
+    dockerContext: .
     plan: free
     envVars:
       - key: DATABASE_URL
-        sync: false          # You'll paste this in Render dashboard
+        sync: false
       - key: JWT_SECRET_KEY
-        sync: false          # You'll paste this in Render dashboard
+        sync: false
       - key: BACKEND_CORS_ORIGINS
-        sync: false          # You'll paste your Vercel URL here after deploy
+        value: "https://httv1-jcbm4auco-mukheshvadlamudis-projects.vercel.app,https://httv1.vercel.app,http://localhost:3000"
