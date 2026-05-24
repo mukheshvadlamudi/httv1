@@ -81,47 +81,21 @@ export function AuthPage({ onAuthSuccess, onCancel, isMandatory }: AuthPageProps
         }, 1000);
       }
     } catch (err: any) {
-      console.warn("Backend API auth failed, triggering secure client-side sandbox authentication fallback:", err);
+      console.error("Authentication request failed:", err);
       
-      // Fallback: Local emulation
-      const isConnectionRefused = !err.message || (
+      const isNetworkError = !err.message || (
         err.message.includes("failed") || 
         err.message.includes("Failed to fetch") || 
         err.message.includes("NetworkError") ||
-        err.message.includes("API request failed")
+        err.message.includes("TypeError")
       );
 
-      // If backend failed due to actual API error like "Invalid email or password", show it!
-      if (!isConnectionRefused) {
-        setError(err.message || "Authentication failed.");
-        setLoading(false);
-        return;
+      if (isNetworkError) {
+        setError("Unable to connect to the authentication server. Please check your internet connection or try again later.");
+      } else {
+        setError(err.message || "Authentication failed. Please check your credentials.");
       }
-
-      // Emulate server delay for sandbox
-      setTimeout(() => {
-        setLoading(false);
-        setSuccess(true);
-        
-        const displayName = mode === "signup" ? name : email.split("@")[0];
-        const normalizedName = displayName.charAt(0).toUpperCase() + displayName.slice(1);
-
-        // Store emulated details
-        localStorage.setItem("how_to_tech_user_profile", JSON.stringify({
-          name: normalizedName,
-          email: email.trim()
-        }));
-        
-        // Store a fake token so persistence thinks we're logged in
-        localStorage.setItem("how_to_tech_auth_token", "mock-sandbox-token-jwt");
-
-        setTimeout(() => {
-          onAuthSuccess({
-            name: normalizedName,
-            email: email.trim()
-          });
-        }, 1000);
-      }, 1000);
+      setLoading(false);
     }
   };
 

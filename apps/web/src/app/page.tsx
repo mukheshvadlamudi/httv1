@@ -128,36 +128,23 @@ export default function Page() {
 
         const token = localStorage.getItem("how_to_tech_auth_token");
         if (token) {
-          if (token === "mock-sandbox-token-jwt") {
-            const savedProfile = localStorage.getItem("how_to_tech_user_profile");
-            if (savedProfile) {
-              try {
-                setCurrentUser(JSON.parse(savedProfile));
-              } catch (e) {}
-            }
-            setSessionLoading(false);
-          } else {
-            getMe()
-              .then((profile) => {
-                setCurrentUser({ name: profile.name, email: profile.email });
-                localStorage.setItem("how_to_tech_user_profile", JSON.stringify({
-                  name: profile.name,
-                  email: profile.email
-                }));
-              })
-              .catch((err) => {
-                console.warn("Failed to fetch user profile on mount, falling back to local storage:", err);
-                const savedProfile = localStorage.getItem("how_to_tech_user_profile");
-                if (savedProfile) {
-                  try {
-                    setCurrentUser(JSON.parse(savedProfile));
-                  } catch (e) {}
-                }
-              })
-              .finally(() => {
-                setSessionLoading(false);
-              });
-          }
+          getMe()
+            .then((profile) => {
+              setCurrentUser({ name: profile.name, email: profile.email });
+              localStorage.setItem("how_to_tech_user_profile", JSON.stringify({
+                name: profile.name,
+                email: profile.email
+              }));
+            })
+            .catch((err) => {
+              console.warn("Invalid authentication token, logging out:", err);
+              localStorage.removeItem("how_to_tech_auth_token");
+              localStorage.removeItem("how_to_tech_user_profile");
+              setCurrentUser(null);
+            })
+            .finally(() => {
+              setSessionLoading(false);
+            });
         } else {
           setSessionLoading(false);
         }
