@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.routes import ai, categories, feedback, guides, health, resources
+from app.api.routes import ai, auth, categories, feedback, guides, health, resources
 from app.core.config import settings
 
 app = FastAPI(title="How to Tech API", version="0.1.0")
@@ -20,4 +20,5 @@ app.include_router(guides.router)
 app.include_router(resources.router)
 app.include_router(feedback.router)
 app.include_router(ai.router)
+app.include_router(auth.router)
 

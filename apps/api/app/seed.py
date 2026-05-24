@@ -149,6 +149,78 @@ GUIDES = [
         ],
         "glossary": [("Backup code", "A one-time code that can help you sign in if your main 2FA method is unavailable.")],
     },
+    {
+        "slug": "phone-scams",
+        "title": "How to spot and block phone scam texts",
+        "description": "A beginner's guide to identifying text message scams (smishing) and blocking numbers on iPhone or Android.",
+        "category": "Security",
+        "tags": ["security", "safety", "phone scams", "blocking"],
+        "minutes": 5,
+        "steps": [
+            ("Look for urgent warnings and sketchy links", "Scammers often send fake messages pretending to be USPS, UPS, Netflix, or your bank. They will claim a parcel could not be delivered or your account is suspended. Look at the link: if it doesn't end with the official website (like usps.com), it is a scam!"),
+            ("Never click links or call back the sender", "Clicking a link can install silent virus software or direct you to a fake website designed to steal your passwords or credit card numbers. If you think the message might be real, open your browser and go directly to the official site yourself."),
+            ("Block the number on iPhone", "Open the message, tap the sender's circular profile icon at the top of the screen, tap 'Info', and select the red option 'Block this Caller' at the bottom of the list. Confirm your block."),
+            ("Block the number on Android", "Open the message, tap the three dots icon in the top right corner, select 'Details' or 'Options', and tap 'Block & report spam'. Tap 'OK' to confirm."),
+        ],
+        "glossary": [
+            ("Smishing", "A form of phishing where scammers send fraudulent text messages to trick you into sharing sensitive bank or login details."),
+            ("Spam reporting", "Sending a notification to your mobile carrier (or phone manufacturer) about a scam sender to help them block the number for everyone."),
+        ],
+    },
+    {
+        "slug": "backup-photos",
+        "title": "How to back up photos to Google Photos or iCloud",
+        "description": "Ensure your precious memories are safely backed up in the cloud so you never lose them if your phone breaks.",
+        "category": "Mobile",
+        "tags": ["photos", "backup", "icloud", "google photos", "mobile"],
+        "minutes": 6,
+        "steps": [
+            ("Connect to your home Wi-Fi", "Uploading hundreds of high-quality photos can take a lot of internet data. Make sure your phone is connected to your home Wi-Fi network and plugged into a charger."),
+            ("Enable iCloud Photo Backup on iPhone", "Open the 'Settings' app, tap your name at the very top of the list, tap 'iCloud', tap 'Photos', and toggle the switch for 'Sync this iPhone' to green."),
+            ("Enable Google Photos Backup on Android", "Open the Google Photos app (looks like a colorful pinwheel), tap your profile picture in the top-right corner, tap 'Photos settings', select 'Backup', and turn on the 'Backup' toggle toggle switch."),
+            ("Verify your upload progress", "Keep the app open for a few minutes. You will see a small circular arrow icon spin, showing that photos are copying to the cloud. A checkmark means everything is backed up!"),
+        ],
+        "glossary": [
+            ("iCloud", "Apple's cloud storage service that automatically keeps your iPhone photos, notes, and documents backed up safely online."),
+            ("Google Photos", "An app by Google that stores and organizes your photos in your online Google Account."),
+        ],
+    },
+    {
+        "slug": "android-security",
+        "title": "How to manage phone app permissions and location privacy",
+        "description": "Stop apps from spying on your camera, microphone, or tracking your location in the background.",
+        "category": "Security",
+        "tags": ["security", "privacy", "location tracking", "android", "iphone"],
+        "minutes": 5,
+        "steps": [
+            ("Open the Permission Manager inside Settings", "Open your phone's 'Settings' app. Scroll down and tap on 'Privacy' or 'Apps', then look for 'Permission manager' or 'App permissions'."),
+            ("Check which apps track your Location", "Tap on 'Location'. You will see a list of apps split by permissions: 'Allowed all the time', 'Allowed only while in use', and 'Not allowed'. Check if any games or calculators have location access."),
+            ("Disable location tracking for suspicious apps", "Tap on any app that doesn't need to know where you are. Change the setting to 'Don't allow'. For apps like maps or weather, choose 'Allow only while using the app'."),
+            ("Review Camera and Microphone access", "Go back to the Permission Manager. Tap on 'Camera' and 'Microphone'. Turn off permissions for any app that has no business listening in or watching you."),
+        ],
+        "glossary": [
+            ("App permissions", "Security settings that govern whether a phone app is allowed to access features like your camera, contact list, files, or microphone."),
+            ("Location tracking", "A phone feature that uses GPS coordinates to pinpoint exactly where you are standing in the world."),
+        ],
+    },
+    {
+        "slug": "block-ads",
+        "title": "How to block online ads and web trackers",
+        "description": "Stop annoying pop-up ads, block trackers, and protect your privacy while speeding up your web browsing.",
+        "category": "Productivity",
+        "tags": ["ad blocker", "browser", "privacy", "productivity"],
+        "minutes": 4,
+        "steps": [
+            ("Open your web browser extension store", "Open your web browser (Chrome, Edge, or Firefox). Click the menu button (three dots or lines in the top right), select 'Extensions', and click 'Open Chrome Web Store' or 'Add-ons'."),
+            ("Search for uBlock Origin", "Type 'uBlock Origin' in the search bar of the store. uBlock Origin is widely recommended because it is completely free, open-source, and does not slow down your computer."),
+            ("Click Add to Browser", "Tap the blue button that says 'Add to Chrome', 'Get', or 'Add to Firefox'. A small window will pop up asking for confirmation. Click 'Add extension'."),
+            ("Confirm it is active", "You will see a small red shield icon appear in the top-right corner of your browser toolbar. This shield automatically blocks ads. When you visit websites, you will notice clean pages with no flashing banners!"),
+        ],
+        "glossary": [
+            ("Browser extension", "A small add-on program you install inside your web browser to give it extra features, like ad-blockers or price comparison tools."),
+            ("Web tracker", "A hidden script on websites that records your clicks, search history, and shopping habits to show you targeted ads."),
+        ],
+    },
 ]
 
 

@@ -1,13 +1,11 @@
 import React, { useState, useRef } from "react";
-import { Sparkles, Square, Send, Key, Volume2, ArrowRight } from "lucide-react";
+import { Sparkles, Square, Send, Volume2, ArrowRight } from "lucide-react";
 import { useVoice } from "../hooks/useVoice";
 import { askAi, submitAiFeedback } from "../lib/api";
 
 interface AskAIBoxProps {
   track: "everyday" | "developer";
   onSelectGuide: (slug: string) => void;
-  apiKey: string;
-  onOpenSettings: () => void;
 }
 
 interface SimulatedAnswer {
@@ -50,7 +48,7 @@ const SIMULATED_ANSWERS: SimulatedAnswer[] = [
   }
 ];
 
-export function AskAIBox({ track, onSelectGuide, apiKey, onOpenSettings }: AskAIBoxProps) {
+export function AskAIBox({ track, onSelectGuide }: AskAIBoxProps) {
   const [question, setQuestion] = useState("");
   const [loading, setLoading] = useState(false);
   const [loadingStep, setLoadingStep] = useState(0);
@@ -65,7 +63,6 @@ export function AskAIBox({ track, onSelectGuide, apiKey, onOpenSettings }: AskAI
   const { speak, stop, isPlaying } = useVoice();
   const typingIntervalRef = useRef<any>(null);
 
-  // Simulated multi-step loading message
   const loadingMessages = [
     "Reading relevant guide library files...",
     "Analyzing context and clearing tech jargon...",
@@ -76,7 +73,6 @@ export function AskAIBox({ track, onSelectGuide, apiKey, onOpenSettings }: AskAI
     e.preventDefault();
     if (!question.trim()) return;
 
-    // Reset voice & states
     stop();
     setDisplayedAnswer("");
     setFullResponse(null);
@@ -88,13 +84,11 @@ export function AskAIBox({ track, onSelectGuide, apiKey, onOpenSettings }: AskAI
     setLoading(true);
     setLoadingStep(0);
 
-    // Multi-step simulated loading progression
     for (let i = 0; i < 3; i++) {
       setLoadingStep(i);
       await new Promise((resolve) => setTimeout(resolve, 800));
     }
 
-    // 1. Try calling the FastAPI backend via askAi
     try {
       const response = await askAi(question);
       const relatedSlug = response.relatedGuideSlugs[0] || "gmail-password-reset";
@@ -115,7 +109,6 @@ export function AskAIBox({ track, onSelectGuide, apiKey, onOpenSettings }: AskAI
       console.warn("FastAPI backend askAi failed/offline, trying local Next.js API route...", err);
     }
 
-    // 2. Try calling our local Next.js API route
     try {
       const response = await fetch("/api/ai/question", {
         method: "POST",
@@ -144,7 +137,6 @@ export function AskAIBox({ track, onSelectGuide, apiKey, onOpenSettings }: AskAI
       console.error("Local Next.js API route failed, falling back to simulated answers...", err);
     }
 
-    // 3. Fallback: Simulated offline local keyword match
     const match = SIMULATED_ANSWERS.find((item) =>
       item.keywords.some((kw) => question.toLowerCase().includes(kw))
     );
@@ -161,7 +153,6 @@ export function AskAIBox({ track, onSelectGuide, apiKey, onOpenSettings }: AskAI
     streamText(result.answer);
   };
 
-  // Typing streaming effect
   const streamText = (text: string) => {
     if (typingIntervalRef.current) {
       clearInterval(typingIntervalRef.current);
@@ -188,7 +179,6 @@ export function AskAIBox({ track, onSelectGuide, apiKey, onOpenSettings }: AskAI
     });
   };
 
-  // Toggle "Explain Simpler" Mode
   const handleToggleSimpler = () => {
     stop();
     const targetMode = !isSimplerMode;
@@ -214,7 +204,6 @@ export function AskAIBox({ track, onSelectGuide, apiKey, onOpenSettings }: AskAI
 
   return (
     <div className="bg-white border border-slate-100 rounded-[2.5rem] p-6 md:p-10 shadow-sm relative overflow-hidden">
-      {/* Decorative RAG glow badge */}
       <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-50 rounded-full blur-3xl opacity-50 -mr-10 -mt-10" />
 
       <div className="flex items-center justify-between border-b border-slate-50 pb-4 mb-6">
@@ -228,17 +217,11 @@ export function AskAIBox({ track, onSelectGuide, apiKey, onOpenSettings }: AskAI
           </div>
         </div>
 
-        {/* Small key icon linking to settings */}
-        <button 
-          onClick={onOpenSettings}
-          className="flex items-center gap-1 text-[10px] font-bold text-slate-400 hover:text-slate-900 border border-slate-200/60 px-2.5 py-1 rounded-full transition-colors"
-        >
-          <Key className="w-3 h-3" />
-          {apiKey ? "Live Connected" : "Local Prototype"}
-        </button>
+        <span className="flex items-center gap-1 text-[10px] font-bold text-slate-400 border border-slate-100 px-3 py-1 rounded-full">
+          Coach AI
+        </span>
       </div>
 
-      {/* AI Ask form input */}
       <form onSubmit={handleAsk} className="space-y-4">
         <div className="relative">
           <textarea

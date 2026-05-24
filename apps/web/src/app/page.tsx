@@ -9,7 +9,7 @@ import { KnowledgeVault } from "../components/KnowledgeVault";
 import { AskAIBox } from "../components/AskAIBox";
 import { MOCK_GUIDES, Guide } from "../data/mock-guides";
 import { Search, Mail, ShieldAlert, Award, PhoneCall, Sparkles, BookOpen, Compass, ChevronRight, X, Key, ShieldCheck, Heart } from "lucide-react";
-import { getGuide, getGuides } from "../lib/api";
+import { getGuide, getGuides, getMe } from "../lib/api";
 
 // Visual Layout Expansion Imports
 import { AccessibilityToolbar, FontScale, ContrastTheme } from "../components/AccessibilityToolbar";
@@ -18,6 +18,7 @@ import { ToolFinder } from "../components/ToolFinder";
 import { UserDashboard } from "../components/UserDashboard";
 import { BusinessTraining } from "../components/BusinessTraining";
 import { AdminCMS } from "../components/AdminCMS";
+import { AuthPage } from "../components/AuthPage";
 
 interface SearchSuggestion {
   label: string;
@@ -61,12 +62,14 @@ const getCategoryIcon = (category: string, className = "w-3.5 h-3.5") => {
 export default function Page() {
   // Global Application State
   const [track, setTrack] = useState<"selector" | "everyday" | "developer">("selector");
-  const [view, setView] = useState<"landing" | "library" | "detail" | "paths" | "tools" | "dashboard" | "b2b" | "admin">("landing");
+  const [view, setView] = useState<"landing" | "library" | "detail" | "paths" | "tools" | "dashboard" | "b2b" | "admin" | "auth">("landing");
   const [selectedGuideSlug, setSelectedGuideSlug] = useState<string | null>(null);
   const [guides, setGuides] = useState<Guide[]>(MOCK_GUIDES);
   const [selectedGuide, setSelectedGuide] = useState<Guide | null>(null);
   const [guidesLoading, setGuidesLoading] = useState(false);
   const [guidesError, setGuidesError] = useState<string | null>(null);
+  const [currentUser, setCurrentUser] = useState<{ name: string; email: string } | null>(null);
+  const [sessionLoading, setSessionLoading] = useState(true);
   
   // Autocomplete focus states
   const [isHeroFocused, setIsHeroFocused] = useState(false);
@@ -84,19 +87,12 @@ export default function Page() {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedDifficulty, setSelectedDifficulty] = useState("All");
 
-  // API Key modal state
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-  const [apiKeyInput, setApiKeyInput] = useState("");
-  const [savedApiKey, setSavedApiKey] = useState("");
+
 
   // Load Global settings & states from localStorage on mount
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const key = localStorage.getItem("how_to_tech_openai_key") || "";
       setTimeout(() => {
-        setSavedApiKey(key);
-        setApiKeyInput(key);
-
         const savedBookmarks = localStorage.getItem("how_to_tech_bookmarks");
         if (savedBookmarks) {
           try {
@@ -129,6 +125,42 @@ export default function Page() {
 
         const savedTheme = localStorage.getItem("how_to_tech_theme") as ContrastTheme;
         if (savedTheme) setTheme(savedTheme);
+
+        const token = localStorage.getItem("how_to_tech_auth_token");
+        if (token) {
+          if (token === "mock-sandbox-token-jwt") {
+            const savedProfile = localStorage.getItem("how_to_tech_user_profile");
+            if (savedProfile) {
+              try {
+                setCurrentUser(JSON.parse(savedProfile));
+              } catch (e) {}
+            }
+            setSessionLoading(false);
+          } else {
+            getMe()
+              .then((profile) => {
+                setCurrentUser({ name: profile.name, email: profile.email });
+                localStorage.setItem("how_to_tech_user_profile", JSON.stringify({
+                  name: profile.name,
+                  email: profile.email
+                }));
+              })
+              .catch((err) => {
+                console.warn("Failed to fetch user profile on mount, falling back to local storage:", err);
+                const savedProfile = localStorage.getItem("how_to_tech_user_profile");
+                if (savedProfile) {
+                  try {
+                    setCurrentUser(JSON.parse(savedProfile));
+                  } catch (e) {}
+                }
+              })
+              .finally(() => {
+                setSessionLoading(false);
+              });
+          }
+        } else {
+          setSessionLoading(false);
+        }
       }, 0);
     }
   }, []);
@@ -176,24 +208,7 @@ export default function Page() {
     };
   }, [selectedGuideSlug, guides]);
 
-  // Save API Key
-  const handleSaveApiKey = () => {
-    if (typeof window !== "undefined") {
-      localStorage.setItem("how_to_tech_openai_key", apiKeyInput);
-      setSavedApiKey(apiKeyInput);
-      setIsSettingsOpen(false);
-    }
-  };
 
-  // Clear API Key
-  const handleClearApiKey = () => {
-    if (typeof window !== "undefined") {
-      localStorage.removeItem("how_to_tech_openai_key");
-      setSavedApiKey("");
-      setApiKeyInput("");
-      setIsSettingsOpen(false);
-    }
-  };
 
   // Sync state togglers to localStorage
   const handleToggleBookmark = (slug: string) => {
@@ -296,6 +311,41 @@ export default function Page() {
   const fontClass = fontScale === "large" ? "font-scale-large" : fontScale === "extra" ? "font-scale-extra" : "";
   const themeClass = theme === "pastel" ? "theme-pastel" : theme === "highcontrast" ? "theme-highcontrast" : "";
 
+  if (sessionLoading) {
+    return (
+      <div className="min-h-screen bg-slate-50 flex flex-col justify-center items-center py-12 px-4">
+        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-slate-900 mb-4" />
+        <p className="text-xs font-bold text-slate-500 tracking-wider uppercase animate-pulse">
+          Establishing Secure Session...
+        </p>
+      </div>
+    );
+  }
+
+  if (!currentUser) {
+    return (
+      <div className="min-h-screen bg-slate-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+        <div className="sm:mx-auto sm:w-full sm:max-w-md text-center mb-4">
+          <div className="grid grid-cols-3 gap-1 w-8 h-8 mx-auto mb-3">
+            {[...Array(9)].map((_, i) => (
+              <div key={i} className="bg-slate-900 rounded-sm w-2 h-2" />
+            ))}
+          </div>
+          <h2 className="text-2xl font-extrabold text-slate-900">How to Tech</h2>
+          <p className="mt-1 text-xs text-slate-400">Zero-to-Hero Course Platform by Futurelab</p>
+        </div>
+        <AuthPage 
+          onAuthSuccess={(user) => {
+            setCurrentUser(user);
+            setView("landing");
+          }}
+          onCancel={() => {}}
+          isMandatory={true}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className={`flex-1 flex flex-col min-h-screen transition-all duration-300 ${fontClass} ${themeClass}`}>
       
@@ -314,8 +364,15 @@ export default function Page() {
         <Header 
           currentTrack={track} 
           onTrackChange={handleTrackChange}
-          onOpenSettings={() => setIsSettingsOpen(true)}
-          hasApiKey={!!savedApiKey}
+          currentUser={currentUser}
+          onOpenAuth={() => setView("auth")}
+          onOpenDashboard={() => setView("dashboard")}
+          onSignOut={() => {
+            setCurrentUser(null);
+            localStorage.removeItem("how_to_tech_user_profile");
+            localStorage.removeItem("how_to_tech_auth_token");
+            setView("landing");
+          }}
         />
       )}
 
@@ -528,50 +585,47 @@ export default function Page() {
                   </div>
                 </section>
 
+                {/* Popular Guides Header Row (Placed Outside Grid for Flawless Top Alignment) */}
+                <div className="px-6 max-w-6xl mx-auto flex items-center justify-between pl-7 mb-4">
+                  <h3 className="font-sans font-bold text-base text-slate-900">
+                    Popular Guides
+                  </h3>
+                  <button 
+                    onClick={() => {
+                      setSelectedCategory("All");
+                      setView("library");
+                    }}
+                    className="text-xs font-bold text-slate-500 hover:text-slate-900 flex items-center gap-1 mr-1"
+                  >
+                    Browse All Guides
+                    <ChevronRight className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+
                 {/* Popular Guides & AI Box Row */}
                 <section className="px-6 max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
                   {/* Guides grid list (Span 2) */}
-                  <div className="lg:col-span-2 space-y-6">
-                    <div className="flex items-center justify-between pl-1">
-                      <h3 className="font-sans font-bold text-base text-slate-900">
-                        Popular Guides
-                      </h3>
-                      <button 
-                        onClick={() => {
-                          setSelectedCategory("All");
-                          setView("library");
+                  <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {allGuides.slice(0, 4).map((guide) => (
+                      <GuideCard 
+                        key={guide.id} 
+                        guide={guide} 
+                        onSelect={(slug) => {
+                          setSelectedGuideSlug(slug);
+                          setView("detail");
                         }}
-                        className="text-xs font-bold text-slate-500 hover:text-slate-900 flex items-center gap-1"
-                      >
-                        Browse All Guides
-                        <ChevronRight className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      {allGuides.slice(0, 4).map((guide) => (
-                        <GuideCard 
-                          key={guide.id} 
-                          guide={guide} 
-                          onSelect={(slug) => {
-                            setSelectedGuideSlug(slug);
-                            setView("detail");
-                          }}
-                        />
-                      ))}
-                    </div>
+                      />
+                    ))}
                   </div>
 
                   {/* Ask AI Box side placement (Span 1) */}
-                  <div className="lg:col-span-1">
+                  <div className="lg:col-span-1 h-full">
                     <AskAIBox 
                       track="everyday"
                       onSelectGuide={(slug) => {
                         setSelectedGuideSlug(slug);
                         setView("detail");
                       }}
-                      apiKey={savedApiKey}
-                      onOpenSettings={() => setIsSettingsOpen(true)}
                     />
                   </div>
                 </section>
@@ -725,8 +779,6 @@ export default function Page() {
                             setSelectedGuideSlug(slug);
                             setView("detail");
                           }}
-                          apiKey={savedApiKey}
-                          onOpenSettings={() => setIsSettingsOpen(true)}
                         />
                       </div>
                     </div>
@@ -780,6 +832,18 @@ export default function Page() {
                 onNavigateToView={(targetView) => {
                   setView(targetView);
                 }}
+                currentUser={currentUser}
+              />
+            )}
+
+            {/* View I: Authentication State [NEW] */}
+            {view === "auth" && (
+              <AuthPage 
+                onAuthSuccess={(user) => {
+                  setCurrentUser(user);
+                  setView("dashboard");
+                }}
+                onCancel={() => setView("landing")}
               />
             )}
 
@@ -801,84 +865,30 @@ export default function Page() {
 
         {/* TRACK 3: Developer & Tech Hub (Advanced) */}
         {track === "developer" && (
-          <div className="pb-24">
-            <KnowledgeVault />
-          </div>
+          <>
+            {view === "dashboard" ? (
+              <UserDashboard
+                bookmarks={bookmarks}
+                allGuides={allGuides}
+                completedLessons={completedLessons}
+                onSelectGuide={(slug) => {
+                  setSelectedGuideSlug(slug);
+                  setView("detail");
+                }}
+                onNavigateToView={(targetView) => {
+                  setView(targetView);
+                }}
+                currentUser={currentUser}
+              />
+            ) : (
+              <div className="pb-24">
+                <KnowledgeVault />
+              </div>
+            )}
+          </>
         )}
 
       </main>
-
-      {/* Floating Settings Drawer / Modal for OpenAI API key configuration */}
-      {isSettingsOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-end bg-slate-950/20 backdrop-blur-sm">
-          <div className="w-full max-w-md h-full bg-white shadow-2xl p-8 flex flex-col justify-between animate-in slide-in-from-right duration-300">
-            
-            <div>
-              {/* Drawer Header */}
-              <div className="flex items-center justify-between border-b border-slate-100 pb-4">
-                <div className="flex items-center gap-2">
-                  <Key className="w-5 h-5 text-slate-700" />
-                  <h3 className="font-sans font-bold text-base text-slate-900">Developer API Key</h3>
-                </div>
-                <button 
-                  onClick={() => setIsSettingsOpen(false)}
-                  className="p-1.5 hover:bg-slate-100 text-slate-400 hover:text-slate-900 rounded-full transition-colors"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-              </div>
-
-              {/* Drawer Body explanation */}
-              <p className="text-slate-500 text-xs mt-4 leading-relaxed">
-                As the developer, you can securely plug in your **OpenAI API Key** locally to connect the AI answer box to real-time LLM engines. 
-              </p>
-              
-              <div className="bg-emerald-50/50 border border-emerald-100 p-4 rounded-2xl flex gap-3 mt-4">
-                <ShieldCheck className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
-                <div>
-                  <h4 className="text-[11px] font-bold text-emerald-800">100% Secure & Client-Side</h4>
-                  <p className="text-[10px] text-emerald-600/90 leading-relaxed mt-0.5">
-                    Your key is saved directly inside your local browser&apos;s `localStorage` and only fires requests directly from your browser client to OpenAI. No servers are involved.
-                  </p>
-                </div>
-              </div>
-
-              {/* Input section */}
-              <div className="mt-8 space-y-2">
-                <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">
-                  OpenAI API Key (sk-...)
-                </label>
-                <input 
-                  type="password"
-                  value={apiKeyInput}
-                  onChange={(e) => setApiKeyInput(e.target.value)}
-                  placeholder="Paste your key sk-..."
-                  className="w-full px-4 py-2.5 border border-slate-200 focus:border-slate-400 rounded-xl text-xs outline-none bg-slate-50 shadow-inner transition-all"
-                />
-              </div>
-            </div>
-
-            {/* Drawer Footer Actions */}
-            <div className="border-t border-slate-100 pt-6 flex items-center gap-3">
-              {savedApiKey && (
-                <button
-                  onClick={handleClearApiKey}
-                  className="flex-1 py-2.5 border border-rose-200 text-rose-600 hover:bg-rose-50 rounded-xl text-xs font-bold transition-all"
-                >
-                  Clear Key
-                </button>
-              )}
-              <button
-                onClick={handleSaveApiKey}
-                className="flex-1 py-2.5 bg-slate-900 text-white hover:bg-slate-800 rounded-xl text-xs font-bold transition-all shadow-md"
-              >
-                Save Key
-              </button>
-            </div>
-
-          </div>
-        </div>
-      )}
 
       {/* Styled Footer aligned with Futurelab */}
       <footer className="w-full border-t border-slate-100 bg-white py-8 px-6 text-center text-slate-400 text-[11px] font-medium flex flex-col sm:flex-row items-center justify-between gap-4">

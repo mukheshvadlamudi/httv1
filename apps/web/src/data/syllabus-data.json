@@ -11,34 +11,50 @@
         {
           "id": "fe-ch1",
           "order": 1,
-          "title": "Chapter 1: Web Fundamentals (HTML & CSS)",
-          "plainText": "HTML (HyperText Markup Language) is the skeletal framework of the entire web. When you type an address in your browser, the server sends back an HTML document. The browser's rendering engine reads this text line-by-line and constructs the Document Object Model (DOM)—a branching tree structure where every element represents a visual node on your screen.\n\nHere is a standard, semantic HTML5 boilerplate template that you should always start with:\n\n```html\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>My First Semantic Site</title>\n</head>\n<body>\n  <header>\n    <h1>Welcome to How to Tech</h1>\n  </header>\n  <main>\n    <article>\n      <h2>Understanding Web Structures</h2>\n      <p>Semantic markup helps screen-readers and search engines understand content.</p>\n    </article>\n  </main>\n  <footer>\n    <p>&copy; 2026 Futurelab</p>\n  </footer>\n</body>\n</html>\n```\n\nCSS (Cascading Style Sheets) is the presentation and styling layer. It operates on the CSS Box Model, which states that every element is treated as a rectangular box consisting of:\n1. Content: The actual text or image.\n2. Padding: Transparent space immediately surrounding the content (inside the border).\n3. Border: A solid line enclosing the padding and content.\n4. Margin: Transparent space surrounding the border (separating this box from other boxes).\n\n```css\n/* The modern way to handle sizing is border-box */\n* {\n  box-sizing: border-box;\n  margin: 0;\n  padding: 0;\n}\n\nbody {\n  font-family: sans-serif;\n  background-color: #f9fafb;\n}\n\n/* Flexbox makes layout alignments extremely simple */\n.container {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  align-items: center;\n  padding: 20px;\n}\n```\n\n### 📝 Practical Exercise\nCreate a profile card. Write a semantic layout containing an image, an <h2> name heading, a <p> biography, and two social links styled cleanly inside a Flexbox row container. Set the card corner border-radius to '24px' for a modern, soft design.",
-          "documentIds": [1, 2],
-          "youtubeIds": [1, 2]
+          "title": "Chapter 1: Web Fundamentals (HTML5 & CSS3)",
+          "plainText": "HTML (HyperText Markup Language) is the structural foundation of the web. Modern browsers receive raw HTML code from web servers, parse it line-by-line, and construct the Document Object Model (DOM)—a logical tree structure representing elements on the page.\n\nAlways use semantic HTML5 elements to ensure accessibility for screen readers and SEO spiders:\n\n```html\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Semantic Portal</title>\n</head>\n<body>\n  <header>\n    <nav>\n      <ul>\n        <li><a href=\"#home\">Home</a></li>\n      </ul>\n    </nav>\n  </header>\n  <main>\n    <article>\n      <h1>The Power of Semantics</h1>\n      <p>Using semantic tags helps search engine crawlers index your pages correctly.</p>\n    </article>\n  </main>\n  <footer>\n    <p>&copy; 2026 Futurelab Studios</p>\n  </footer>\n</body>\n</html>\n```\n\nCSS (Cascading Style Sheets) governs layout styles. Every visual element follows the CSS Box Model, consisting of Content, Padding, Border, and Margin.\n\nModern grid and flex alignments let you center elements and build responsive layouts without hacky float floats:\n\n```css\n* {\n  box-sizing: border-box;\n  margin: 0;\n  padding: 0;\n}\n\n.card-container {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  min-height: 100vh;\n  background-color: #f8fafc;\n}\n\n.card {\n  width: 100%;\n  max-width: 400px;\n  padding: 24px;\n  border-radius: 20px;\n  background: #ffffff;\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);\n}\n```\n\n### 📝 Practical Exercise\nCreate a responsive profile card centered on the screen. It must use semantic HTML tags (`<article>`, `<header>`, `<footer>`), have a soft neomorphic shadow, and utilize CSS Flexbox to align content.",
+          "documentIds": [1, 2, 22],
+          "youtubeIds": [19, 20]
         },
         {
           "id": "fe-ch2",
           "order": 2,
           "title": "Chapter 2: Interactive Webs (JavaScript & TS)",
-          "plainText": "JavaScript is the runtime scripting engine that executes dynamic logic in the user's browser. It is a single-threaded language, meaning it performs one action at a time, but handles heavy actions asynchronously using the Event Loop.\n\nLet's write a practical template to see how we store variables, write loops, and hook into browser interactions:\n\n```javascript\n// Store data using const (unchangeable) and let (changeable)\nconst username = \"Alice\";\nlet score = 0;\n\n// A standard function returning a value\nfunction calculateGrade(points) {\n  if (points >= 90) return \"A\";\n  return \"Pass\";\n}\n\n// Async functions handle network requests without freezing the screen\nasync function fetchGuides() {\n  try {\n    const response = await fetch(\"/api/guides\");\n    const data = await response.json();\n    console.log(\"Guides loaded:\", data);\n  } catch (error) {\n    console.error(\"Network error occurred:\", error);\n  }\n}\n\n// Trigger functions when a user clicks a button\nconst button = document.getElementById(\"my-button\");\nbutton.addEventListener(\"click\", () => {\n  score += 10;\n  console.log(`Clicked! Current score is: ${score}`);\n});\n```\n\n### Enter TypeScript\nTypeScript wraps around JavaScript, adding 'Static Typing'. JavaScript allows you to change a variable's data type on the fly, leading to catastrophic runtime crashes. TypeScript stops this by validating data structures in your code editor before your code ever runs.\n\n```typescript\n// In TypeScript, we declare strict Interfaces to establish data shape\ninterface UserProfile {\n  id: string;\n  name: string;\n  isActive: boolean;\n  age?: number; // Optional field\n}\n\nfunction activateUser(user: UserProfile): string {\n  user.isActive = true;\n  return `User ${user.name} is now active!`;\n}\n```\n\n### 📝 Practical Exercise\nWrite an async script that calls a dummy URL, loops over the returned user array, and dynamically builds bullet points on the screen. Write it using TypeScript interfaces to ensure strict parameter checks.",
-          "documentIds": [48, 92],
-          "youtubeIds": [3, 4]
+          "plainText": "JavaScript provides the behavioral engine. It runs on a single thread using the Event Loop, allowing asynchronous execution without blocking browser rendering. The Call Stack handles synchronous execution, while the Web API layer manages timer interrupts and network fetches, placing completed tasks into the Callback Queue.\n\nHere is how to fetch resources asynchronously using async/await syntax:\n\n```javascript\nasync function fetchUserData(userId) {\n  try {\n    const response = await fetch(`https://api.example.com/users/${userId}`);\n    if (!response.ok) throw new Error(\"User profile not found\");\n    const data = await response.json();\n    console.log(\"User data successfully loaded:\", data);\n  } catch (error) {\n    console.error(\"Network pipeline failure:\", error);\n  }\n}\n```\n\n### TypeScript (Static Type Checks)\nTypeScript wraps around JavaScript, validating code structures before compilation to catch type mismatch errors inside your editor:\n\n```typescript\ninterface NetworkConfig {\n  endpoint: string;\n  timeoutSeconds: number;\n  retriesAllowed?: number;\n}\n\nclass APIClient {\n  private config: NetworkConfig;\n\n  constructor(config: NetworkConfig) {\n    this.config = config;\n  }\n\n  public connect(): string {\n    return `Connecting to ${this.config.endpoint}...`;\n  }\n}\n```\n\n### 📝 Practical Exercise\nWrite an asynchronous script in TypeScript that fetches data from an endpoint, validates the response structure against a strict interface, and renders the list in a browser DOM container.",
+          "documentIds": [42, 17, 43],
+          "youtubeIds": [21, 22]
         },
         {
           "id": "fe-ch3",
           "order": 3,
-          "title": "Chapter 3: Modern UI Frameworks (React & Next.js)",
-          "plainText": "Writing complex applications with raw HTML manipulation gets incredibly slow and difficult to maintain. Modern UI Frameworks introduce 'Component-Driven Development', letting us construct pages out of isolated, reusable blocks.\n\nReact operates using a Virtual DOM. When variables update, React calculates the differences between the current layout and the new target layout, and renders only the tiny modified sections, making UI transitions instantaneous.\n\n```tsx\nimport React, { useState } from \"react\";\n\ninterface ButtonProps {\n  label: string;\n}\n\nexport function InteractiveCounter({ label }: ButtonProps) {\n  // State hooks keep track of variables that trigger reactive rendering\n  const [count, setCount] = useState<number>(0);\n\n  return (\n    <div className=\"p-6 max-w-sm rounded-[32px] border border-slate-100 bg-white shadow-sm\">\n      <h3 className=\"text-lg font-bold\">Counter Component</h3>\n      <p className=\"text-slate-500 mt-2\">Clicks tracked: {count}</p>\n      <button \n        onClick={() => setCount(count + 1)}\n        className=\"mt-4 px-4 py-2 bg-slate-900 text-white rounded-full text-xs font-bold\"\n      >\n        {label}\n      </button>\n    </div>\n  );\n}\n```\n\nNext.js wraps React in an enterprise architecture. By default, client-side React delivers an empty HTML file to the browser, forcing JavaScript to assemble the page (poor for SEO and speed). Next.js pre-compiles React components on the server first (Server-Side Rendering) and ships pre-rendered semantic HTML to the browser.\n\nNext.js also provides standard folder-based routing: each folder inside src/app/ represents a web page automatically (e.g., src/app/guides/[slug]/page.tsx translates into a dynamic guide route).",
-          "documentIds": [42, 49, 60],
-          "youtubeIds": [5, 6]
+          "title": "Chapter 3: UI Frameworks (React & Next.js)",
+          "plainText": "React utilizes a Virtual DOM (VDOM) to maximize performance. Instead of redrawing the entire browser layout whenever state changes, React keeps a lightweight replica of the DOM in memory, calculates differences (diffing), and executes only the minimal required updates (reconciliation).\n\nHere is an interactive React counter component leveraging functional hooks:\n\n```tsx\nimport React, { useState, useEffect } from \"react\";\n\ninterface CounterProps {\n  initialValue?: number;\n}\n\nexport default function Counter({ initialValue = 0 }: CounterProps) {\n  const [count, setCount] = useState(initialValue);\n\n  useEffect(() => {\n    document.title = `Count is ${count}`;\n  }, [count]);\n\n  return (\n    <div className=\"p-6 max-w-sm mx-auto bg-white rounded-2xl shadow-md space-y-4\">\n      <h2 className=\"text-xl font-bold\">Clicks tracked: {count}</h2>\n      <button \n        onClick={() => setCount(prev => prev + 1)}\n        className=\"px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors\"\n      >\n        Increment Count\n      </button>\n    </div>\n  );\n}\n```\n\nNext.js builds on React to provide Server-Side Rendering (SSR) and Server Components. Client-side SPA React ships an empty HTML page that must wait for JS bundle evaluation before loading (causing poor SEO and slower Initial Page Load). Next.js pre-renders components on the server and streams pre-compiled, search-engine-readable HTML back to the browser.",
+          "documentIds": [41, 13, 15],
+          "youtubeIds": [23, 24]
         },
         {
           "id": "fe-ch4",
           "order": 4,
-          "title": "Chapter 4: Automated Testing & Operations",
-          "plainText": "Before launching code updates, you must guarantee they don't break existing features. Doing this manually by checking pages takes hours. Automated testing executes verification tests immediately.\n\nLet's write a Unit Test using Vitest to verify our logic:\n\n```typescript\nimport { expect, test } from \"vitest\";\n\nfunction formatMinutes(seconds: number): number {\n  return Math.ceil(seconds / 60);\n}\n\ntest(\"Calculates rounded minutes accurately\", () => {\n  expect(formatMinutes(125)).toBe(3);\n  expect(formatMinutes(60)).toBe(1);\n});\n```\n\n### End-to-End (E2E) Browser Testing\nE2E testing launches a headless automated browser to navigate, click, and assert states just like a real user. Here is a Playwright test:\n\n```typescript\nimport { test, expect } from \"@playwright/test\";\n\ntest(\"User can click Gmail guide and view steps\", async ({ page }) => {\n  await page.goto(\"http://localhost:3000\");\n  await page.click(\"text=Everyday Technology\");\n  await page.click(\"text=How to reset your Gmail password\");\n  \n  // Assert that step 1 is visual on screen\n  await expect(page.locator(\"text=Open the Google Sign-in page\")).toBeVisible();\n});\n```\n\n### Operations & Crash Monitoring\nWhen errors happen in the wild, systems like Sentry catch them immediately, packages the user's browser details and code line error stack trace, and sends a bug report to the dev team, letting you solve bugs before users complain.",
-          "documentIds": [90, 91, 89],
-          "youtubeIds": [7, 8]
+          "title": "Chapter 4: Automated Testing & Ops",
+          "plainText": "To maintain confidence, you must automate software verification. We write Unit Tests to test isolated logical helper functions, Integration Tests to verify multiple features playing together, and End-to-End (E2E) Tests to launch a simulated web browser and interact with the pages.\n\nHere is a unit test written with Vitest:\n\n```typescript\nimport { expect, test, describe } from \"vitest\";\n\nexport function calculateCompletionPercentage(completed: number, total: number): number {\n  if (total === 0) return 0;\n  return Math.round((completed / total) * 100);\n}\n\ndescribe(\"Syllabus Completion Calculator\", () => {\n  test(\"should return exact percentage\", () => {\n    expect(calculateCompletionPercentage(2, 4)).toBe(50);\n  });\n\n  test(\"should handle zero chapters gracefully\", () => {\n    expect(calculateCompletionPercentage(0, 0)).toBe(0);\n  });\n});\n```\n\n### E2E Headless Testing (Playwright)\nPlaywright allows us to script complete browser movements:\n\n```typescript\nimport { test, expect } from \"@playwright/test\";\n\ntest(\"User can load app and launch AI chat window\", async ({ page }) => {\n  await page.goto(\"http://localhost:3000\");\n  await page.click(\"text=Ask with AI\");\n  const chatInput = page.locator(\"textarea[placeholder*='Ask']\");\n  await expect(chatInput).toBeVisible();\n});\n```",
+          "documentIds": [90, 91, 92, 89],
+          "youtubeIds": [25, 26]
+        },
+        {
+          "id": "fe-ch5",
+          "order": 5,
+          "title": "Chapter 5: State Management & Reactive Paradigms",
+          "plainText": "As front-end applications grow, passing state downwards through multiple component layers (Prop Drilling) becomes a nightmare. To solve this, we implement global reactive state management systems.\n\nZustand is a lightweight, hook-based state management tool that avoids the boilerplate overhead of classic Redux while maintaining fast performance.\n\nHere is how to build a global syllabus progress tracker with Zustand:\n\n```typescript\nimport { create } from 'zustand';\n\ninterface SyllabusState {\n  completedChapters: string[];\n  toggleChapter: (chapterId: string) => void;\n  resetProgress: () => void;\n}\n\nexport const useSyllabusStore = create<SyllabusState>((set) => ({\n  completedChapters: [],\n  toggleChapter: (chapterId) => set((state) => ({\n    completedChapters: state.completedChapters.includes(chapterId)\n      ? state.completedChapters.filter(id => id !== chapterId)\n      : [...state.completedChapters, chapterId]\n  })),\n  resetProgress: () => set({ completedChapters: [] })\n}));\n```\n\n### 📝 Practical Exercise\nCreate a global checkout cart state using Zustand. It must allow adding items, removing items, and calculating the total price dynamically while updating components in different layout modules.",
+          "documentIds": [41, 17],
+          "youtubeIds": [27, 28]
+        },
+        {
+          "id": "fe-ch6",
+          "order": 6,
+          "title": "Chapter 6: Next.js Production Ops, SEO & Deploy",
+          "plainText": "Deploying web platforms at scale requires strict optimizations. Next.js offers standard optimization metrics:\n- **Dynamic Metadata & OpenGraph**: Ensures search engines crawl indexing keywords and social cards render beautiful image cards when shared.\n- **Middleware Hooks**: Intercepts requests immediately on edge servers to handle authorization checks before pages load.\n- **Optimized Assets**: Next.js `<Image />` component automatically scales images down to WebP format.\n\nHere is an optimized configuration header for dynamic metadata routing:\n\n```typescript\nimport { Metadata } from 'next';\n\nexport async function generateMetadata({ params }): Promise<Metadata> {\n  const guideId = params.slug;\n  return {\n    title: `How to Tech - Guide ${guideId}`,\n    description: `Read our comprehensive guide to mastering ${guideId} with clear steps.`,\n    openGraph: {\n      images: [{ url: `/og-images/${guideId}.jpg` }]\n    }\n  };\n}\n```",
+          "documentIds": [13, 11, 85],
+          "youtubeIds": [29, 30]
         }
       ],
       "quiz": [
@@ -60,6 +76,18 @@
           ],
           "correctAnswerIdx": 1,
           "explanation": "TypeScript's primary power is adding static types, allowing you to catch data mismatch bugs in your text editor long before your users run the application."
+        },
+        {
+          "id": "fe-q3",
+          "question": "What is the primary visual benefit of the Next.js pre-rendering system?",
+          "options": [
+            "It reduces the size of static images automatically.",
+            "It delivers fully structured, pre-built semantic HTML to browsers immediately, enhancing both speed and SEO ranking.",
+            "It makes the page completely high-contrast by default.",
+            "It eliminates the need to write CSS configurations."
+          ],
+          "correctAnswerIdx": 1,
+          "explanation": "Next.js pre-compiles React components on the server first, delivering semantic HTML instantly rather than making browsers parse blank templates."
         }
       ]
     },
@@ -75,25 +103,41 @@
           "id": "be-ch1",
           "order": 1,
           "title": "Chapter 1: API Design & Python Servers",
-          "plainText": "The backend acts like the hidden kitchen of a restaurant. The frontend waiter takes a standardized order (an API request) and carries it to the kitchen. The kitchen (FastAPI) processes it, extracts ingredients from the store (database), cooks it, and hands the dish (JSON response) back to the waiter.\n\nRESTful APIs standardize communication using HTTP Verbs & Status Codes:\n- GET: Read resource (Status 200 OK)\n- POST: Create resource (Status 201 Created)\n- PUT: Replace resource (Status 200 OK)\n- DELETE: Remove resource (Status 200 OK)\n\nFastAPI is a modern web API engine written in Python. It uses Python Type Hints to validate incoming parameters instantly using Pydantic models. Here is a fully operational FastAPI schema & endpoint model:\n\n```python\nfrom fastapi import FastAPI, HTTPException, status\nfrom pydantic import BaseModel, EmailStr\n\napp = FastAPI()\n\n# Pydantic models strictly validate incoming data structures\nclass FeedbackRequest(BaseModel):\n    email: EmailStr\n    rating: int # Must be an integer\n    comment: str\n\n@app.post(\"/api/feedback\", status_code=status.HTTP_201_CREATED)\nasync def submit_feedback(data: FeedbackRequest):\n    if data.rating < 1 or data.rating > 5:\n        raise HTTPException(status_code=400, detail=\"Rating must be between 1 and 5\")\n    \n    # In a real app, save to PostgreSQL database here\n    return {\"status\": \"success\", \"received\": data.comment}\n```\n\n### 📝 Practical Exercise\nWrite a FastAPI endpoint that takes a search query parameter, validates that it has at least 3 characters, and returns a JSON list of matched items.",
-          "documentIds": [69, 78],
-          "youtubeIds": [9, 10]
+          "plainText": "Web APIs (Application Programming Interfaces) establish a communication bridge between clients and databases. REST (Representational State Transfer) standardizes exchanges using HTTP Verbs:\n- `GET`: Read resources without modifying database states (idempotent).\n- `POST`: Create new database records.\n- `PUT`/`PATCH`: Update existing resources.\n- `DELETE`: Remove records from databases.\n\nFastAPI is a fast web API framework written in Python. It validates data structures at request-time using Python Type Hints and Pydantic models.\n\nHere is how to create a validated FastAPI endpoint:\n\n```python\nfrom fastapi import FastAPI, HTTPException, status\nfrom pydantic import BaseModel, EmailStr\n\napp = FastAPI()\n\nclass FeedbackSchema(BaseModel):\n    email: EmailStr\n    rating: int\n    comment: str\n\n@app.post(\"/api/v1/feedback\", status_code=status.HTTP_201_CREATED)\nasync def submit_feedback(data: FeedbackSchema):\n    if data.rating < 1 or data.rating > 5:\n        raise HTTPException(status_code=400, detail=\"Rating must be between 1 and 5.\")\n    \n    # Business logic goes here (saving to relational database table)\n    return {\"status\": \"success\", \"message\": \"Feedback recorded successfully.\"}\n```",
+          "documentIds": [69, 78, 79],
+          "youtubeIds": [31, 32]
         },
         {
           "id": "be-ch2",
           "order": 2,
           "title": "Chapter 2: Relational Databases (SQL & Postgres)",
-          "plainText": "A relational database stores data in rigid tables linked together via relational tables. PostgreSQL is a premium open-source database engine. In PostgreSQL, tables enforce column types, primary keys, and foreign keys.\n\nLet's write a standard SQL schema mapping the guides database:\n\n```sql\n-- Create the main parent table\nCREATE TABLE guides (\n  id VARCHAR(50) PRIMARY KEY,\n  slug VARCHAR(100) UNIQUE NOT NULL,\n  title VARCHAR(200) NOT NULL,\n  estimated_minutes INTEGER DEFAULT 5\n);\n\n-- Create child table linked via Foreign Key\nCREATE TABLE guide_steps (\n  id SERIAL PRIMARY KEY,\n  guide_id VARCHAR(50) REFERENCES guides(id) ON DELETE CASCADE,\n  step_order INTEGER NOT NULL,\n  title VARCHAR(200) NOT NULL,\n  body TEXT NOT NULL\n);\n\n-- Speed up queries by building B-Tree indexes on searched columns\nCREATE INDEX idx_guides_slug ON guides(slug);\n```\n\n### Indexing Explained\nWithout an index, if a user queries a guide slug, PostgreSQL must check every single row in the database table (a Sequential Scan). Creating a B-Tree Index instructs Postgres to construct a sorted search tree in the background. Postgres can find the target row in logarithmic time (millisecond speeds), taking load off your CPU.\n\nUsing SQLAlchemy (Python ORM), you write this structure using Python classes instead of writing raw SQL:\n\n```python\nfrom sqlalchemy import Column, Integer, String, ForeignKey, create_engine\nfrom sqlalchemy.orm import declarative_base, relationship\n\nBase = declarative_base()\n\nclass DBGuide(Base):\n    __tablename__ = 'guides'\n    id = Column(String(50), primary_key=True)\n    slug = Column(String(100), unique=True)\n    title = Column(String(200))\n    steps = relationship(\"DBStep\", back_populates=\"guide\")\n\nclass DBStep(Base):\n    __tablename__ = 'guide_steps'\n    id = Column(Integer, primary_key=True)\n    guide_id = Column(String(50), ForeignKey('guides.id'))\n    title = Column(String(200))\n    guide = relationship(\"DBGuide\", back_populates=\"steps\")\n```\n\n### 📝 Practical Exercise\nWrite SQL schema tables representing a User table and an ActivityLog table linked via foreign keys. Include an index on the user's email column.",
-          "documentIds": [74],
-          "youtubeIds": [11, 12]
+          "plainText": "Relational Databases store structured data in rigid columns and tables linked together via constraints. PostgreSQL is a premium open-source database engine that offers transactional guarantees (ACID features).\n\nTo fetch data fast, we write SQL Indexes. Standard searches scan tables sequentially from top to bottom (Sequential Scan). Building a B-Tree Index creates a sorted tree structure, letting PostgreSQL locate matching rows in logarithmic time.\n\nHere is a database schema mapping relational tables and indexes:\n\n```sql\nCREATE TABLE categories (\n  id SERIAL PRIMARY KEY,\n  slug VARCHAR(100) UNIQUE NOT NULL,\n  name VARCHAR(200) NOT NULL\n);\n\nCREATE TABLE guides (\n  id SERIAL PRIMARY KEY,\n  category_id INTEGER REFERENCES categories(id) ON DELETE CASCADE,\n  title VARCHAR(200) NOT NULL,\n  slug VARCHAR(100) UNIQUE NOT NULL\n);\n\n-- Create indices to speed up searches\nCREATE INDEX idx_guides_slug ON guides(slug);\n```\n\nUsing SQLAlchemy (Python ORM), we represent these SQL tables as Python classes:\n\n```python\nfrom sqlalchemy import Column, Integer, String, ForeignKey\nfrom sqlalchemy.orm import relationship, declarative_base\n\nBase = declarative_base()\n\nclass DBGuide(Base):\n    __tablename__ = \"guides\"\n    id = Column(Integer, primary_key=True)\n    title = Column(String(200), nullable=False)\n    slug = Column(String(100), unique=True, index=True)\n    category_id = Column(Integer, ForeignKey(\"categories.id\"))\n    \n    category = relationship(\"DBCategory\", back_populates=\"guides\")\n```",
+          "documentIds": [74, 12, 34],
+          "youtubeIds": [33, 34]
         },
         {
           "id": "be-ch3",
           "order": 3,
           "title": "Chapter 3: Low-Latency Caching (Redis)",
-          "plainText": "Every relational query requires hard-disk reads. If 10,000 users call your guides concurrently, PostgreSQL will lock up. Caching stores copies of computed results inside server RAM (Random Access Memory), which reads hundreds of times faster than SSD disks.\n\nRedis is an open-source, key-value memory cache engine. Here is a caching script pattern:\n\n```python\nimport redis\nimport json\n\n# Connect to Redis server\ncache = redis.Redis(host='localhost', port=6379, db=0)\n\ndef get_popular_guides():\n    # 1. Check if the key exists inside memory cache\n    cached_data = cache.get(\"popular_guides\")\n    if cached_data:\n        print(\"Cache Hit! Loaded in 1ms\")\n        return json.loads(cached_data)\n    \n    # 2. Cache Miss: Execute heavy PostgreSQL query\n    print(\"Cache Miss! Fetching from Postgres...\")\n    guides = fetch_from_postgres_db()\n    \n    # 3. Store result in Redis cache for 1 hour (3600 seconds)\n    cache.setex(\"popular_guides\", 3600, json.dumps(guides))\n    return guides\n```\n\n### 📝 Practical Exercise\nWrite a caching function for a user profile fetch. The cache should store user details for 10 minutes and automatically invalidate (delete) the cache if a user updates their profile details.",
+          "plainText": "Every SQL query requires reading a hard drive, which will bottleneck servers if thousands of requests hit simultaneously. Low-Latency Caching stores copies of slow database queries inside fast server RAM using key-value pair layouts.\n\nRedis is an open-source, in-memory cache system supporting milliseconds response times.\n\nHere is a cache fetch workflow using Python:\n\n```python\nimport redis\nimport json\n\n# Connect to Redis server container\ncache = redis.Redis(host='localhost', port=6379, db=0)\n\ndef get_cached_guide(slug: str):\n    cache_key = f\"guide:{slug}\"\n    \n    # 1. Look up value inside memory cache\n    cached_val = cache.get(cache_key)\n    if cached_val:\n        print(\"Cache Hit! Fast response.\")\n        return json.loads(cached_val)\n        \n    # 2. Cache Miss: Execute slow database query\n    print(\"Cache Miss! Querying Postgres database...\")\n    data = query_postgres_db(slug)\n    \n    # 3. Store in cache with 1-hour expiration\n    cache.setex(cache_key, 3600, json.dumps(data))\n    return data\n```",
           "documentIds": [76],
-          "youtubeIds": [13, 14]
+          "youtubeIds": [35, 36]
+        },
+        {
+          "id": "be-ch4",
+          "order": 4,
+          "title": "Chapter 4: Microservices & Event-Driven Architecture",
+          "plainText": "In large engineering projects, compiling all server code into a single process (Monolith) blocks deployment velocities. Instead, we break applications down into independent processes (Microservices) communicating asynchronously.\n\nTo decouple services, we deploy Message Brokers like RabbitMQ or Apache Kafka. Under an event-driven architecture, when a user purchases a guide, the Orders service publishes a message (`order.created`) to the broker. The Notifications service listens to this event and emails receipt details asynchronously.\n\n```python\nimport pika\nimport json\n\n# Publish order event to RabbitMQ broker\nconnection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))\nchannel = connection.channel()\n\nchannel.exchange_declare(exchange='events', exchange_type='topic')\n\nevent_payload = {\"order_id\": 4589, \"email\": \"user@example.com\", \"amount\": 19.99}\nchannel.basic_publish(\n    exchange='events',\n    routing_key='order.created',\n    body=json.dumps(event_payload)\n)\n\nprint(\"Event published successfully!\")\nconnection.close()\n```",
+          "documentIds": [20, 86, 87],
+          "youtubeIds": [37, 38]
+        },
+        {
+          "id": "be-ch5",
+          "order": 5,
+          "title": "Chapter 5: System Design & High Availability",
+          "plainText": "Building systems that support millions of concurrent users requires planning for hardware failures (High Availability).\n\nKey pillars of advanced System Design:\n1. **Horizontal Scaling**: Adding more cheap servers behind a Load Balancer (like NGINX or AWS ALB) to split traffic load.\n2. **Database Clustering**: Running database writes to a Primary database server, which replicates copies to multiple Read Replicas to optimize read querying speeds.\n3. **Content Delivery Networks (CDNs)**: Storing caching files (like images, JS bundles) on geographical proxy servers located close to users.\n\n```nginx\n# Simple NGINX load balancer config file\nupstream api_servers {\n    server api-node-1.example.com:8000;\n    server api-node-2.example.com:8000;\n    server api-node-3.example.com:8000;\n}\n\nserver {\n    listen 80;\n    location /api/ {\n        proxy_pass http://api_servers;\n    }\n}\n```",
+          "documentIds": [39, 40, 82],
+          "youtubeIds": [39, 40]
         }
       ],
       "quiz": [
@@ -103,6 +147,18 @@
           "options": ["GET", "PUT", "POST", "PATCH"],
           "correctAnswerIdx": 2,
           "explanation": "POST is the semantically correct HTTP method designated for creating a brand new resource in a RESTful API system."
+        },
+        {
+          "id": "be-q2",
+          "question": "What is the primary benefit of deploying a Redis cache inside a database pipeline?",
+          "options": [
+            "It automatically formats HTML forms.",
+            "It saves copies of database queries in fast server RAM, avoiding slow hard-drive SQL operations.",
+            "It forces databases to use ACID properties.",
+            "It encrypts secret credentials automatically."
+          ],
+          "correctAnswerIdx": 1,
+          "explanation": "Redis stores key-value pairs in memory (RAM), yielding sub-millisecond fetch times and preventing relational databases from locking up under heavy user load."
         }
       ]
     },
@@ -118,17 +174,33 @@
           "id": "ai-ch1",
           "order": 1,
           "title": "Chapter 1: LLM APIs & Stream Frameworks",
-          "plainText": "AI engineering is the practice of wrapping Large Language Models (LLMs) inside real-world products using developer APIs. Instead of building models, you feed structured text blocks to models like GPT or Claude.\n\nLet's write a backend integration using OpenAI's API format:\n\n```python\nimport openai\n\nclient = openai.OpenAI(api_key=\"YOUR_KEY\")\n\ndef get_ai_answer(question: str, retrieved_context: str):\n    response = client.chat.completions.create(\n        model=\"gpt-4o-mini\",\n        temperature=0.3, # Low temperature ensures strict factual grounding\n        messages=[\n            {\n                \"role\": \"system\",\n                \"content\": \"You are a gentle plain-language coach. Ground answers strictly inside the provided context.\"\n            },\n            {\n                \"role\": \"user\",\n                \"content\": f\"Context: {retrieved_context}\\n\\nQuestion: {question}\"\n            }\n        ]\n    )\n    return response.choices[0].message.content\n```\n\n### Vercel AI SDK (Model-Flexible Adaptability)\nTo prevent model lock-in, modern teams use adapter libraries. The Vercel AI SDK exposes a model-flexible API. Here is a TypeScript stream endpoint:\n\n```typescript\nimport { openai } from \"@ai-sdk/openai\";\nimport { streamText } from \"ai\";\n\nexport async function POST(req: Request) {\n  const { prompt } = await req.json();\n\n  // Stream the response directly to the frontend client\n  const result = await streamText({\n    model: openai(\"gpt-4o-mini\"),\n    prompt: prompt,\n  });\n\n  return result.toDataStreamResponse();\n}\n```\n\n### 📝 Practical Exercise\nWrite an OpenAI prompt template that instructs a model to take a technical developer description and translate it into a simple 3-step checklist suitable for a non-technical elder user.",
+          "plainText": "AI engineering is the practice of wrapping pre-trained Large Language Models (LLMs) inside applications using cloud APIs. Setting parameters (like `temperature`) allows adjusting response logic:\n- **Low Temperature (0.1 - 0.3)**: Makes responses strict, logical, and highly grounded in facts (ideal for tech manuals).\n- **High Temperature (0.7 - 1.0)**: Encourages creativity and varied vocabulary (ideal for narrative copy).\n\nTo prevent pages from waiting in a frozen state while an AI compiles a long answer, we Stream tokens to browsers immediately as they generate.\n\nHere is a TypeScript stream endpoint using the Vercel AI SDK adapter:\n\n```typescript\nimport { openai } from \"@ai-sdk/openai\";\nimport { streamText } from \"ai\";\n\nexport async function POST(req: Request) {\n  const { userPrompt } = await req.json();\n\n  const result = await streamText({\n    model: openai(\"gpt-4o-mini\"),\n    system: \"You are a clear, patient tech coach for senior citizens.\",\n    prompt: userPrompt\n  });\n\n  return result.toDataStreamResponse();\n}\n```",
           "documentIds": [96, 97, 99],
-          "youtubeIds": [15, 16]
+          "youtubeIds": [1, 2]
         },
         {
           "id": "ai-ch2",
           "order": 2,
           "title": "Chapter 2: Open Source Models & Hugging Face",
-          "plainText": "Deploying closed-source paid APIs poses privacy constraints. If a client inputs financial files, sending data to OpenAI raises tracking concerns. Open-source models allow you to run models completely locally.\n\nHugging Face is the central hub for open-source AI. It hosts models (Llama, Mistral), checkpoints, and datasets. Using tools like Ollama or vLLM, you can host local LLM engines on your GPU servers.\n\nLet's write a local Python script running an open-source model using the Hugging Face Transformers library:\n\n```python\nfrom transformers import pipeline\n\n# Load a small, open-source text generator model\ngenerator = pipeline('text-generation', model='gpt2')\n\nresult = generator(\"Web development is\", max_length=30, num_return_sequences=1)\nprint(result[0]['generated_text'])\n```\n\nThis keeps your data 100% private inside your own networks and eliminates third-party licensing fees entirely.",
+          "plainText": "Sending secure financial files or customer health data to OpenAI creates privacy compliance issues. To maintain full network boundaries and run models cheaply at scale, we deploy open-source models locally.\n\nHugging Face is the central hub hosting open-source model weights (like Meta's Llama-3 or Mistral-7B). Using python integration libraries, we can run text-generations directly on local GPU servers.\n\nHere is how to run an open-source text generator model locally:\n\n```python\nfrom transformers import pipeline\n\n# Initialize local pipelines downloading tiny open-source models\ngenerator = pipeline('text-generation', model='gpt2')\n\nprompt = \"To configure a secure home wireless router, always\"\noutput = generator(prompt, max_length=50, num_return_sequences=1)\n\nprint(\"Generated tech instruction:\")\nprint(output[0]['generated_text'])\n```",
           "documentIds": [98],
-          "youtubeIds": [17, 18]
+          "youtubeIds": [4, 5]
+        },
+        {
+          "id": "ai-ch3",
+          "order": 3,
+          "title": "Chapter 3: Retrieval-Augmented Generation (RAG)",
+          "plainText": "Large Language Models are frozen at their training cutoff dates and do not have access to your private database documentation. If you ask about custom local products, they will hallucinate.\n\nRetrieval-Augmented Generation (RAG) resolves this by dynamically inserting relevant local reference documents directly into the prompt context at query-time:\n\n```\n               +-----------------------+\n               | User Inputs Question  |\n               +-----------+-----------+\n                           | \n                           v\n               +-----------+-----------+\n               | Retrieve Matching Doc |\n               +-----------+-----------+\n                           | \n                           v\n   +-----------------------+-----------------------+\n   | Append Matching Doc to LLM Prompt Template   |\n   +-----------------------+-----------------------+\n                           | \n                           v\n               +-----------+-----------+\n               | LLM Outputs Grounded  |\n               |      Correct Answer   |\n               +-----------------------+\n```\n\nHere is a prompt template implementing a local RAG structure:\n\n```python\ndef compile_rag_prompt(user_question: str, retrieved_guide_text: str) -> str:\n  return f\"\"\"System: You are a grounded facts-only technology assistant. \nUse ONLY the context below to answer questions. If the answer is not in the context, say 'I cannot find the answer in our guides'.\n\nContext:\n{retrieved_guide_text}\n\nUser Question: {user_question}\n\nAnswer:\"\"\"\n```",
+          "documentIds": [96, 99],
+          "youtubeIds": [7, 8]
+        },
+        {
+          "id": "ai-ch4",
+          "order": 4,
+          "title": "Chapter 4: Vector Databases & High-Dimensional Search",
+          "plainText": "In professional RAG deployments, checking keyword matches against thousands of documents is slow and inaccurate. To search based on meaning (semantics), we generate Embeddings—vectors of decimals mapping texts into high-dimensional coordinate space.\n\nVector Databases (like PostgreSQL's `pgvector` extension) store these vector rows, enabling fast cosine similarity searches to extract documents whose coordinates lie closest to the user's question.\n\nHere is a vector coordinate query written in SQL utilizing pgvector:\n\n```sql\n-- Create the vector extension inside PostgreSQL\nCREATE EXTENSION IF NOT EXISTS vector;\n\n-- Create a table storing embedding coordinates (example: 1536 dimensions for OpenAI)\nCREATE TABLE guide_chunks (\n  id SERIAL PRIMARY KEY,\n  body TEXT NOT NULL,\n  embedding vector(1536)\n);\n\n-- Find the top 3 most relevant chunks using Cosine Distance (<=> operator)\nSELECT body, 1 - (embedding <=> :query_embedding) AS similarity_score\nFROM guide_chunks\nORDER BY embedding <=> :query_embedding\nLIMIT 3;\n```",
+          "documentIds": [12, 35],
+          "youtubeIds": [9, 10]
         }
       ],
       "quiz": [
@@ -142,7 +214,18 @@
             "It replaces the need for Next.js servers."
           ],
           "correctAnswerIdx": 1,
-          "explanation": "The Vercel AI SDK acts as a unified adapter. It abstract the LLM connection, allowing you to swap backends (OpenAI, Claude, Ollama) effortlessly without rewriting your front-end component logic."
+          "explanation": "The Vercel AI SDK acts as a unified adapter. It abstracts the LLM connection, allowing you to swap backends (OpenAI, Claude, Ollama) effortlessly without rewriting your front-end component logic."
+        },
+        {
+          "id": "ai-q2",
+          "question": "What is the core benefit of running Retrieval-Augmented Generation (RAG) over generic LLM prompting?",
+          "options": [
+            "It speeds up internet connection speeds.",
+            "It injects your own real-time local documents directly into the prompt context, eliminating hallucinations regarding custom business data.",
+            "It avoids the need for using any AI models at all."
+          ],
+          "correctAnswerIdx": 1,
+          "explanation": "RAG retrieves relevant private text blocks and feeds them directly to the LLM context, ensuring answers are strictly grounded in your actual library data."
         }
       ]
     },
@@ -158,9 +241,25 @@
           "id": "sec-ch1",
           "order": 1,
           "title": "Chapter 1: OWASP Vulnerabilities & Auth",
-          "plainText": "Security is a foundational pillar of architecture. The OWASP Top 10 lists the most critical vulnerabilities threatening modern web apps.\n\n### 1. SQL Injection (SQLi)\nSQL Injection occurs when untrusted user input is passed directly to your database without parameterization. A hacker inputs SQL commands into a username field, tricking your database into returning all private records.\n\n```sql\n-- INSECURE VULNERABLE SQL QUERY\nSELECT * FROM users WHERE email = '' + userInput + '' AND password = '' + passwordInput + '';\n```\n\nTo prevent this, always sanitize user inputs and parameterize database queries by using ORMs like SQLAlchemy which separate parameters from statements.\n\n### 2. JWT Authentication Models\nJWT (JSON Web Token) is a standard compact way of securely transmitting information between frontend and backend as a JSON object. It consists of a Header, a Payload, and a Signature.\n\nHere is how you securely sign and verify a JWT token in Python:\n\n```python\nimport jwt\nimport datetime\n\nSECRET_KEY = \"super_secret_developer_vault_key\"\n\n# Generate a secure session token\ndef create_user_token(user_id: str):\n    payload = {\n        \"sub\": user_id,\n        \"exp\": datetime.datetime.utcnow() + datetime.timedelta(days=1)\n    }\n    return jwt.encode(payload, SECRET_KEY, algorithm=\"HS256\")\n\n# Verify session token validity\ndef verify_user_token(token: str):\n    try:\n        payload = jwt.decode(token, SECRET_KEY, algorithms=[\"HS256\"])\n        return payload[\"sub\"]\n    except jwt.ExpiredSignatureError:\n        return \"Token expired, login again\"\n    except jwt.InvalidTokenError:\n        return \"Invalid token\"\n```\n\n### 📝 Practical Exercise\nAttempt the login injection labs on the PortSwigger Web Security Academy to see how SQL databases interpret unsafe user credentials, then write a secure parameterized query wrapper to block it.",
+          "plainText": "Security is the baseline requirement of all production architectures. The OWASP Top 10 lists the most critical vulnerabilities threatening web systems.\n\n### 1. SQL Injection (SQLi)\nSQL Injection occurs when developers concatenate raw user input directly into SQL statement strings. Attackers can type custom database command syntaxes in a text box to bypass logins entirely:\n\n```sql\n-- VULNERABLE SQL QUERY STRING\nquery = \"SELECT * FROM users WHERE email = '\" + user_input + \"' AND password = '\" + pwd_input + \"'\";\n```\n\nIf the user types: `admin@example.com' OR '1'='1`, the database reads `WHERE email = 'admin@example.com' OR '1'='1'`, validating as true and granting root access! Always parameterize your queries to treat inputs strictly as literal values.\n\n### 2. Session Auths via JSON Web Tokens (JWT)\nJWTs are encrypted token strings passing identity information securely between clients and servers. They consist of Header, Payload, and Signature components.\n\nHere is how to securely sign and verify a user session JWT in Python:\n\n```python\nimport jwt\nimport datetime\n\nSECRET_KEY = \"futurelab_vault_master_security_token_key\"\n\ndef generate_session_token(user_id: int) -> str:\n    payload = {\n        \"sub\": user_id,\n        \"exp\": datetime.datetime.utcnow() + datetime.timedelta(hours=2),\n        \"role\": \"developer\"\n    }\n    return jwt.encode(payload, SECRET_KEY, algorithm=\"HS256\")\n\ndef authenticate_token(token: str):\n    try:\n        decoded = jwt.decode(token, SECRET_KEY, algorithms=[\"HS256\"])\n        return decoded[\"sub\"]\n    except jwt.ExpiredSignatureError:\n        return \"Session expired.\"\n    except jwt.InvalidTokenError:\n        return \"Invalid credentials.\"\n```",
           "documentIds": [94, 95],
           "youtubeIds": [19, 20]
+        },
+        {
+          "id": "sec-ch2",
+          "order": 2,
+          "title": "Chapter 2: CORS, CSRF, & Cookie Security",
+          "plainText": "Securing session transport layers requires strict cookie attributes and request filters:\n- **Cross-Origin Resource Sharing (CORS)**: Blocks untrusted websites from fetching APIs from your backend servers. You must define an allowed whitelist inside your FastAPI or Next.js headers.\n- **Cross-Site Request Forgery (CSRF)**: Occurs when a malicious site triggers a background fetch to your bank website while you are logged in. We prevent this by issuing unique, random CSRF Tokens on forms that the server must validate, and using `SameSite=Strict` cookie flags.\n\nHere is a secure FastAPI middleware configuration establishing CORS boundaries:\n\n```python\nfrom fastapi.middleware.cors import CORSMiddleware\n\napp.add_middleware(\n    CORSMiddleware,\n    allow_origins=[\"https://howtotech.futurelab.studio\"],\n    allow_credentials=True,\n    allow_methods=[\"GET\", \"POST\"],\n    allow_headers=[\"Authorization\", \"X-CSRF-Token\"],\n)\n```",
+          "documentIds": [94, 95],
+          "youtubeIds": [33, 34]
+        },
+        {
+          "id": "sec-ch3",
+          "order": 3,
+          "title": "Chapter 3: OAuth2, OIDC & Federated Logins",
+          "plainText": "Instead of forcing users to create a separate password for every web service (which encourages recycling weak passwords), modern architectures leverage Federated Logins via OAuth2 and OpenID Connect (OIDC).\n\nOAuth2 is a delegation protocol. The user requests access, logs in on a trusted server (like Google or GitHub), gets redirected back with a temporary Authorization Code, and the client exchanges this code in the background for an Access Token to load user details safely.\n\n```\n+-------------+          Redirect Login         +---------------+\n| Your Client | +-----------------------------> | Identity Prov |\n|  Web App    | <-----------------------------+ | (e.g. Google) |\n+------+------+     Auth Code in Callback URL   +-------+------+\n       |                                                | \n       |  Send Auth Code + Client Secret                | \n       +----------------------------------------------> | \n       | <----------------------------------------------+ \n       |               Return Access Token              | \n       v                                                v\n```\n\n```python\n# Exchange temp authorization code for access token in backend\nimport requests\n\ndef exchange_auth_code(code: str):\n    response = requests.post(\n        \"https://oauth2.googleapis.com/token\",\n        data={\n            \"code\": code,\n            \"client_id\": \"YOUR_GOOGLE_CLIENT_ID\",\n            \"client_secret\": \"YOUR_GOOGLE_SECRET\",\n            \"redirect_uri\": \"https://my-app.com/callback\",\n            \"grant_type\": \"authorization_code\"\n        }\n    )\n    return response.json()\n```",
+          "documentIds": [33, 94, 95],
+          "youtubeIds": [35, 36]
         }
       ],
       "quiz": [
@@ -190,17 +289,33 @@
           "id": "ux-ch1",
           "order": 1,
           "title": "Chapter 1: Laws of User Experience",
-          "plainText": "UX Design focuses on reducing 'Cognitive Load'—the mental effort needed by a user to complete a task. By using cognitive design laws, your applications feel intuitive.\n\n- Hick's Law: The time to make a decision increases with the number and complexity of options. Keeping navigation choices and buttons minimal helps users reach targets quickly.\n- Fitts's Law: The time to click a button depends on its size and distance. Active buttons (like 'Read Guide' or search buttons) should be large, generously padded, and clearly separated to prevent accidental clicks (especially crucial for senior citizens).\n\nHere is a Tailwind config snippet that extends border-radius to align with soft neomorphic styling principles:\n\n```typescript\n// tailwind.config.ts\nextend: {\n  borderRadius: {\n    '3xl': '1.5rem',\n    '4xl': '2rem',\n    '[32px]': '32px',\n  },\n  boxShadow: {\n    'soft': '0 20px 40px -15px rgba(15, 23, 42, 0.03)',\n  }\n}\n```",
-          "documentIds": [64, 65, 63],
-          "youtubeIds": [21, 22]
+          "plainText": "UX Design focuses on minimizing Cognitive Load—the mental processing power needed by a user to interact with your system. We apply standard cognitive UX laws:\n- **Hick's Law**: The decision-making time increases with the number of choices presented. Keeping search filters and navigation options minimal helps users complete tasks without feeling overwhelmed.\n- **Fitts's Law**: The target acquisition speed depends on the size and proximity of buttons. Important buttons (like 'Submit Query' or 'Exit Syllabus') should be large, spaced out, and clearly colored to prevent misclicks (especially critical for seniors).\n\nHere is a Tailwind CSS template demonstrating large neomorphic button designs for easy accessibility:\n\n```html\n<button className=\"px-8 py-4 bg-white text-slate-800 font-bold border border-slate-100 rounded-3xl shadow-[0_10px_25px_-5px_rgba(0,0,0,0.02)] hover:border-slate-300 transition-all\">\n  Large Accessible Action\n</button>\n```",
+          "documentIds": [64, 65, 62],
+          "youtubeIds": [37, 38]
         },
         {
           "id": "ux-ch2",
           "order": 2,
-          "title": "Chapter 2: Digital Accessibility (A11y)",
-          "plainText": "Web Accessibility (a11y) means ensuring your products are fully usable by everyone, including people with visual, cognitive, or physical limitations. The W3C establishes the WCAG guidelines to standardize accessibility:\n\n1. Contrast Ratios: Ensure all regular texts maintain a contrast ratio of at least 4.5:1 against the background.\n2. Keyboard Traversal: All buttons and inputs must be fully accessible using 'Tab' and 'Enter' keys, with clear outline focus rings:\n\n```css\n/* Focus states are critical for keyboard-navigable access */\nbutton:focus-visible,\ninput:focus-visible {\n  outline: 2px solid #6366f1;\n  outline-offset: 4px;\n}\n```\n\n3. Semantic Outline: Screen readers navigate pages by jumping across headers. Every page MUST have a single <h1> tag, followed by nested, logical <h2> and <h3> tags. Never skip a heading level.",
+          "title": "Chapter 2: Digital Accessibility (WCAG & A11y)",
+          "plainText": "Digital Accessibility (a11y) guarantees that users with visual, cognitive, or physical limitations can easily browse your website. The W3C dictates WCAG (Web Content Accessibility Guidelines) parameters:\n- **Contrast Ratios**: Body texts must maintain a contrast ratio of at least 4.5:1 against the background (7:1 for advanced high-contrast levels) to be read by colorblind or low-vision users.\n- **Keyboard Traversal**: Users who cannot use a mouse navigate via tabs. Focus outlines must be thick, colorful, and fully traversable without skipping:\n\n```css\n/* Focus rings must never be hidden with outline: none */\nbutton:focus-visible,\ninput:focus-visible {\n  outline: 3px solid #4f46e5;\n  outline-offset: 4px;\n}\n```\n- **Semantic Outlines**: Screen readers traverse pages jumping between headings. Every page must contain exactly one `<h1>` tag, nested sequentially with `<h2>` and `<h3>` structural headers.",
           "documentIds": [66, 67, 68],
-          "youtubeIds": [23, 24]
+          "youtubeIds": [39, 40]
+        },
+        {
+          "id": "ux-ch3",
+          "order": 3,
+          "title": "Chapter 3: Typography, Spacing, & Visual Hierarchy",
+          "plainText": "Visual Hierarchy guides the user's eyes to important information first. To build cohesive layouts:\n- **Type Scales**: Establish strict modular sizing structures (e.g. 1.25x scaling where header text flows from 16px to 20px, 25px, 31px, and 39px sequentially).\n- **White Space (Negative Space)**: Avoid packing items too close together. Spacing gives components breathing room, making scanning paragraphs simple and decreasing visual fatigue.\n- **Line Sizing**: Never let paragraph text expand across the entire width of a wide screen. The optimal line character limit is between 50 to 75 characters per row:\n\n```css\np {\n  max-width: 65ch; /* Keeps readability optimal */\n  line-height: 1.6; /* 1.6 spacing feels extremely natural */\n  color: #334155; /* Slate-700 yields premium readability */\n}\n```",
+          "documentIds": [21, 56, 64],
+          "youtubeIds": [41, 42]
+        },
+        {
+          "id": "ux-ch4",
+          "order": 4,
+          "title": "Chapter 4: WCAG Compliance Auditing & Tooling",
+          "plainText": "To guarantee your website remains WCAG compliant, you must integrate auditing tools directly into your deployment pipeline:\n- **Lighthouse**: Google's automated tool measuring speed, SEO, best practices, and standard accessibility benchmarks.\n- **Axe Core**: The gold-standard automated engine scanning DOM structures for accessibility issues (e.g. missing `alt` labels on images, hidden elements containing keyboard focus trap errors, lack of `aria-label` attributes on custom icon buttons).\n\nHere is a HTML template demonstrating correct ARIA label attributes for an icon-only button:\n\n```html\n<!-- Icon-only buttons MUST declare aria-labels so screen readers announce their function -->\n<button aria-label=\"Close details dialog\" onClick={closeModal}>\n  <svg className=\"w-5 h-5\" fill=\"none\" viewBox=\"0 0 24 24\">\n    <path stroke=\"currentColor\" d=\"M6 18L18 6M6 6l12 12\"></path>\n  </svg>\n</button>\n```",
+          "documentIds": [66, 67, 68],
+          "youtubeIds": [43, 44]
         }
       ],
       "quiz": [

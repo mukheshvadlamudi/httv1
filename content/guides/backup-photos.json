@@ -1,0 +1,44 @@
+{
+  "id": "backup-photos",
+  "slug": "backup-photos",
+  "title": "How to back up photos to Google Photos or iCloud",
+  "description": "Ensure your precious memories are safely backed up in the cloud so you never lose them if your phone breaks.",
+  "category": "Mobile",
+  "audience": "Beginner",
+  "difficulty": "Easy",
+  "estimatedMinutes": 6,
+  "lastUpdated": "2026-05-24",
+  "steps": [
+    {
+      "order": 1,
+      "title": "Connect to your home Wi-Fi",
+      "body": "Uploading hundreds of high-quality photos can take a lot of internet data. Make sure your phone is connected to your home Wi-Fi network and plugged into a charger."
+    },
+    {
+      "order": 2,
+      "title": "Enable iCloud Photo Backup on iPhone",
+      "body": "Open the 'Settings' app, tap your name at the very top of the list, tap 'iCloud', tap 'Photos', and toggle the switch for 'Sync this iPhone' to green."
+    },
+    {
+      "order": 3,
+      "title": "Enable Google Photos Backup on Android",
+      "body": "Open the Google Photos app (looks like a colorful pinwheel), tap your profile picture in the top-right corner, tap 'Photos settings', select 'Backup', and turn on the 'Backup' toggle switch."
+    },
+    {
+      "order": 4,
+      "title": "Verify your upload progress",
+      "body": "Keep the app open for a few minutes. You will see a small circular arrow icon spin, showing that photos are copying to the cloud. A checkmark means everything is backed up!"
+    }
+  ],
+  "glossary": [
+    {
+      "term": "iCloud",
+      "definition": "Apple's cloud storage service that automatically keeps your iPhone photos, notes, and documents backed up safely online."
+    },
+    {
+      "term": "Google Photos",
+      "definition": "An app by Google that stores and organizes your photos in your online Google Account."
+    }
+  ],
+  "tags": ["photos", "backup", "icloud", "google photos", "mobile"]
+}

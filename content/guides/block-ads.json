@@ -1,0 +1,44 @@
+{
+  "id": "block-ads",
+  "slug": "block-ads",
+  "title": "How to block online ads and web trackers",
+  "description": "Stop annoying pop-up ads, block trackers, and protect your privacy while speeding up your web browsing.",
+  "category": "Productivity",
+  "audience": "Beginner",
+  "difficulty": "Easy",
+  "estimatedMinutes": 4,
+  "lastUpdated": "2026-05-24",
+  "steps": [
+    {
+      "order": 1,
+      "title": "Open your web browser extension store",
+      "body": "Open your web browser (Chrome, Edge, or Firefox). Click the menu button (three dots or lines in the top right), select 'Extensions', and click 'Open Chrome Web Store' or 'Add-ons'."
+    },
+    {
+      "order": 2,
+      "title": "Search for uBlock Origin",
+      "body": "Type 'uBlock Origin' in the search bar of the store. uBlock Origin is widely recommended because it is completely free, open-source, and does not slow down your computer."
+    },
+    {
+      "order": 3,
+      "title": "Click Add to Browser",
+      "body": "Tap the blue button that says 'Add to Chrome', 'Get', or 'Add to Firefox'. A small window will pop up asking for confirmation. Click 'Add extension'."
+    },
+    {
+      "order": 4,
+      "title": "Confirm it is active",
+      "body": "You will see a small red shield icon appear in the top-right corner of your browser toolbar. This shield automatically blocks ads. When you visit websites, you will notice clean pages with no flashing banners!"
+    }
+  ],
+  "glossary": [
+    {
+      "term": "Browser extension",
+      "definition": "A small add-on program you install inside your web browser to give it extra features, like ad-blockers or price comparison tools."
+    },
+    {
+      "term": "Web tracker",
+      "definition": "A hidden script on websites that records your clicks, search history, and shopping habits to show you targeted ads."
+    }
+  ],
+  "tags": ["ad blocker", "browser", "privacy", "productivity"]
+}

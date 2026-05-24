@@ -161,8 +161,14 @@ export function KnowledgeVault() {
       const backend = SYLLABUS_TRACKS.find(t => t.id === "backend-dev")?.chapters || [];
       
       const merged = [
-        ...frontend.map((c, i) => ({ ...c, id: `fs-fe-${c.id}`, order: i + 1 })),
-        ...backend.map((c, i) => ({ ...c, id: `fs-be-${c.id}`, order: frontend.length + i + 1 }))
+        ...frontend.map((c, i) => {
+          const newTitle = c.title.replace(/^Chapter \d+:/, `Chapter ${i + 1}:`);
+          return { ...c, id: `fs-fe-${c.id}`, order: i + 1, title: newTitle };
+        }),
+        ...backend.map((c, i) => {
+          const newTitle = c.title.replace(/^Chapter \d+:/, `Chapter ${frontend.length + i + 1}:`);
+          return { ...c, id: `fs-be-${c.id}`, order: frontend.length + i + 1, title: newTitle };
+        })
       ];
       return merged;
     }
@@ -251,19 +257,19 @@ export function KnowledgeVault() {
       {viewState === "domains" && (
         <div className="space-y-12">
           {/* Welcome Banner */}
-          <div className="bg-slate-900 text-white rounded-[2rem] p-8 md:p-12 relative overflow-hidden shadow-lg">
-            {/* Ambient visual gradient */}
-            <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500 rounded-full blur-3xl opacity-10 -mr-20 -mt-20" />
+          <div className="bg-slate-900 text-white rounded-[2rem] p-8 md:p-12 relative overflow-hidden shadow-lg border border-slate-800">
+            {/* Ambient visual grey gradient */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-slate-800 rounded-full blur-3xl opacity-20 -mr-20 -mt-20" />
             
-            <span className="text-[10px] uppercase tracking-widest font-bold text-blue-400 bg-blue-500/10 border border-blue-500/20 px-3 py-1 rounded-full">
-              Developer Academy
+            <span className="text-[10px] uppercase tracking-widest font-bold text-slate-300 bg-slate-800/80 border border-slate-700 px-3 py-1 rounded-full">
+              Developer Hub
             </span>
             <h2 className="font-sans font-bold text-3xl md:text-5xl text-white tracking-tight leading-tight mt-4">
-              Learn Engineering <br className="hidden sm:inline" />
-              in <span className="text-blue-400">plain English</span>.
+              Learn Technical Skills <br className="hidden sm:inline" />
+              in <span className="text-slate-300">Simple Words</span>.
             </h2>
             <p className="text-slate-400 text-xs md:text-sm mt-3 max-w-xl leading-relaxed">
-              No jargon roadblocks. Read comprehensive course textbooks directly on-site and explore reference documentations from the Futurelab Vault.
+              Clear, step-by-step developer textbooks. Skip the confusing jargon and read direct guides grounded in the Futurelab Knowledge Vault.
             </p>
           </div>
 

@@ -1,0 +1,44 @@
+{
+  "id": "phone-scams",
+  "slug": "phone-scams",
+  "title": "How to spot and block phone scam texts",
+  "description": "A beginner's guide to identifying text message scams (smishing) and blocking numbers on iPhone or Android.",
+  "category": "Security",
+  "audience": "Beginner",
+  "difficulty": "Easy",
+  "estimatedMinutes": 5,
+  "lastUpdated": "2026-05-24",
+  "steps": [
+    {
+      "order": 1,
+      "title": "Look for urgent warnings and sketchy links",
+      "body": "Scammers often send fake messages pretending to be USPS, UPS, Netflix, or your bank. They will claim a parcel could not be delivered or your account is suspended. Look at the link: if it doesn't end with the official website (like usps.com), it is a scam!"
+    },
+    {
+      "order": 2,
+      "title": "Never click links or call back the sender",
+      "body": "Clicking a link can install silent virus software or direct you to a fake website designed to steal your passwords or credit card numbers. If you think the message might be real, open your browser and go directly to the official site yourself."
+    },
+    {
+      "order": 3,
+      "title": "Block the number on iPhone",
+      "body": "Open the message, tap the sender's circular profile icon at the top of the screen, tap 'Info', and select the red option 'Block this Caller' at the bottom of the list. Confirm your block."
+    },
+    {
+      "order": 4,
+      "title": "Block the number on Android",
+      "body": "Open the message, tap the three dots icon in the top right corner, select 'Details' or 'Options', and tap 'Block & report spam'. Tap 'OK' to confirm."
+    }
+  ],
+  "glossary": [
+    {
+      "term": "Smishing",
+      "definition": "A form of phishing where scammers send fraudulent text messages to trick you into sharing sensitive bank or login details."
+    },
+    {
+      "term": "Spam reporting",
+      "definition": "Sending a notification to your mobile carrier (or phone manufacturer) about a scam sender to help them block the number for everyone."
+    }
+  ],
+  "tags": ["security", "safety", "phone scams", "blocking"]
+}

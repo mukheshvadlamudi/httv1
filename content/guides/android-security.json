@@ -1,0 +1,44 @@
+{
+  "id": "android-security",
+  "slug": "android-security",
+  "title": "How to manage phone app permissions and location privacy",
+  "description": "Stop apps from spying on your camera, microphone, or tracking your location in the background.",
+  "category": "Security",
+  "audience": "Beginner",
+  "difficulty": "Easy",
+  "estimatedMinutes": 5,
+  "lastUpdated": "2026-05-24",
+  "steps": [
+    {
+      "order": 1,
+      "title": "Open the Permission Manager inside Settings",
+      "body": "Open your phone's 'Settings' app. Scroll down and tap on 'Privacy' or 'Apps', then look for 'Permission manager' or 'App permissions'."
+    },
+    {
+      "order": 2,
+      "title": "Check which apps track your Location",
+      "body": "Tap on 'Location'. You will see a list of apps split by permissions: 'Allowed all the time', 'Allowed only while in use', and 'Not allowed'. Check if any games or calculators have location access."
+    },
+    {
+      "order": 3,
+      "title": "Disable location tracking for suspicious apps",
+      "body": "Tap on any app that doesn't need to know where you are. Change the setting to 'Don't allow'. For apps like maps or weather, choose 'Allow only while using the app'."
+    },
+    {
+      "order": 4,
+      "title": "Review Camera and Microphone access",
+      "body": "Go back to the Permission Manager. Tap on 'Camera' and 'Microphone'. Turn off permissions for any app that has no business listening in or watching you."
+    }
+  ],
+  "glossary": [
+    {
+      "term": "App permissions",
+      "definition": "Security settings that govern whether a phone app is allowed to access features like your camera, contact list, files, or microphone."
+    },
+    {
+      "term": "Location tracking",
+      "definition": "A phone feature that uses GPS coordinates to pinpoint exactly where you are standing in the world."
+    }
+  ],
+  "tags": ["security", "privacy", "location tracking", "android", "iphone"]
+}

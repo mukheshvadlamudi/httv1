@@ -8,6 +8,7 @@ interface UserDashboardProps {
   completedLessons: Record<string, boolean>;
   onSelectGuide: (slug: string) => void;
   onNavigateToView: (view: "landing" | "library" | "paths" | "tools") => void;
+  currentUser: { name: string; email: string } | null;
 }
 
 export function UserDashboard({
@@ -15,7 +16,8 @@ export function UserDashboard({
   allGuides,
   completedLessons,
   onSelectGuide,
-  onNavigateToView
+  onNavigateToView,
+  currentUser
 }: UserDashboardProps) {
   
   // Mapped bookmarked guides
@@ -44,7 +46,7 @@ export function UserDashboard({
             Learning Explorer
           </span>
           <h3 className="font-sans font-bold text-2xl text-slate-900 mt-1">
-            Welcome back, Explorer!
+            Welcome back, {currentUser ? currentUser.name : "Explorer"}!
           </h3>
           <p className="text-slate-500 text-xs">
             Review your saved guide sheets, bookmark catalogs, and learning pathways.

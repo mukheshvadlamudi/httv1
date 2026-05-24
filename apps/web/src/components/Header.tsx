@@ -1,14 +1,23 @@
 import React from "react";
-import { Settings, Cpu, Sparkles } from "lucide-react";
+import { Cpu, Sparkles, User, LogOut } from "lucide-react";
 
 interface HeaderProps {
   currentTrack: "everyday" | "developer";
   onTrackChange: (track: "everyday" | "developer") => void;
-  onOpenSettings: () => void;
-  hasApiKey: boolean;
+  currentUser: { name: string; email: string } | null;
+  onOpenAuth: () => void;
+  onOpenDashboard: () => void;
+  onSignOut: () => void;
 }
 
-export function Header({ currentTrack, onTrackChange, onOpenSettings, hasApiKey }: HeaderProps) {
+export function Header({ 
+  currentTrack, 
+  onTrackChange, 
+  currentUser, 
+  onOpenAuth, 
+  onOpenDashboard, 
+  onSignOut 
+}: HeaderProps) {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-slate-100 bg-white/80 backdrop-blur-md px-6 py-4 flex items-center justify-between">
       {/* Brand Identity / Dotted Logo */}
@@ -59,18 +68,35 @@ export function Header({ currentTrack, onTrackChange, onOpenSettings, hasApiKey 
           </button>
         </nav>
 
-        {/* Right side Actions */}
-        <div className="flex items-center gap-3">
-          <button
-            onClick={onOpenSettings}
-            className="relative flex items-center justify-center p-2.5 rounded-full hover:bg-slate-50 border border-slate-100 text-slate-500 hover:text-slate-900 transition-colors"
-            title="Configure API Key"
-          >
-            <Settings className="w-4 h-4" />
-            {hasApiKey && (
-              <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-emerald-500 ring-2 ring-white" />
-            )}
-          </button>
+        {/* Right side Actions (Authentication / Profile Desk) */}
+        <div className="flex items-center gap-2 border-l border-slate-100 pl-4">
+          {currentUser ? (
+            <div className="flex items-center gap-2">
+              <button
+                onClick={onOpenDashboard}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full hover:bg-slate-50 border border-slate-200 text-[11px] font-bold text-slate-700 transition-all shadow-sm"
+                title="View Explorer Panel"
+              >
+                <User className="w-3.5 h-3.5 text-slate-950" />
+                <span className="line-clamp-1">{currentUser.name}</span>
+              </button>
+              <button
+                onClick={onSignOut}
+                className="p-2 hover:bg-rose-50 text-slate-400 hover:text-rose-600 border border-slate-100 hover:border-rose-100 rounded-full transition-colors"
+                title="Sign Out"
+              >
+                <LogOut className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          ) : (
+            <button
+              onClick={onOpenAuth}
+              className="px-4 py-1.5 bg-slate-900 hover:bg-slate-800 text-white rounded-full text-xs font-bold transition-all shadow-sm flex items-center gap-1.5"
+            >
+              <User className="w-3.5 h-3.5" />
+              Sign In
+            </button>
+          )}
         </div>
       </div>
     </header>

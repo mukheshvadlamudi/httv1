@@ -3,16 +3,30 @@ import { Guide } from "../data/mock-guides";
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+    ...(init?.headers as Record<string, string> || {}),
+  };
+
+  if (typeof window !== "undefined") {
+    const token = localStorage.getItem("how_to_tech_auth_token");
+    if (token && !headers["Authorization"]) {
+      headers["Authorization"] = `Bearer ${token}`;
+    }
+  }
+
   const response = await fetch(`${API_URL}${path}`, {
     ...init,
-    headers: {
-      "Content-Type": "application/json",
-      ...(init?.headers || {}),
-    },
+    headers,
   });
 
   if (!response.ok) {
-    throw new Error(`API request failed: ${response.status} ${response.statusText}`);
+    let errorDetail = "";
+    try {
+      const data = await response.json();
+      errorDetail = data.detail || "";
+    } catch (_) {}
+    throw new Error(errorDetail || `API request failed: ${response.status} ${response.statusText}`);
   }
 
   return response.json() as Promise<T>;
@@ -77,4 +91,36 @@ export async function submitAiFeedback(answerId: string, feedback: FeedbackCreat
     body: JSON.stringify(feedback),
   });
 }
+
+// User Authentication Endpoints
+export interface UserProfile {
+  id: number;
+  name: string;
+  email: string;
+  created_at: string;
+}
+
+export interface TokenPayload {
+  access_token: string;
+  token_type: string;
+}
+
+export async function registerUser(name: string, email: string, password: string): Promise<UserProfile> {
+  return request<UserProfile>("/auth/register", {
+    method: "POST",
+    body: JSON.stringify({ name, email, password }),
+  });
+}
+
+export async function loginUser(email: string, password: string): Promise<TokenPayload> {
+  return request<TokenPayload>("/auth/login", {
+    method: "POST",
+    body: JSON.stringify({ email, password }),
+  });
+}
+
+export async function getMe(): Promise<UserProfile> {
+  return request<UserProfile>("/auth/me");
+}
+
 
