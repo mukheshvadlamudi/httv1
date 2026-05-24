@@ -89,26 +89,7 @@ export function AskAIBox({ track, onSelectGuide }: AskAIBoxProps) {
       await new Promise((resolve) => setTimeout(resolve, 800));
     }
 
-    try {
-      const response = await askAi(question);
-      const relatedSlug = response.relatedGuideSlugs[0] || "gmail-password-reset";
-      const result = {
-        keywords: [],
-        answer: response.answer,
-        simpleAnswer: response.answer,
-        relatedSlug,
-      };
-      setFullResponse(result);
-      setLiveAnswer(response.answer);
-      setLiveSimpleAnswer(response.answer);
-      setActiveAnswerId(response.id);
-      setLoading(false);
-      streamText(response.answer);
-      return;
-    } catch (err) {
-      console.warn("FastAPI backend askAi failed/offline, trying local Next.js API route...", err);
-    }
-
+    // 1. Try calling our local Next.js API route which has the actual LLM logic
     try {
       const response = await fetch("/api/ai/question", {
         method: "POST",
@@ -134,9 +115,31 @@ export function AskAIBox({ track, onSelectGuide }: AskAIBoxProps) {
         return;
       }
     } catch (err) {
-      console.error("Local Next.js API route failed, falling back to simulated answers...", err);
+      console.warn("Local Next.js API route failed, trying FastAPI backend...", err);
     }
 
+    // 2. Try calling the FastAPI backend via askAi (currently a mock implementation)
+    try {
+      const response = await askAi(question);
+      const relatedSlug = response.relatedGuideSlugs[0] || "gmail-password-reset";
+      const result = {
+        keywords: [],
+        answer: response.answer,
+        simpleAnswer: response.answer,
+        relatedSlug,
+      };
+      setFullResponse(result);
+      setLiveAnswer(response.answer);
+      setLiveSimpleAnswer(response.answer);
+      setActiveAnswerId(response.id);
+      setLoading(false);
+      streamText(response.answer);
+      return;
+    } catch (err) {
+      console.warn("FastAPI backend askAi failed/offline, falling back to simulated answers...", err);
+    }
+
+    // 3. Fallback: Simulated offline local keyword match
     const match = SIMULATED_ANSWERS.find((item) =>
       item.keywords.some((kw) => question.toLowerCase().includes(kw))
     );

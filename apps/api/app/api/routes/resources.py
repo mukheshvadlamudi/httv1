@@ -1,3 +1,5 @@
+from __future__ import annotations
+from typing import Optional
 from fastapi import APIRouter, Depends, Query
 from sqlalchemy import or_, select
 from sqlalchemy.orm import Session
@@ -22,9 +24,9 @@ def serialize_resource(resource: Resource) -> ResourceRead:
 
 @router.get("", response_model=list[ResourceRead])
 def list_resources(
-    source_type: str | None = Query(default=None, pattern="^(website|youtube)$"),
-    category: str | None = None,
-    q: str | None = None,
+    source_type: Optional[str] = Query(default=None, pattern="^(website|youtube)$"),
+    category: Optional[str] = None,
+    q: Optional[str] = None,
     limit: int = Query(default=50, ge=1, le=100),
     db: Session = Depends(get_db),
 ) -> list[ResourceRead]:

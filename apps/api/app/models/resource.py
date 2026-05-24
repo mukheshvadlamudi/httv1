@@ -1,3 +1,5 @@
+from __future__ import annotations
+from typing import Optional
 from datetime import datetime
 
 from sqlalchemy import DateTime, String, Text, UniqueConstraint, func
@@ -14,7 +16,7 @@ class Resource(Base):
     source_type: Mapped[str] = mapped_column(String(40), index=True)
     name: Mapped[str] = mapped_column(String(240), index=True)
     url: Mapped[str] = mapped_column(Text)
-    category: Mapped[str | None] = mapped_column(String(160), index=True)
-    why_useful: Mapped[str | None] = mapped_column(Text)
+    category: Mapped[Optional[str]] = mapped_column(String(160), index=True)
+    why_useful: Mapped[Optional[str]] = mapped_column(Text)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
 

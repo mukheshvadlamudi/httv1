@@ -1,3 +1,5 @@
+from __future__ import annotations
+from typing import Optional
 from datetime import date
 
 from pydantic import BaseModel, ConfigDict
@@ -6,7 +8,7 @@ from pydantic import BaseModel, ConfigDict
 class CategoryRead(BaseModel):
     slug: str
     name: str
-    description: str | None = None
+    description: Optional[str] = None
 
     model_config = ConfigDict(from_attributes=True)
 

@@ -1,3 +1,5 @@
+from __future__ import annotations
+from typing import Optional
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy import or_, select
 from sqlalchemy.orm import Session, selectinload
@@ -42,9 +44,9 @@ def serialize_guide(guide: Guide) -> GuideRead:
 
 @router.get("", response_model=list[GuideListItem])
 def list_guides(
-    q: str | None = Query(default=None),
-    category: str | None = Query(default=None),
-    difficulty: str | None = Query(default=None),
+    q: Optional[str] = Query(default=None),
+    category: Optional[str] = Query(default=None),
+    difficulty: Optional[str] = Query(default=None),
     db: Session = Depends(get_db),
 ) -> list[GuideListItem]:
     stmt = (

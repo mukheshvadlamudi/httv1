@@ -1,3 +1,5 @@
+from __future__ import annotations
+from typing import Optional
 from datetime import date, datetime
 
 from pgvector.sqlalchemy import Vector
@@ -20,7 +22,7 @@ class Category(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     slug: Mapped[str] = mapped_column(String(120), unique=True, index=True)
     name: Mapped[str] = mapped_column(String(120), unique=True)
-    description: Mapped[str | None] = mapped_column(Text)
+    description: Mapped[Optional[str]] = mapped_column(Text)
 
     guides: Mapped[list["Guide"]] = relationship(back_populates="category")
 
@@ -84,4 +86,4 @@ class GuideEmbedding(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     guide_id: Mapped[int] = mapped_column(ForeignKey("guides.id", ondelete="CASCADE"), unique=True)
-    embedding: Mapped[list[float] | None] = mapped_column(Vector(384))
+    embedding: Mapped[Optional[list[float]]] = mapped_column(Vector(384))

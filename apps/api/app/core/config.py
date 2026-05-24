@@ -1,3 +1,5 @@
+from __future__ import annotations
+from typing import Optional
 from functools import cached_property
 
 from pydantic import field_validator
@@ -6,7 +8,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
     database_url: str = "postgresql+psycopg://howtotech:howtotech@localhost:5433/howtotech"
-    excel_source_path: str | None = None
+    excel_source_path: Optional[str] = None
     jwt_secret_key: str = "change-me"
     backend_cors_origins: str = "http://localhost:3000"
 

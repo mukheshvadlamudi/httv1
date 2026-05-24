@@ -1,3 +1,5 @@
+from __future__ import annotations
+from typing import Optional
 from datetime import datetime
 
 from sqlalchemy import DateTime, ForeignKey, String, Text, func
@@ -12,7 +14,7 @@ class GuideFeedback(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     guide_id: Mapped[int] = mapped_column(ForeignKey("guides.id", ondelete="CASCADE"))
     rating: Mapped[str] = mapped_column(String(30))
-    comment: Mapped[str | None] = mapped_column(Text)
+    comment: Mapped[Optional[str]] = mapped_column(Text)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
 
 
@@ -22,6 +24,6 @@ class AiAnswerFeedback(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     answer_id: Mapped[str] = mapped_column(String(120), index=True)
     rating: Mapped[str] = mapped_column(String(30))
-    comment: Mapped[str | None] = mapped_column(Text)
+    comment: Mapped[Optional[str]] = mapped_column(Text)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
 
