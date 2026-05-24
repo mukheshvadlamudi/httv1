@@ -3,7 +3,7 @@ services:
     name: howtotech-api
     runtime: docker
     dockerfilePath: ./apps/api/Dockerfile
-    dockerContext: .
+    dockerContext: ./apps/api
     plan: free
     envVars:
       - key: DATABASE_URL
