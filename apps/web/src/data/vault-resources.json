@@ -1,0 +1,906 @@
+{
+  "websites": [
+    {
+      "id": 1,
+      "resource": "MDN Web Docs",
+      "url": "https://developer.mozilla.org",
+      "category": "Frontend / Web fundamentals",
+      "why_useful": "Best reference for HTML, CSS, JavaScript, browser APIs."
+    },
+    {
+      "id": 2,
+      "resource": "web.dev",
+      "url": "https://web.dev",
+      "category": "Frontend / Performance",
+      "why_useful": "Great for modern web performance, Core Web Vitals, UX best practices."
+    },
+    {
+      "id": 3,
+      "resource": "roadmap.sh",
+      "url": "https://roadmap.sh",
+      "category": "Learning paths",
+      "why_useful": "Clear developer roadmaps for frontend, backend, DevOps, AI, etc."
+    },
+    {
+      "id": 4,
+      "resource": "Frontend Mentor",
+      "url": "https://www.frontendmentor.io",
+      "category": "Practice",
+      "why_useful": "Build real UI projects and improve frontend execution."
+    },
+    {
+      "id": 5,
+      "resource": "Awwwards",
+      "url": "https://www.awwwards.com",
+      "category": "Design reference",
+      "why_useful": "High-end website inspiration and visual interaction ideas."
+    },
+    {
+      "id": 6,
+      "resource": "Mobbin",
+      "url": "https://mobbin.com",
+      "category": "Product design reference",
+      "why_useful": "Huge library of real mobile and web app UI patterns."
+    },
+    {
+      "id": 7,
+      "resource": "Dribbble",
+      "url": "https://dribbble.com",
+      "category": "Visual design reference",
+      "why_useful": "Useful for visual styles, components, layouts, and brand inspiration."
+    },
+    {
+      "id": 8,
+      "resource": "Behance",
+      "url": "https://www.behance.net",
+      "category": "Portfolio / Brand design",
+      "why_useful": "Strong for case studies, brand systems, and visual direction."
+    },
+    {
+      "id": 9,
+      "resource": "Figma Community",
+      "url": "https://www.figma.com/community",
+      "category": "Design assets",
+      "why_useful": "Free UI kits, templates, design systems, and plugins."
+    },
+    {
+      "id": 10,
+      "resource": "UI8",
+      "url": "https://ui8.net",
+      "category": "Premium UI assets",
+      "why_useful": "Polished UI kits, illustrations, templates, and dashboards."
+    },
+    {
+      "id": 11,
+      "resource": "Vercel Templates",
+      "url": "https://vercel.com/templates",
+      "category": "Full-stack templates",
+      "why_useful": "Ready-to-use Next.js, AI, SaaS, and frontend starter templates."
+    },
+    {
+      "id": 12,
+      "resource": "Supabase Docs",
+      "url": "https://supabase.com/docs",
+      "category": "Backend / Database",
+      "why_useful": "Excellent documentation for auth, database, vector search, realtime."
+    },
+    {
+      "id": 13,
+      "resource": "Next.js Docs",
+      "url": "https://nextjs.org/docs",
+      "category": "Frontend framework",
+      "why_useful": "Gold-standard React framework documentation and architecture guidance."
+    },
+    {
+      "id": 14,
+      "resource": "Tailwind CSS Docs",
+      "url": "https://tailwindcss.com/docs",
+      "category": "UI / CSS framework",
+      "why_useful": "Fastest way to build clean modern interfaces."
+    },
+    {
+      "id": 15,
+      "resource": "shadcn/ui",
+      "url": "https://ui.shadcn.com",
+      "category": "UI components",
+      "why_useful": "Beautiful, production-grade React components with clean architecture."
+    },
+    {
+      "id": 16,
+      "resource": "GitHub Explore",
+      "url": "https://github.com/explore",
+      "category": "Open-source discovery",
+      "why_useful": "Discover trending repos, engineering ideas, and developer tooling."
+    },
+    {
+      "id": 17,
+      "resource": "DevDocs",
+      "url": "https://devdocs.io",
+      "category": "Developer reference",
+      "why_useful": "Unified searchable documentation across frameworks and languages."
+    },
+    {
+      "id": 18,
+      "resource": "Docker Docs",
+      "url": "https://docs.docker.com",
+      "category": "DevOps / Infrastructure",
+      "why_useful": "Essential for containerization and deployment workflows."
+    },
+    {
+      "id": 19,
+      "resource": "Kubernetes Docs",
+      "url": "https://kubernetes.io/docs",
+      "category": "DevOps / Scaling",
+      "why_useful": "Core resource for orchestration, scaling, and production infra."
+    },
+    {
+      "id": 20,
+      "resource": "The Twelve-Factor App",
+      "url": "https://12factor.net",
+      "category": "Backend architecture",
+      "why_useful": "Timeless principles for scalable, maintain"
+    },
+    {
+      "id": 21,
+      "resource": "Refactoring UI",
+      "url": "https://www.refactoringui.com",
+      "category": "UI design",
+      "why_useful": "Practical design guidance for developers."
+    },
+    {
+      "id": 22,
+      "resource": "CSS-Tricks",
+      "url": "https://css-tricks.com",
+      "category": "Frontend / CSS",
+      "why_useful": "Great explanations for layout, CSS patterns, and frontend tricks."
+    },
+    {
+      "id": 23,
+      "resource": "Smashing Magazine",
+      "url": "https://www.smashingmagazine.com",
+      "category": "Frontend / UX",
+      "why_useful": "Deep articles on design, accessibility, CSS, and product UX."
+    },
+    {
+      "id": 24,
+      "resource": "Patterns.dev",
+      "url": "https://www.patterns.dev",
+      "category": "Frontend architecture",
+      "why_useful": "Excellent for React, rendering patterns, and modern web architecture."
+    },
+    {
+      "id": 25,
+      "resource": "Component Gallery",
+      "url": "https://component.gallery",
+      "category": "Design reference",
+      "why_useful": "Real examples of UI components across products."
+    },
+    {
+      "id": 26,
+      "resource": "Page Flows",
+      "url": "https://pageflows.com",
+      "category": "UX reference",
+      "why_useful": "Shows real user flows from successful apps."
+    },
+    {
+      "id": 27,
+      "resource": "Land-book",
+      "url": "https://land-book.com",
+      "category": "Landing page inspiration",
+      "why_useful": "Strong reference for SaaS and startup website design."
+    },
+    {
+      "id": 28,
+      "resource": "SaaS Landing Page",
+      "url": "https://saaslandingpage.com",
+      "category": "Landing page reference",
+      "why_useful": "Useful for positioning, sections, and conversion-focused design."
+    },
+    {
+      "id": 29,
+      "resource": "Lapa Ninja",
+      "url": "https://www.lapa.ninja",
+      "category": "Design inspiration",
+      "why_useful": "Curated landing pages and product site references."
+    },
+    {
+      "id": 30,
+      "resource": "Product Hunt",
+      "url": "https://www.producthunt.com",
+      "category": "Product discovery",
+      "why_useful": "Great for spotting product ideas, UI patterns, and launch positioning."
+    },
+    {
+      "id": 31,
+      "resource": "Indie Hackers",
+      "url": "https://www.indiehackers.com",
+      "category": "Product building",
+      "why_useful": "Useful founder stories, SaaS ideas, and product-building lessons."
+    },
+    {
+      "id": 32,
+      "resource": "Stripe Docs",
+      "url": "https://docs.stripe.com",
+      "category": "API design / Payments",
+      "why_useful": "One of the best references for API documentation and developer experience."
+    },
+    {
+      "id": 33,
+      "resource": "Clerk Docs",
+      "url": "https://clerk.com/docs",
+      "category": "Auth",
+      "why_useful": "Clear reference for modern authentication in web apps."
+    },
+    {
+      "id": 34,
+      "resource": "Prisma Docs",
+      "url": "https://www.prisma.io/docs",
+      "category": "Database / ORM",
+      "why_useful": "Great for database modeling and backend data access."
+    },
+    {
+      "id": 35,
+      "resource": "Neon Docs",
+      "url": "https://neon.com/docs",
+      "category": "Serverless Postgres",
+      "why_useful": "Useful for modern Postgres, branching, and scalable backend setups."
+    },
+    {
+      "id": 36,
+      "resource": "Railway Docs",
+      "url": "https://docs.railway.com",
+      "category": "Deployment",
+      "why_useful": "Simple deployment patterns for full-stack apps."
+    },
+    {
+      "id": 37,
+      "resource": "Fly.io Docs",
+      "url": "https://fly.io/docs",
+      "category": "Deployment / Infra",
+      "why_useful": "Good for deploying apps close to users globally."
+    },
+    {
+      "id": 38,
+      "resource": "Terraform Registry",
+      "url": "https://registry.terraform.io",
+      "category": "DevOps / IaC",
+      "why_useful": "Reference for infrastructure-as-code modules and cloud resources."
+    },
+    {
+      "id": 39,
+      "resource": "System Design Primer",
+      "url": "https://github.com/donnemartin/system-design-primer",
+      "category": "System design",
+      "why_useful": "Classic resource for scalable architecture and interview-level system design."
+    },
+    {
+      "id": 40,
+      "resource": "ByteByteGo",
+      "url": "https://bytebytego.com",
+      "category": "System design",
+      "why_useful": "Clear visual explanations of backend architecture and distributed systems."
+    },
+    {
+      "id": 41,
+      "resource": "React Docs",
+      "url": "https://react.dev",
+      "category": "Frontend framework",
+      "why_useful": "Best reference for component-based UI building in React. (React)"
+    },
+    {
+      "id": 42,
+      "resource": "TypeScript Handbook",
+      "url": "https://www.typescriptlang.org/docs/",
+      "category": "Frontend / Backend language",
+      "why_useful": "Essential for writing safer JavaScript across frontend and backend."
+    },
+    {
+      "id": 43,
+      "resource": "Vite Docs",
+      "url": "https://vite.dev",
+      "category": "Frontend tooling",
+      "why_useful": "Great for fast project setup, frontend builds, and modern dev workflows."
+    },
+    {
+      "id": 44,
+      "resource": "Storybook",
+      "url": "https://storybook.js.org",
+      "category": "UI components",
+      "why_useful": "Helps build, test, and document components in isolation. (Storybook)"
+    },
+    {
+      "id": 45,
+      "resource": "Radix UI",
+      "url": "https://www.radix-ui.com",
+      "category": "UI components",
+      "why_useful": "Excellent unstyled accessible primitives for serious frontend apps."
+    },
+    {
+      "id": 46,
+      "resource": "Motion",
+      "url": "https://motion.dev",
+      "category": "Animation",
+      "why_useful": "Great for smooth product animations in React and modern web apps."
+    },
+    {
+      "id": 47,
+      "resource": "GSAP",
+      "url": "https://gsap.com",
+      "category": "Web animation",
+      "why_useful": "Powerful animation library for polished, high-end interactive websites."
+    },
+    {
+      "id": 48,
+      "resource": "Three.js",
+      "url": "https://threejs.org",
+      "category": "3D web graphics",
+      "why_useful": "Best starting point for 3D, WebGL, immersive interfaces, and product visuals."
+    },
+    {
+      "id": 49,
+      "resource": "D3.js",
+      "url": "https://d3js.org",
+      "category": "Data visualization",
+      "why_useful": "Powerful toolkit for custom charts, dashboards, and visual analytics."
+    },
+    {
+      "id": 50,
+      "resource": "Observable",
+      "url": "https://observablehq.com",
+      "category": "Data visualization",
+      "why_useful": "Great for interactive notebooks, data stories, and visual explorations."
+    },
+    {
+      "id": 51,
+      "resource": "CodePen",
+      "url": "https://codepen.io",
+      "category": "Frontend inspiration",
+      "why_useful": "Useful for experimenting with CSS, animations, micro-interactions, and UI snippets."
+    },
+    {
+      "id": 52,
+      "resource": "StackBlitz",
+      "url": "https://stackblitz.com",
+      "category": "Online IDE",
+      "why_useful": "Browser-based coding environment for quickly testing frontend/full-stack ideas."
+    },
+    {
+      "id": 53,
+      "resource": "CodeSandbox",
+      "url": "https://codesandbox.io",
+      "category": "Online IDE",
+      "why_useful": "Great for prototyping React, Vue, Node, and full-stack apps quickly."
+    },
+    {
+      "id": 54,
+      "resource": "Excalidraw",
+      "url": "https://excalidraw.com",
+      "category": "Diagrams / Ideation",
+      "why_useful": "Best for rough architecture diagrams, workflows, and product thinking sketches."
+    },
+    {
+      "id": 55,
+      "resource": "Mermaid",
+      "url": "https://mermaid.js.org",
+      "category": "Diagrams as code",
+      "why_useful": "Useful for flowcharts, architecture diagrams, sequence diagrams, and docs."
+    },
+    {
+      "id": 56,
+      "resource": "Design Systems Repo",
+      "url": "https://designsystemsrepo.com",
+      "category": "Design systems",
+      "why_useful": "Curated library of design systems, brand systems, and UI guidelines."
+    },
+    {
+      "id": 57,
+      "resource": "Material Design",
+      "url": "https://m3.material.io",
+      "category": "Design system",
+      "why_useful": "Google’s design system for components, layouts, motion, and interaction guidance. (Material Design)"
+    },
+    {
+      "id": 58,
+      "resource": "Apple Human Interface Guidelines",
+      "url": "https://developer.apple.com/design/human-interface-guidelines",
+      "category": "Design system",
+      "why_useful": "Essential for understanding polished app UX, especially for iOS/macOS products."
+    },
+    {
+      "id": 59,
+      "resource": "IBM Carbon Design System",
+      "url": "https://carbondesignsystem.com",
+      "category": "Enterprise design system",
+      "why_useful": "Strong reference for complex B2B, dashboards, enterprise UI, and accessibility."
+    },
+    {
+      "id": 60,
+      "resource": "Shopify Polaris",
+      "url": "https://polaris.shopify.com",
+      "category": "Product design system",
+      "why_useful": "Great reference for merchant tools, admin panels, and commerce workflows."
+    },
+    {
+      "id": 61,
+      "resource": "Microsoft Fluent 2",
+      "url": "https://fluent2.microsoft.design",
+      "category": "Design system",
+      "why_useful": "Useful for productivity apps, enterprise UX, and Microsoft-style interaction patterns."
+    },
+    {
+      "id": 62,
+      "resource": "Nielsen Norman Group",
+      "url": "https://www.nngroup.com/articles/",
+      "category": "UX research",
+      "why_useful": "One of the strongest resources for evidence-based UX, usability, and product design. (Nielsen Norman Group)"
+    },
+    {
+      "id": 63,
+      "resource": "Baymard Institute",
+      "url": "https://baymard.com",
+      "category": "UX research",
+      "why_useful": "Excellent for ecommerce UX, checkout flows, forms, search, and conversion design."
+    },
+    {
+      "id": 64,
+      "resource": "Laws of UX",
+      "url": "https://lawsofux.com",
+      "category": "UX principles",
+      "why_useful": "Simple explanations of psychology principles behind good interface design."
+    },
+    {
+      "id": 65,
+      "resource": "Checklist Design",
+      "url": "https://www.checklist.design",
+      "category": "UX checklist",
+      "why_useful": "Practical checklists for forms, onboarding, pricing pages, navigation, and UI states."
+    },
+    {
+      "id": 66,
+      "resource": "WCAG / W3C Accessibility",
+      "url": "https://www.w3.org/WAI/standards-guidelines/wcag/",
+      "category": "Accessibility",
+      "why_useful": "Core accessibility standards for making web content usable for more people. (W3C)"
+    },
+    {
+      "id": 67,
+      "resource": "The A11Y Project",
+      "url": "https://www.a11yproject.com",
+      "category": "Accessibility",
+      "why_useful": "Friendly, practical accessibility guidance for developers and designers."
+    },
+    {
+      "id": 68,
+      "resource": "Inclusive Components",
+      "url": "https://inclusive-components.design",
+      "category": "Accessibility / UI",
+      "why_useful": "Excellent for building accessible real-world components like menus, modals, tabs."
+    },
+    {
+      "id": 69,
+      "resource": "FastAPI Docs",
+      "url": "https://fastapi.tiangolo.com",
+      "category": "Backend / APIs",
+      "why_useful": "Strong reference for building Python APIs quickly with type hints. (FastAPI)"
+    },
+    {
+      "id": 70,
+      "resource": "Django Docs",
+      "url": "https://docs.djangoproject.com",
+      "category": "Backend framework",
+      "why_useful": "Great for robust web apps, admin panels, authentication, and database-heavy products."
+    },
+    {
+      "id": 71,
+      "resource": "Express.js",
+      "url": "https://expressjs.com",
+      "category": "Backend framework",
+      "why_useful": "Classic Node.js backend framework for APIs and lightweight servers."
+    },
+    {
+      "id": 72,
+      "resource": "NestJS Docs",
+      "url": "https://docs.nestjs.com",
+      "category": "Backend architecture",
+      "why_useful": "Great for structured Node.js backends with controllers, modules, and services."
+    },
+    {
+      "id": 73,
+      "resource": "Node.js Docs",
+      "url": "https://nodejs.org/en/docs",
+      "category": "Backend runtime",
+      "why_useful": "Core reference for server-side JavaScript, APIs, tooling, and backend fundamentals."
+    },
+    {
+      "id": 74,
+      "resource": "PostgreSQL Docs",
+      "url": "https://www.postgresql.org/docs/",
+      "category": "Database",
+      "why_useful": "Essential reference for serious relational databases and SQL-backed apps."
+    },
+    {
+      "id": 75,
+      "resource": "MongoDB Docs",
+      "url": "https://www.mongodb.com/docs",
+      "category": "Database",
+      "why_useful": "Useful for document databases, flexible schemas, and app backend storage."
+    },
+    {
+      "id": 76,
+      "resource": "Redis Docs",
+      "url": "https://redis.io/docs/latest/",
+      "category": "Database / Caching",
+      "why_useful": "Great for caching, queues, sessions, pub-sub, and fast data access."
+    },
+    {
+      "id": 77,
+      "resource": "GraphQL Docs",
+      "url": "https://graphql.org/learn/",
+      "category": "API architecture",
+      "why_useful": "Useful for building flexible APIs and complex frontend-backend data flows."
+    },
+    {
+      "id": 78,
+      "resource": "OpenAPI Specification",
+      "url": "https://spec.openapis.org/oas/latest.html",
+      "category": "API documentation",
+      "why_useful": "Best reference for describing, documenting, and standardizing REST APIs."
+    },
+    {
+      "id": 79,
+      "resource": "Postman Learning Center",
+      "url": "https://learning.postman.com",
+      "category": "API testing",
+      "why_useful": "Practical resource for testing APIs, collections, environments, and automation."
+    },
+    {
+      "id": 80,
+      "resource": "Firebase Docs",
+      "url": "https://firebase.google.com/docs",
+      "category": "Backend / App platform",
+      "why_useful": "Useful for auth, hosting, realtime database, cloud functions, and quick MVPs."
+    },
+    {
+      "id": 81,
+      "resource": "Cloudflare Developers",
+      "url": "https://developers.cloudflare.com",
+      "category": "Edge / Infra",
+      "why_useful": "Strong for edge functions, DNS, workers, security, and performance."
+    },
+    {
+      "id": 82,
+      "resource": "AWS Architecture Center",
+      "url": "https://aws.amazon.com/architecture/",
+      "category": "Cloud architecture",
+      "why_useful": "Strong cloud reference for secure, resilient, scalable architecture patterns. (Amazon Web Services, Inc.)"
+    },
+    {
+      "id": 83,
+      "resource": "Google Cloud Architecture Center",
+      "url": "https://cloud.google.com/architecture",
+      "category": "Cloud architecture",
+      "why_useful": "Useful for cloud reference architectures, migration, and infrastructure best practices. (Google Cloud Documentation)"
+    },
+    {
+      "id": 84,
+      "resource": "Azure Architecture Center",
+      "url": "https://learn.microsoft.com/en-us/azure/architecture/",
+      "category": "Cloud architecture",
+      "why_useful": "Good for enterprise architecture, cloud design patterns, and Azure guidance."
+    },
+    {
+      "id": 85,
+      "resource": "GitHub Actions Docs",
+      "url": "https://docs.github.com/actions",
+      "category": "CI/CD",
+      "why_useful": "Useful for automating builds, tests, deployments, and dev workflows. (GitHub Docs)"
+    },
+    {
+      "id": 86,
+      "resource": "OpenTelemetry Docs",
+      "url": "https://opentelemetry.io/docs/",
+      "category": "Observability",
+      "why_useful": "Core reference for traces, metrics, logs, and app instrumentation. (OpenTelemetry)"
+    },
+    {
+      "id": 87,
+      "resource": "Prometheus Docs",
+      "url": "https://prometheus.io/docs/",
+      "category": "Monitoring",
+      "why_useful": "Great for metrics, alerting, and infrastructure monitoring."
+    },
+    {
+      "id": 88,
+      "resource": "Grafana Docs",
+      "url": "https://grafana.com/docs/",
+      "category": "Observability dashboards",
+      "why_useful": "Useful for dashboards, logs, metrics, tracing, and infra visualization."
+    },
+    {
+      "id": 89,
+      "resource": "Sentry Docs",
+      "url": "https://docs.sentry.io",
+      "category": "Error tracking",
+      "why_useful": "Great for frontend/backend error monitoring, performance, and debugging."
+    },
+    {
+      "id": 90,
+      "resource": "Playwright",
+      "url": "https://playwright.dev",
+      "category": "Testing",
+      "why_useful": "Excellent for browser automation, end-to-end testing, and agent workflows. (Playwright)"
+    },
+    {
+      "id": 91,
+      "resource": "Cypress Docs",
+      "url": "https://docs.cypress.io",
+      "category": "Testing",
+      "why_useful": "Useful for frontend testing, integration testing, and user-flow validation."
+    },
+    {
+      "id": 92,
+      "resource": "Vitest",
+      "url": "https://vitest.dev",
+      "category": "Testing",
+      "why_useful": "Fast unit testing framework for modern Vite and TypeScript projects."
+    },
+    {
+      "id": 93,
+      "resource": "Testing Library",
+      "url": "https://testing-library.com",
+      "category": "Testing",
+      "why_useful": "Helps write tests based on real user behavior instead of implementation details."
+    },
+    {
+      "id": 94,
+      "resource": "OWASP Cheat Sheet Series",
+      "url": "https://cheatsheetseries.owasp.org",
+      "category": "Security",
+      "why_useful": "Practical security guidance for authentication, APIs, sessions, XSS, CSRF, and more. (OWASP Cheat Sheet Series)"
+    },
+    {
+      "id": 95,
+      "resource": "PortSwigger Web Security Academy",
+      "url": "https://portswigger.net/web-security",
+      "category": "Security learning",
+      "why_useful": "Excellent hands-on labs for learning web vulnerabilities and secure development."
+    },
+    {
+      "id": 96,
+      "resource": "OpenAI Platform Docs",
+      "url": "https://developers.openai.com/api/docs",
+      "category": "AI engineering",
+      "why_useful": "Core reference for building apps with OpenAI APIs and developer tools. (OpenAI Developers)"
+    },
+    {
+      "id": 97,
+      "resource": "Anthropic Claude API Docs",
+      "url": "https://platform.claude.com/docs",
+      "category": "AI engineering",
+      "why_useful": "Useful for building Claude-powered apps, agents, and workflows. (Claude)"
+    },
+    {
+      "id": 98,
+      "resource": "Hugging Face Docs",
+      "url": "https://huggingface.co/docs",
+      "category": "AI / ML engineering",
+      "why_useful": "Strong reference for models, datasets, spaces, transformers, and open-source AI. (Hugging Face)"
+    },
+    {
+      "id": 99,
+      "resource": "Vercel AI SDK",
+      "url": "https://ai-sdk.dev/docs/introduction",
+      "category": "AI app development",
+      "why_useful": "Great TypeScript toolkit for building AI apps, agents, and streaming interfaces. (AI SDK)"
+    },
+    {
+      "id": 100,
+      "resource": "freeCodeCamp",
+      "url": "https://www.freecodecamp.org",
+      "category": "Learning / Practice",
+      "why_useful": "Massive free resource for coding, web development, projects, and fundamentals."
+    }
+  ],
+  "youtube": [
+    {
+      "id": 1,
+      "channel": "Riley Brown",
+      "url": "https://www.youtube.com/channel/UCMcoud_ZW7cfxeIugBflSBw"
+    },
+    {
+      "id": 2,
+      "channel": "Matthew Berman",
+      "url": "https://www.youtube.com/@matthew_berman"
+    },
+    {
+      "id": 3,
+      "channel": "Greg Isenberg",
+      "url": "https://www.youtube.com/@GregIsenberg"
+    },
+    {
+      "id": 4,
+      "channel": "David Ondrej",
+      "url": "https://www.youtube.com/@DavidOndrej"
+    },
+    {
+      "id": 5,
+      "channel": "AI Engineer",
+      "url": "https://www.youtube.com/@aiDotEngineer"
+    },
+    {
+      "id": 6,
+      "channel": "Latent Space",
+      "url": "https://www.youtube.com/@LatentSpacePod"
+    },
+    {
+      "id": 7,
+      "channel": "LangChain",
+      "url": "https://www.youtube.com/@LangChain"
+    },
+    {
+      "id": 8,
+      "channel": "LlamaIndex",
+      "url": "https://www.youtube.com/@LlamaIndex"
+    },
+    {
+      "id": 9,
+      "channel": "DeepLearning.AI",
+      "url": "https://www.youtube.com/@Deeplearningai"
+    },
+    {
+      "id": 10,
+      "channel": "All About AI",
+      "url": "https://www.youtube.com/@AllAboutAI"
+    },
+    {
+      "id": 11,
+      "channel": "AI Jason",
+      "url": "https://www.youtube.com/@AIJasonZ"
+    },
+    {
+      "id": 12,
+      "channel": "Liam Ottley",
+      "url": "https://www.youtube.com/@LiamOttley"
+    },
+    {
+      "id": 13,
+      "channel": "Matt Wolfe",
+      "url": "https://www.youtube.com/@mreflow"
+    },
+    {
+      "id": 14,
+      "channel": "Wes Roth",
+      "url": "https://www.youtube.com/@WesRoth"
+    },
+    {
+      "id": 15,
+      "channel": "The AI Advantage",
+      "url": "https://www.youtube.com/@aiadvantage"
+    },
+    {
+      "id": 16,
+      "channel": "David Shapiro",
+      "url": "https://www.youtube.com/@DaveShap"
+    },
+    {
+      "id": 17,
+      "channel": "AssemblyAI",
+      "url": "https://www.youtube.com/@AssemblyAI"
+    },
+    {
+      "id": 18,
+      "channel": "Vercel",
+      "url": "https://www.youtube.com/@VercelHQ"
+    },
+    {
+      "id": 19,
+      "channel": "Fireship",
+      "url": "https://www.youtube.com/@Fireship"
+    },
+    {
+      "id": 20,
+      "channel": "Andrej Karpathy",
+      "url": "https://www.youtube.com/@AndrejKarpathy"
+    },
+    {
+      "id": 21,
+      "channel": "Simon Willison",
+      "url": "https://www.youtube.com/@simonwillison"
+    },
+    {
+      "id": 22,
+      "channel": "IndyDevDan",
+      "url": "https://www.youtube.com/@indydevdan"
+    },
+    {
+      "id": 23,
+      "channel": "Ben AI",
+      "url": "https://www.youtube.com/@ben_ai"
+    },
+    {
+      "id": 24,
+      "channel": "Cole Medin",
+      "url": "https://www.youtube.com/@ColeMedin"
+    },
+    {
+      "id": 25,
+      "channel": "Prompt Engineering",
+      "url": "https://www.youtube.com/@engineerprompt"
+    },
+    {
+      "id": 26,
+      "channel": "IBM Technology",
+      "url": "https://www.youtube.com/@IBMTechnology"
+    },
+    {
+      "id": 27,
+      "channel": "Google Cloud Tech",
+      "url": "https://www.youtube.com/@googlecloudtech"
+    },
+    {
+      "id": 28,
+      "channel": "Google for Developers",
+      "url": "https://www.youtube.com/@GoogleDevelopers"
+    },
+    {
+      "id": 29,
+      "channel": "OpenAI",
+      "url": "https://www.youtube.com/@OpenAI"
+    },
+    {
+      "id": 30,
+      "channel": "Anthropic",
+      "url": "https://www.youtube.com/@AnthropicAI"
+    },
+    {
+      "id": 31,
+      "channel": "Hugging Face",
+      "url": "https://www.youtube.com/@HuggingFace"
+    },
+    {
+      "id": 32,
+      "channel": "Weaviate",
+      "url": "https://www.youtube.com/@Weaviate"
+    },
+    {
+      "id": 33,
+      "channel": "Pinecone",
+      "url": "https://www.youtube.com/@Pinecone-io"
+    },
+    {
+      "id": 34,
+      "channel": "Supabase",
+      "url": "https://www.youtube.com/@Supabase"
+    },
+    {
+      "id": 35,
+      "channel": "Cursor",
+      "url": "https://www.youtube.com/@CursorAI"
+    },
+    {
+      "id": 36,
+      "channel": "Lovable",
+      "url": "https://www.youtube.com/@lovable-dev"
+    },
+    {
+      "id": 37,
+      "channel": "Replit",
+      "url": "https://www.youtube.com/@replit"
+    },
+    {
+      "id": 38,
+      "channel": "Builder.io",
+      "url": "https://www.youtube.com/@BuilderIO"
+    },
+    {
+      "id": 39,
+      "channel": "YC / Y Combinator",
+      "url": "https://www.youtube.com/@ycombinator"
+    },
+    {
+      "id": 40,
+      "channel": "Sequoia Capital",
+      "url": "https://www.youtube.com/@sequoiacapital"
+    }
+  ]
+}
