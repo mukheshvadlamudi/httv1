@@ -9,6 +9,21 @@ from app.schemas.guide import GuideListItem, GuideRead
 router = APIRouter(prefix="/guides", tags=["guides"])
 
 
+def serialize_guide_list_item(guide: Guide) -> GuideListItem:
+    return GuideListItem(
+        id=guide.slug,
+        slug=guide.slug,
+        title=guide.title,
+        description=guide.description,
+        category=guide.category.name,
+        audience=guide.audience,
+        difficulty=guide.difficulty,
+        estimatedMinutes=guide.estimated_minutes,
+        lastUpdated=guide.last_updated,
+        tags=[tag.slug for tag in guide.tags],
+    )
+
+
 def serialize_guide(guide: Guide) -> GuideRead:
     base = {
         "id": guide.slug,
@@ -47,7 +62,7 @@ def list_guides(
         stmt = stmt.outerjoin(Guide.tags).where(
             or_(Guide.title.ilike(needle), Guide.description.ilike(needle), Tag.name.ilike(needle))
         )
-    return [serialize_guide(guide) for guide in db.scalars(stmt).unique()]
+    return [serialize_guide_list_item(guide) for guide in db.scalars(stmt).unique()]
 
 
 @router.get("/{slug}", response_model=GuideRead)
