@@ -10,11 +10,26 @@ import { AskAIBox } from "../components/AskAIBox";
 import { MOCK_GUIDES, Guide } from "../data/mock-guides";
 import { Search, Mail, ShieldAlert, Award, PhoneCall, Sparkles, BookOpen, Compass, ChevronRight, X, Key, ShieldCheck, Heart } from "lucide-react";
 
+// Visual Layout Expansion Imports
+import { AccessibilityToolbar, FontScale, ContrastTheme } from "../components/AccessibilityToolbar";
+import { LearningPaths } from "../components/LearningPaths";
+import { ToolFinder } from "../components/ToolFinder";
+import { UserDashboard } from "../components/UserDashboard";
+import { BusinessTraining } from "../components/BusinessTraining";
+import { AdminCMS } from "../components/AdminCMS";
+
 export default function Page() {
   // Global Application State
   const [track, setTrack] = useState<"selector" | "everyday" | "developer">("selector");
-  const [view, setView] = useState<"landing" | "library" | "detail">("landing");
+  const [view, setView] = useState<"landing" | "library" | "detail" | "paths" | "tools" | "dashboard" | "b2b" | "admin">("landing");
   const [selectedGuideSlug, setSelectedGuideSlug] = useState<string | null>(null);
+
+  // Global Accessibilities and Bookmarks
+  const [bookmarks, setBookmarks] = useState<string[]>([]);
+  const [completedSteps, setCompletedSteps] = useState<Record<string, boolean>>({});
+  const [customGuides, setCustomGuides] = useState<Guide[]>([]);
+  const [fontScale, setFontScale] = useState<FontScale>("normal");
+  const [theme, setTheme] = useState<ContrastTheme>("standard");
   
   // Search and Filter States for Everyday track
   const [searchQuery, setSearchQuery] = useState("");
@@ -26,12 +41,45 @@ export default function Page() {
   const [apiKeyInput, setApiKeyInput] = useState("");
   const [savedApiKey, setSavedApiKey] = useState("");
 
-  // Load API Key from localStorage on mount
+  // Load Global settings & states from localStorage on mount
   useEffect(() => {
     if (typeof window !== "undefined") {
       const key = localStorage.getItem("how_to_tech_openai_key") || "";
       setSavedApiKey(key);
       setApiKeyInput(key);
+
+      const savedBookmarks = localStorage.getItem("how_to_tech_bookmarks");
+      if (savedBookmarks) {
+        try {
+          setBookmarks(JSON.parse(savedBookmarks));
+        } catch (e) {
+          console.error(e);
+        }
+      }
+
+      const savedCompleted = localStorage.getItem("how_to_tech_completed_steps");
+      if (savedCompleted) {
+        try {
+          setCompletedSteps(JSON.parse(savedCompleted));
+        } catch (e) {
+          console.error(e);
+        }
+      }
+
+      const savedCustom = localStorage.getItem("how_to_tech_custom_guides");
+      if (savedCustom) {
+        try {
+          setCustomGuides(JSON.parse(savedCustom));
+        } catch (e) {
+          console.error(e);
+        }
+      }
+
+      const savedFontScale = localStorage.getItem("how_to_tech_font_scale") as FontScale;
+      if (savedFontScale) setFontScale(savedFontScale);
+
+      const savedTheme = localStorage.getItem("how_to_tech_theme") as ContrastTheme;
+      if (savedTheme) setTheme(savedTheme);
     }
   }, []);
 
@@ -54,6 +102,37 @@ export default function Page() {
     }
   };
 
+  // Sync state togglers to localStorage
+  const handleToggleBookmark = (slug: string) => {
+    const next = bookmarks.includes(slug)
+      ? bookmarks.filter((b) => b !== slug)
+      : [...bookmarks, slug];
+    setBookmarks(next);
+    localStorage.setItem("how_to_tech_bookmarks", JSON.stringify(next));
+  };
+
+  const handleToggleStep = (stepKey: string) => {
+    const next = { ...completedSteps, [stepKey]: !completedSteps[stepKey] };
+    setCompletedSteps(next);
+    localStorage.setItem("how_to_tech_completed_steps", JSON.stringify(next));
+  };
+
+  const handlePublishGuide = (newGuide: Guide) => {
+    const next = [newGuide, ...customGuides];
+    setCustomGuides(next);
+    localStorage.setItem("how_to_tech_custom_guides", JSON.stringify(next));
+  };
+
+  const handleChangeFontScale = (scale: FontScale) => {
+    setFontScale(scale);
+    localStorage.setItem("how_to_tech_font_scale", scale);
+  };
+
+  const handleChangeTheme = (newTheme: ContrastTheme) => {
+    setTheme(newTheme);
+    localStorage.setItem("how_to_tech_theme", newTheme);
+  };
+
   // Reset track filters
   const handleTrackChange = (newTrack: "everyday" | "developer") => {
     setTrack(newTrack);
@@ -64,21 +143,39 @@ export default function Page() {
     setSelectedDifficulty("All");
   };
 
+  // Merge custom published guides with MOCK_GUIDES
+  const allGuides = useMemo(() => {
+    return [...MOCK_GUIDES, ...customGuides];
+  }, [customGuides]);
+
+  // Compute lesson completion state based on completed steps checkmarks
+  const completedLessons = useMemo(() => {
+    const map: Record<string, boolean> = {};
+    allGuides.forEach((guide) => {
+      if (!guide.steps || guide.steps.length === 0) return;
+      const allDone = guide.steps.every((step) => completedSteps[`${guide.slug}-step-${step.order}`]);
+      if (allDone) {
+        map[guide.slug] = true;
+      }
+    });
+    return map;
+  }, [completedSteps, allGuides]);
+
   // Find active guide details
   const activeGuide = useMemo(() => {
     if (!selectedGuideSlug) return null;
-    return MOCK_GUIDES.find((g) => g.slug === selectedGuideSlug) || null;
-  }, [selectedGuideSlug]);
+    return allGuides.find((g) => g.slug === selectedGuideSlug) || null;
+  }, [selectedGuideSlug, allGuides]);
 
   // List of distinct categories
   const categoriesList = useMemo(() => {
-    const list = new Set(MOCK_GUIDES.map((g) => g.category));
+    const list = new Set(allGuides.map((g) => g.category));
     return ["All", ...Array.from(list)];
-  }, []);
+  }, [allGuides]);
 
   // Filtered guides matching query, category, and difficulty
   const filteredGuides = useMemo(() => {
-    return MOCK_GUIDES.filter((g) => {
+    return allGuides.filter((g) => {
       const matchesSearch = 
         g.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         g.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -92,7 +189,7 @@ export default function Page() {
 
       return matchesSearch && matchesCategory && matchesDifficulty;
     });
-  }, [searchQuery, selectedCategory, selectedDifficulty]);
+  }, [searchQuery, selectedCategory, selectedDifficulty, allGuides]);
 
   // Trigger search from Hero input
   const handleHeroSearch = (e: React.FormEvent) => {
@@ -100,8 +197,21 @@ export default function Page() {
     setView("library");
   };
 
+  const fontClass = fontScale === "large" ? "font-scale-large" : fontScale === "extra" ? "font-scale-extra" : "";
+  const themeClass = theme === "pastel" ? "theme-pastel" : theme === "highcontrast" ? "theme-highcontrast" : "";
+
   return (
-    <div className="flex-1 flex flex-col bg-[#F9FAFB]">
+    <div className={`flex-1 flex flex-col min-h-screen transition-all duration-300 ${fontClass} ${themeClass}`}>
+      
+      {/* Accessibility Toolbar */}
+      {track === "everyday" && (
+        <AccessibilityToolbar
+          fontScale={fontScale}
+          onChangeFontScale={handleChangeFontScale}
+          theme={theme}
+          onChangeTheme={handleChangeTheme}
+        />
+      )}
       
       {/* Header section (only if track is selected) */}
       {track !== "selector" && (
@@ -111,6 +221,97 @@ export default function Page() {
           onOpenSettings={() => setIsSettingsOpen(true)}
           hasApiKey={!!savedApiKey}
         />
+      )}
+
+      {/* Sub-navigation bar for Everyday track */}
+      {track === "everyday" && (
+        <div className="bg-white border-b border-slate-100 px-6 py-3 flex flex-wrap items-center justify-between gap-4 relative z-40">
+          <div className="flex flex-wrap items-center gap-1 bg-slate-50 p-1 rounded-2xl border border-slate-100">
+            <button
+              onClick={() => {
+                setView("landing");
+                setSelectedGuideSlug(null);
+              }}
+              className={`px-4 py-1.5 rounded-xl text-xs font-bold transition-all ${
+                view === "landing" || view === "library" || view === "detail"
+                  ? "bg-slate-900 text-white shadow-sm"
+                  : "text-slate-500 hover:text-slate-900"
+              }`}
+            >
+              Guide Sheets
+            </button>
+            <button
+              onClick={() => {
+                setView("paths");
+                setSelectedGuideSlug(null);
+              }}
+              className={`px-4 py-1.5 rounded-xl text-xs font-bold transition-all ${
+                view === "paths"
+                  ? "bg-slate-900 text-white shadow-sm"
+                  : "text-slate-500 hover:text-slate-900"
+              }`}
+            >
+              Learning Paths
+            </button>
+            <button
+              onClick={() => {
+                setView("tools");
+                setSelectedGuideSlug(null);
+              }}
+              className={`px-4 py-1.5 rounded-xl text-xs font-bold transition-all ${
+                view === "tools"
+                  ? "bg-slate-900 text-white shadow-sm"
+                  : "text-slate-500 hover:text-slate-900"
+              }`}
+            >
+              Tool Finder
+            </button>
+            <button
+              onClick={() => {
+                setView("dashboard");
+                setSelectedGuideSlug(null);
+              }}
+              className={`px-4 py-1.5 rounded-xl text-xs font-bold transition-all relative ${
+                view === "dashboard"
+                  ? "bg-slate-900 text-white shadow-sm"
+                  : "text-slate-500 hover:text-slate-900"
+              }`}
+            >
+              My Dashboard
+              {bookmarks.length > 0 && (
+                <span className="ml-1.5 px-1.5 py-0.2 bg-emerald-500 text-white text-[9px] rounded-full">
+                  {bookmarks.length}
+                </span>
+              )}
+            </button>
+            <button
+              onClick={() => {
+                setView("b2b");
+                setSelectedGuideSlug(null);
+              }}
+              className={`px-4 py-1.5 rounded-xl text-xs font-bold transition-all ${
+                view === "b2b"
+                  ? "bg-slate-900 text-white shadow-sm"
+                  : "text-slate-500 hover:text-slate-900"
+              }`}
+            >
+              Business Training
+            </button>
+            <button
+              onClick={() => {
+                setView("admin");
+                setSelectedGuideSlug(null);
+              }}
+              className={`px-4 py-1.5 rounded-xl text-xs font-bold transition-all ${
+                view === "admin"
+                  ? "bg-slate-900 text-white shadow-sm"
+                  : "text-slate-500 hover:text-slate-900"
+              }`}
+            >
+              Admin CMS
+            </button>
+          </div>
+        </div>
       )}
 
       {/* Main Container */}
@@ -220,7 +421,7 @@ export default function Page() {
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      {MOCK_GUIDES.slice(0, 4).map((guide) => (
+                      {allGuides.slice(0, 4).map((guide) => (
                         <GuideCard 
                           key={guide.id} 
                           guide={guide} 
@@ -375,9 +576,60 @@ export default function Page() {
               <GuideDetailView 
                 guide={activeGuide} 
                 onBack={() => setView("library")}
-                allGuides={MOCK_GUIDES}
+                allGuides={allGuides}
                 onSelectRelated={(slug) => setSelectedGuideSlug(slug)}
                 track="everyday"
+                isBookmarked={bookmarks.includes(activeGuide.slug)}
+                onToggleBookmark={handleToggleBookmark}
+                completedSteps={completedSteps}
+                onToggleStep={handleToggleStep}
+              />
+            )}
+
+            {/* View D: Learning Paths State */}
+            {view === "paths" && (
+              <LearningPaths
+                onSelectGuide={(slug) => {
+                  setSelectedGuideSlug(slug);
+                  setView("detail");
+                }}
+                allGuides={allGuides}
+                completedLessons={completedLessons}
+              />
+            )}
+
+            {/* View E: Tool Finder State */}
+            {view === "tools" && (
+              <ToolFinder />
+            )}
+
+            {/* View F: Dashboard State */}
+            {view === "dashboard" && (
+              <UserDashboard
+                bookmarks={bookmarks}
+                allGuides={allGuides}
+                completedLessons={completedLessons}
+                onSelectGuide={(slug) => {
+                  setSelectedGuideSlug(slug);
+                  setView("detail");
+                }}
+                onNavigateToView={(targetView) => {
+                  setView(targetView);
+                }}
+              />
+            )}
+
+            {/* View G: Business Training State */}
+            {view === "b2b" && (
+              <BusinessTraining />
+            )}
+
+            {/* View H: Admin CMS Publishing State */}
+            {view === "admin" && (
+              <AdminCMS
+                onPublish={(newGuide) => {
+                  handlePublishGuide(newGuide);
+                }}
               />
             )}
           </>

@@ -58,6 +58,7 @@ export function AskAIBox({ track, onSelectGuide, apiKey, onOpenSettings }: AskAI
   const [isSimplerMode, setIsSimplerMode] = useState(false);
   const [liveAnswer, setLiveAnswer] = useState("");
   const [liveSimpleAnswer, setLiveSimpleAnswer] = useState("");
+  const [feedbackGiven, setFeedbackGiven] = useState<string | null>(null);
 
   const { speak, stop, isPlaying } = useVoice();
 
@@ -79,6 +80,7 @@ export function AskAIBox({ track, onSelectGuide, apiKey, onOpenSettings }: AskAI
     setIsSimplerMode(false);
     setLiveAnswer("");
     setLiveSimpleAnswer("");
+    setFeedbackGiven(null);
     setLoading(true);
     setLoadingStep(0);
 
@@ -334,6 +336,44 @@ export function AskAIBox({ track, onSelectGuide, apiKey, onOpenSettings }: AskAI
                 </span>
               ))}
             </p>
+          </div>
+
+          {/* Granular AI Answer Feedback Rating Buttons */}
+          <div className="mt-6 pt-4 border-t border-slate-100/60">
+            {feedbackGiven ? (
+              <div className="bg-emerald-50/50 border border-emerald-100/60 rounded-2xl p-4 text-center text-xs font-semibold text-emerald-800 animate-in fade-in duration-300">
+                🎉 Thank you for enhancing our AI training database! ({feedbackGiven})
+              </div>
+            ) : (
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                  Was this answer helpful?
+                </span>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setFeedbackGiven("Helpful")}
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[11px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-100 hover:bg-emerald-100/50 transition-colors"
+                  >
+                    Helpful 👍
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setFeedbackGiven("Confusing")}
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[11px] font-bold text-amber-700 bg-amber-50 border border-amber-100 hover:bg-amber-100/50 transition-colors"
+                  >
+                    Confusing 😕
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setFeedbackGiven("Outdated")}
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[11px] font-bold text-slate-700 bg-slate-50 border border-slate-200 hover:bg-slate-150 transition-colors"
+                  >
+                    Outdated ⏳
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* RAG Matching related guides link */}

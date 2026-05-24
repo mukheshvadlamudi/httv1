@@ -148,3 +148,133 @@
 .voice-wave-active {
   animation: softPulse 1.5s infinite ease-in-out;
 }
+
+/* Font Scaling rules */
+.font-scale-large p {
+  font-size: 1.1rem !important;
+  line-height: 1.75rem !important;
+}
+.font-scale-large span, 
+.font-scale-large li, 
+.font-scale-large button,
+.font-scale-large a {
+  font-size: 0.95rem !important;
+}
+.font-scale-large h2 {
+  font-size: 2.25rem !important;
+}
+.font-scale-large h3 {
+  font-size: 1.5rem !important;
+}
+.font-scale-large h4,
+.font-scale-large h5 {
+  font-size: 1.2rem !important;
+}
+
+.font-scale-extra p {
+  font-size: 1.35rem !important;
+  line-height: 2.1rem !important;
+}
+.font-scale-extra span, 
+.font-scale-extra li, 
+.font-scale-extra button,
+.font-scale-extra a,
+.font-scale-extra input,
+.font-scale-extra textarea,
+.font-scale-extra select {
+  font-size: 1.15rem !important;
+}
+.font-scale-extra h2 {
+  font-size: 2.75rem !important;
+}
+.font-scale-extra h3 {
+  font-size: 1.85rem !important;
+}
+.font-scale-extra h4,
+.font-scale-extra h5 {
+  font-size: 1.45rem !important;
+}
+
+/* Soft Pastel Theme */
+.theme-pastel {
+  background-color: #F0FDFA !important;
+}
+.theme-pastel .bg-white,
+.theme-pastel .bg-slate-50\/50,
+.theme-pastel .soft-clay-card {
+  background-color: #F3FBF9 !important;
+  border-color: #A7F3D0 !important;
+}
+
+/* High Contrast Theme overrides */
+.theme-highcontrast {
+  background-color: #0B0F17 !important;
+  color: #FFFF00 !important;
+}
+.theme-highcontrast main,
+.theme-highcontrast header,
+.theme-highcontrast footer,
+.theme-highcontrast div,
+.theme-highcontrast section {
+  background-color: #0B0F17 !important;
+  color: #FFFF00 !important;
+}
+.theme-highcontrast .bg-white,
+.theme-highcontrast .bg-slate-50,
+.theme-highcontrast .bg-slate-900,
+.theme-highcontrast .soft-clay-card,
+.theme-highcontrast .glass-panel,
+.theme-highcontrast .bg-slate-50\/50,
+.theme-highcontrast textarea,
+.theme-highcontrast input,
+.theme-highcontrast select {
+  background-color: #0B0F17 !important;
+  color: #FFFF00 !important;
+  border-color: #FFFF00 !important;
+  border-width: 2px !important;
+  box-shadow: none !important;
+}
+.theme-highcontrast h1, 
+.theme-highcontrast h2, 
+.theme-highcontrast h3, 
+.theme-highcontrast h4, 
+.theme-highcontrast h5, 
+.theme-highcontrast h6,
+.theme-highcontrast p,
+.theme-highcontrast span,
+.theme-highcontrast strong,
+.theme-highcontrast li,
+.theme-highcontrast a,
+.theme-highcontrast button,
+.theme-highcontrast label,
+.theme-highcontrast input,
+.theme-highcontrast textarea,
+.theme-highcontrast select,
+.theme-highcontrast svg {
+  color: #FFFF00 !important;
+  stroke: #FFFF00 !important;
+}
+.theme-highcontrast button,
+.theme-highcontrast input,
+.theme-highcontrast select,
+.theme-highcontrast textarea {
+  border: 2px solid #FFFF00 !important;
+}
+.theme-highcontrast .text-slate-400,
+.theme-highcontrast .text-slate-500,
+.theme-highcontrast .text-slate-600,
+.theme-highcontrast .text-slate-700,
+.theme-highcontrast .text-slate-800 {
+  color: #FFFF00 !important;
+}
+.theme-highcontrast .text-emerald-500,
+.theme-highcontrast .text-emerald-600,
+.theme-highcontrast .text-emerald-700,
+.theme-highcontrast .text-blue-600,
+.theme-highcontrast .text-rose-600 {
+  color: #FFFF00 !important;
+  text-decoration: underline !important;
+}
+.theme-highcontrast ::placeholder {
+  color: rgba(255, 255, 0, 0.6) !important;
+}
