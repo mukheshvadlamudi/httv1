@@ -1,20 +1,19 @@
-# How to Tech - API Contracts
+# How to Tech API Contracts
 
-This document establishes the contracts between the Next.js Frontend (`apps/web`), the FastAPI Backend (`apps/api`), and the AI Layer.
+Base URL for local development: `http://localhost:8000`
 
----
+## Guides
 
-## 1. Guide Endpoints
+### `GET /guides`
 
-### GET `/api/guides`
-Retrieve a list of all tech guides, supporting pagination and filtering.
+Query params:
 
-**Query Parameters:**
-- `category` (optional, string): Filter by category.
-- `difficulty` (optional, string): Filter by difficulty level (`Easy`, `Medium`, `Hard`).
-- `search` (optional, string): Text search query.
+- `q`: optional search text
+- `category`: optional category slug
+- `difficulty`: optional difficulty label
 
-**Response (200 OK):**
+Response:
+
 ```json
 [
   {
@@ -32,21 +31,12 @@ Retrieve a list of all tech guides, supporting pagination and filtering.
 ]
 ```
 
-### GET `/api/guides/{slug}`
-Retrieve a single detailed guide sheet.
+### `GET /guides/{slug}`
 
-**Response (200 OK):**
+Returns the guide list shape plus:
+
 ```json
 {
-  "id": "gmail-password-reset",
-  "slug": "gmail-password-reset",
-  "title": "How to reset your Gmail password",
-  "description": "A simple guide to recover or change your Gmail password.",
-  "category": "Email",
-  "audience": "Beginner",
-  "difficulty": "Easy",
-  "estimatedMinutes": 5,
-  "lastUpdated": "2026-05-23",
   "steps": [
     {
       "order": 1,
@@ -59,101 +49,94 @@ Retrieve a single detailed guide sheet.
       "term": "Recovery email",
       "definition": "A backup email address used to help you get back into your account."
     }
-  ],
-  "tags": ["gmail", "password", "account recovery"]
+  ]
 }
 ```
 
----
+## Categories
 
-## 2. Category Endpoints
+### `GET /categories`
 
-### GET `/api/categories`
-Retrieve all available guide categories.
-
-**Response (200 OK):**
 ```json
 [
   {
-    "slug": "email",
-    "name": "Email",
-    "icon": "Mail",
-    "description": "Sending emails, recovery, and inbox settings."
+    "slug": "security",
+    "name": "Security",
+    "description": "Security guides for beginners."
   }
 ]
 ```
 
----
+## Resources
 
-## 3. Feedback Endpoints
+Resources are imported from the private Excel workbook into the database. The workbook itself should stay outside the public repo.
 
-### POST `/api/guides/{slug}/feedback`
-Submit user feedback on a specific guide.
+### `GET /resources`
 
-**Request Body:**
+Query params:
+
+- `source_type`: optional `website` or `youtube`
+- `category`: optional category contains filter
+- `q`: optional name/category/description search
+- `limit`: optional, default `50`, max `100`
+
+```json
+[
+  {
+    "id": 1,
+    "sourceType": "website",
+    "name": "MDN Web Docs",
+    "url": "https://developer.mozilla.org",
+    "category": "Frontend / Web fundamentals",
+    "whyUseful": "Best reference for HTML, CSS, JavaScript, browser APIs."
+  }
+]
+```
+
+## Feedback
+
+### `POST /guides/{slug}/feedback`
+
 ```json
 {
-  "helpful": true,
-  "comment": "Optional additional feedback text from user."
+  "rating": "helpful",
+  "comment": "This was easy to follow."
 }
 ```
 
-**Response (201 Created):**
+### `POST /ai/answers/{answer_id}/feedback`
+
+Same request body as guide feedback.
+
+Response:
+
 ```json
 {
-  "status": "success",
-  "message": "Feedback submitted successfully"
+  "ok": true,
+  "id": 1
 }
 ```
 
-### POST `/api/ai/answers/{id}/feedback`
-Submit user feedback on an AI-generated answer.
+## AI
 
-**Request Body:**
+### `POST /ai/question`
+
+This is mocked for Sprint 1 and can later call the AI service interface.
+
 ```json
 {
-  "helpful": false,
-  "comment": "Too complex, explain simpler next time."
+  "question": "How do I reset my Gmail password?"
 }
 ```
 
-**Response (201 Created):**
+Response:
+
 ```json
 {
-  "status": "success",
-  "message": "AI feedback recorded"
+  "id": "answer-uuid",
+  "answer": "Beginner-friendly answer text...",
+  "relatedGuideSlugs": ["gmail-password-reset"],
+  "sources": ["How to reset your Gmail password"]
 }
 ```
 
----
-
-## 4. AI Endpoint
-
-### POST `/api/ai/question`
-Submit a question to the How to Tech AI coach.
-
-**Request Body:**
-```json
-{
-  "question": "How do I secure my Gmail account?",
-  "track": "everyday" 
-}
-```
-
-**Response (200 OK):**
-```json
-{
-  "id": "ans-9018420194",
-  "answer": "To secure your Gmail, follow these steps:\n1. Enable Two-Factor Authentication.\n2. Add a recovery phone number...",
-  "related_guides": [
-    "gmail-password-reset",
-    "two-factor-auth"
-  ],
-  "glossary": [
-    {
-      "term": "Two-Factor Authentication (2FA)",
-      "definition": "An extra security step where you enter a code sent to your phone as well as your password."
-    }
-  ]
-}
-```

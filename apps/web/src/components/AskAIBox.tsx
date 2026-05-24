@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Sparkles, Play, Pause, Square, Send, Key, Volume2, ShieldAlert, FileText, ArrowRight, HelpCircle } from "lucide-react";
 import { useVoice } from "../hooks/useVoice";
+import { askAi } from "../lib/api";
 
 interface AskAIBoxProps {
   track: "everyday" | "developer";
@@ -88,74 +89,26 @@ export function AskAIBox({ track, onSelectGuide, apiKey, onOpenSettings }: AskAI
       await new Promise((resolve) => setTimeout(resolve, 800));
     }
 
-    // 1. Check if user has entered an OpenAI API Key
-    if (apiKey) {
-      try {
-        const response = await fetch("https://api.openai.com/v1/chat/completions", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${apiKey}`
-          },
-          body: JSON.stringify({
-            model: "gpt-4o-mini",
-            messages: [
-              {
-                role: "system",
-                content: "You are a gentle, patient technology coach for absolute beginners and senior citizens. Answer the user's question in plain language. Break it down into extremely clear, sequential steps (1, 2, 3). Do not use advanced terms. If you must use a term, explain it. Keep it concise."
-              },
-              {
-                role: "user",
-                content: question
-              }
-            ]
-          })
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          const answerText = data.choices[0].message.content;
-          setLiveAnswer(answerText);
-          
-          // Generate a simpler version too
-          const simpleResponse = await fetch("https://api.openai.com/v1/chat/completions", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": `Bearer ${apiKey}`
-            },
-            body: JSON.stringify({
-              model: "gpt-4o-mini",
-              messages: [
-                {
-                  role: "system",
-                  content: "Translate this instruction list into ultra-basic, short commands for a senior citizen. Maximum 5 short lines, starting with big numbers. Use zero technical words."
-                },
-                {
-                  role: "user",
-                  content: answerText
-                }
-              ]
-            })
-          });
-          
-          if (simpleResponse.ok) {
-            const sData = await simpleResponse.json();
-            setLiveSimpleAnswer(sData.choices[0].message.content);
-          } else {
-            setLiveSimpleAnswer("1. Click the button on screen.\n2. Follow the directions calmly.");
-          }
-
-          setLoading(false);
-          streamText(answerText);
-          return;
-        }
-      } catch (err) {
-        console.error("Live API error, falling back to simulated matching:", err);
-      }
+    try {
+      const response = await askAi(question);
+      const relatedSlug = response.relatedGuideSlugs[0] || "gmail-password-reset";
+      const result = {
+        keywords: [],
+        answer: response.answer,
+        simpleAnswer: response.answer,
+        relatedSlug,
+      };
+      setFullResponse(result);
+      setLiveAnswer(response.answer);
+      setLiveSimpleAnswer(response.answer);
+      setLoading(false);
+      streamText(response.answer);
+      return;
+    } catch (err) {
+      console.error("Backend AI API error, falling back to simulated matching:", err);
     }
 
-    // 2. FALLBACK: Simulated Keyword Match
+    // FALLBACK: Simulated Keyword Match
     const match = SIMULATED_ANSWERS.find((item) =>
       item.keywords.some((kw) => question.toLowerCase().includes(kw))
     );
@@ -337,7 +290,7 @@ export function AskAIBox({ track, onSelectGuide, apiKey, onOpenSettings }: AskAI
           </div>
 
           {/* RAG Matching related guides link */}
-          {!apiKey && fullResponse?.relatedSlug && (
+          {fullResponse?.relatedSlug && (
             <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
                 Grounded in guide content:
@@ -346,7 +299,7 @@ export function AskAIBox({ track, onSelectGuide, apiKey, onOpenSettings }: AskAI
                 onClick={() => onSelectGuide(fullResponse.relatedSlug)}
                 className="flex items-center gap-1 text-[11px] font-bold text-emerald-600 hover:text-emerald-700 bg-emerald-50 border border-emerald-100 px-3 py-1.5 rounded-xl transition-all"
               >
-                Read Gmail Guide
+                Read Related Guide
                 <ArrowRight className="w-3.5 h-3.5" />
               </button>
             </div>

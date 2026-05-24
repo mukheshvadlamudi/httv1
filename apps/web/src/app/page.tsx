@@ -8,6 +8,7 @@ import { GuideDetailView } from "../components/GuideDetailView";
 import { KnowledgeVault } from "../components/KnowledgeVault";
 import { AskAIBox } from "../components/AskAIBox";
 import { MOCK_GUIDES, Guide } from "../data/mock-guides";
+import { getGuide, getGuides } from "../lib/api";
 import { Search, Mail, ShieldAlert, Award, PhoneCall, Sparkles, BookOpen, Compass, ChevronRight, X, Key, ShieldCheck, Heart } from "lucide-react";
 
 export default function Page() {
@@ -15,6 +16,10 @@ export default function Page() {
   const [track, setTrack] = useState<"selector" | "everyday" | "developer">("selector");
   const [view, setView] = useState<"landing" | "library" | "detail">("landing");
   const [selectedGuideSlug, setSelectedGuideSlug] = useState<string | null>(null);
+  const [guides, setGuides] = useState<Guide[]>(MOCK_GUIDES);
+  const [selectedGuide, setSelectedGuide] = useState<Guide | null>(null);
+  const [guidesLoading, setGuidesLoading] = useState(false);
+  const [guidesError, setGuidesError] = useState<string | null>(null);
   
   // Search and Filter States for Everyday track
   const [searchQuery, setSearchQuery] = useState("");
@@ -34,6 +39,49 @@ export default function Page() {
       setApiKeyInput(key);
     }
   }, []);
+
+  useEffect(() => {
+    let isMounted = true;
+    setGuidesLoading(true);
+    getGuides()
+      .then((apiGuides) => {
+        if (!isMounted) return;
+        setGuides(apiGuides);
+        setGuidesError(null);
+      })
+      .catch(() => {
+        if (!isMounted) return;
+        setGuides(MOCK_GUIDES);
+        setGuidesError("Using local guide data because the backend is unavailable.");
+      })
+      .finally(() => {
+        if (isMounted) setGuidesLoading(false);
+      });
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!selectedGuideSlug) {
+      setSelectedGuide(null);
+      return;
+    }
+
+    let isMounted = true;
+    getGuide(selectedGuideSlug)
+      .then((guide) => {
+        if (isMounted) setSelectedGuide(guide);
+      })
+      .catch(() => {
+        if (!isMounted) return;
+        setSelectedGuide(guides.find((g) => g.slug === selectedGuideSlug) || null);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [selectedGuideSlug, guides]);
 
   // Save API Key
   const handleSaveApiKey = () => {
@@ -66,19 +114,18 @@ export default function Page() {
 
   // Find active guide details
   const activeGuide = useMemo(() => {
-    if (!selectedGuideSlug) return null;
-    return MOCK_GUIDES.find((g) => g.slug === selectedGuideSlug) || null;
-  }, [selectedGuideSlug]);
+    return selectedGuide;
+  }, [selectedGuide]);
 
   // List of distinct categories
   const categoriesList = useMemo(() => {
-    const list = new Set(MOCK_GUIDES.map((g) => g.category));
+    const list = new Set(guides.map((g) => g.category));
     return ["All", ...Array.from(list)];
-  }, []);
+  }, [guides]);
 
   // Filtered guides matching query, category, and difficulty
   const filteredGuides = useMemo(() => {
-    return MOCK_GUIDES.filter((g) => {
+    return guides.filter((g) => {
       const matchesSearch = 
         g.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         g.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -92,7 +139,7 @@ export default function Page() {
 
       return matchesSearch && matchesCategory && matchesDifficulty;
     });
-  }, [searchQuery, selectedCategory, selectedDifficulty]);
+  }, [guides, searchQuery, selectedCategory, selectedDifficulty]);
 
   // Trigger search from Hero input
   const handleHeroSearch = (e: React.FormEvent) => {
@@ -220,7 +267,7 @@ export default function Page() {
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      {MOCK_GUIDES.slice(0, 4).map((guide) => (
+                      {guides.slice(0, 4).map((guide) => (
                         <GuideCard 
                           key={guide.id} 
                           guide={guide} 
@@ -329,8 +376,13 @@ export default function Page() {
                   </div>
 
                   <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider pl-1 block">
-                    Showing {filteredGuides.length} matching guides
+                    {guidesLoading ? "Loading guide API..." : `Showing ${filteredGuides.length} matching guides`}
                   </span>
+                  {guidesError && (
+                    <p className="text-[11px] text-amber-600 bg-amber-50 border border-amber-100 px-3 py-2 rounded-xl">
+                      {guidesError}
+                    </p>
+                  )}
 
                   {filteredGuides.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -375,7 +427,7 @@ export default function Page() {
               <GuideDetailView 
                 guide={activeGuide} 
                 onBack={() => setView("library")}
-                allGuides={MOCK_GUIDES}
+                allGuides={guides}
                 onSelectRelated={(slug) => setSelectedGuideSlug(slug)}
                 track="everyday"
               />
