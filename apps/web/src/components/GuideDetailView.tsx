@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { ArrowLeft, Play, Pause, Square, Volume2, HelpCircle, ThumbsUp, ThumbsDown, BookOpen, Clock, ChevronRight, Star, ClipboardCheck, Check } from "lucide-react";
 import { Guide, GlossaryTerm } from "../data/mock-guides";
 import { useVoice } from "../hooks/useVoice";
+import { submitGuideFeedback } from "../lib/api";
 
 interface GuideDetailViewProps {
   guide: Guide;
@@ -60,6 +61,11 @@ export function GuideDetailView({
 
   const handleFeedback = (type: "helpful" | "unhelpful") => {
     setFeedbackState(type);
+    submitGuideFeedback(guide.slug, {
+      rating: type === "helpful" ? "helpful" : "not_helpful"
+    }).catch((err) => {
+      console.warn("Backend guide feedback submission failed/offline:", err);
+    });
   };
 
   const handleCopyPrompt = (promptText: string, promptId: string) => {

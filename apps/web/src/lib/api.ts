@@ -54,3 +54,27 @@ export async function askAi(question: string): Promise<AiAnswer> {
   });
 }
 
+export interface FeedbackCreate {
+  rating: "helpful" | "not_helpful" | "easy" | "confusing";
+  comment?: string;
+}
+
+export interface FeedbackRead {
+  ok: boolean;
+  id: number;
+}
+
+export async function submitGuideFeedback(slug: string, feedback: FeedbackCreate): Promise<FeedbackRead> {
+  return request<FeedbackRead>(`/guides/${slug}/feedback`, {
+    method: "POST",
+    body: JSON.stringify(feedback),
+  });
+}
+
+export async function submitAiFeedback(answerId: string, feedback: FeedbackCreate): Promise<FeedbackRead> {
+  return request<FeedbackRead>(`/ai/answers/${answerId}/feedback`, {
+    method: "POST",
+    body: JSON.stringify(feedback),
+  });
+}
+

@@ -99,6 +99,7 @@ export async function POST(req: Request) {
     if (!hasKeys) {
       const matchedSim = getSimulatedAnswer(question, bestMatch);
       return NextResponse.json({
+        id: "sim-" + Math.random().toString(36).substr(2, 9),
         live: false,
         answer: matchedSim.answer,
         simpleAnswer: matchedSim.simpleAnswer,
@@ -222,6 +223,7 @@ INSTRUCTION:
     }
 
     return NextResponse.json({
+      id: "ai-" + Math.random().toString(36).substr(2, 9),
       live: true,
       answer: answerText,
       simpleAnswer: simpleAnswerText || "1. Follow instructions on screen.\n2. Tap confirm to save.",

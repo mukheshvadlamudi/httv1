@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import { Sparkles, Square, Send, Key, Volume2, ArrowRight } from "lucide-react";
 import { useVoice } from "../hooks/useVoice";
-import { askAi } from "../lib/api";
+import { askAi, submitAiFeedback } from "../lib/api";
 
 interface AskAIBoxProps {
   track: "everyday" | "developer";
@@ -60,6 +60,7 @@ export function AskAIBox({ track, onSelectGuide, apiKey, onOpenSettings }: AskAI
   const [liveAnswer, setLiveAnswer] = useState("");
   const [liveSimpleAnswer, setLiveSimpleAnswer] = useState("");
   const [feedbackGiven, setFeedbackGiven] = useState<string | null>(null);
+  const [activeAnswerId, setActiveAnswerId] = useState<string>("");
 
   const { speak, stop, isPlaying } = useVoice();
   const typingIntervalRef = useRef<any>(null);
@@ -83,6 +84,7 @@ export function AskAIBox({ track, onSelectGuide, apiKey, onOpenSettings }: AskAI
     setLiveAnswer("");
     setLiveSimpleAnswer("");
     setFeedbackGiven(null);
+    setActiveAnswerId("");
     setLoading(true);
     setLoadingStep(0);
 
@@ -105,6 +107,7 @@ export function AskAIBox({ track, onSelectGuide, apiKey, onOpenSettings }: AskAI
       setFullResponse(result);
       setLiveAnswer(response.answer);
       setLiveSimpleAnswer(response.answer);
+      setActiveAnswerId(response.id);
       setLoading(false);
       streamText(response.answer);
       return;
@@ -132,6 +135,7 @@ export function AskAIBox({ track, onSelectGuide, apiKey, onOpenSettings }: AskAI
           simpleAnswer: data.simpleAnswer,
           relatedSlug: data.relatedSlug
         });
+        setActiveAnswerId(data.id || "local-id");
         setLoading(false);
         streamText(data.answer);
         return;
@@ -175,6 +179,13 @@ export function AskAIBox({ track, onSelectGuide, apiKey, onOpenSettings }: AskAI
     }, 12);
 
     typingIntervalRef.current = interval;
+  };
+
+  const handleAiFeedback = (rating: "helpful" | "not_helpful" | "easy" | "confusing") => {
+    setFeedbackGiven(rating === "helpful" ? "Helpful" : rating === "confusing" ? "Confusing" : "Outdated");
+    submitAiFeedback(activeAnswerId || "local-ai-answer", { rating }).catch((err) => {
+      console.warn("Backend AI answer feedback submission failed/offline:", err);
+    });
   };
 
   // Toggle "Explain Simpler" Mode
@@ -341,21 +352,21 @@ export function AskAIBox({ track, onSelectGuide, apiKey, onOpenSettings }: AskAI
                 <div className="flex items-center gap-2">
                   <button
                     type="button"
-                    onClick={() => setFeedbackGiven("Helpful")}
+                    onClick={() => handleAiFeedback("helpful")}
                     className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[11px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-100 hover:bg-emerald-100/50 transition-colors"
                   >
                     Helpful 👍
                   </button>
                   <button
                     type="button"
-                    onClick={() => setFeedbackGiven("Confusing")}
+                    onClick={() => handleAiFeedback("confusing")}
                     className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[11px] font-bold text-amber-700 bg-amber-50 border border-amber-100 hover:bg-amber-100/50 transition-colors"
                   >
                     Confusing 😕
                   </button>
                   <button
                     type="button"
-                    onClick={() => setFeedbackGiven("Outdated")}
+                    onClick={() => handleAiFeedback("not_helpful")}
                     className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[11px] font-bold text-slate-700 bg-slate-50 border border-slate-200 hover:bg-slate-150 transition-colors"
                   >
                     Outdated ⏳
