@@ -1,28 +1,20 @@
 services:
   db:
-    image: ankane/pgvector:v0.5.1
-    container_name: how_to_tech_db
-    restart: always
+    image: pgvector/pgvector:pg16
+    container_name: how-to-tech-db
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
+      POSTGRES_USER: howtotech
+      POSTGRES_PASSWORD: howtotech
       POSTGRES_DB: howtotech
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
-      - pgdata:/var/lib/postgresql/data
-
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: how_to_tech_pgadmin
-    restart: always
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@howtotech.com
-      PGADMIN_DEFAULT_PASSWORD: admin
-    ports:
-      - "8080:80"
-    depends_on:
-      - db
+      - how_to_tech_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U howtotech -d howtotech"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 volumes:
-  pgdata:
+  how_to_tech_pgdata:

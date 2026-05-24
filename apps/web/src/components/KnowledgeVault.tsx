@@ -1,7 +1,22 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { ExternalLink, Globe, Video, BookOpen, ChevronRight, ArrowLeft, CheckCircle, Code, Cpu, Shield, Sparkles, Layers, Award, PlayCircle, HelpCircle } from "lucide-react";
 import vaultData from "../data/vault-resources.json";
-import { SYLLABUS_TRACKS, SyllabusTrack } from "../data/syllabus-data";
+import { SYLLABUS_TRACKS, SyllabusTrack, SyllabusChapter, QuizQuestion } from "../data/syllabus-data";
+import { getResources } from "../lib/api";
+
+interface VaultWebsite {
+  id: number;
+  resource: string;
+  url: string;
+  category: string | null;
+  why_useful: string | null;
+}
+
+interface VaultVideo {
+  id: number;
+  channel: string;
+  url: string;
+}
 
 // Custom helper to parse and format plain-language textbooks, rendering code blocks beautifully
 const renderFormattedText = (text: string) => {
@@ -73,6 +88,8 @@ export function KnowledgeVault() {
 
   // Lesson Completion State
   const [completedLessons, setCompletedLessons] = useState<Record<string, boolean>>({});
+  const [vaultWebsites, setVaultWebsites] = useState<VaultWebsite[]>(vaultData.websites || []);
+  const [vaultVideos, setVaultVideos] = useState<VaultVideo[]>(vaultData.youtube || []);
 
   // Quiz Attempt State
   const [quizAnswers, setQuizAnswers] = useState<Record<string, number>>({});
@@ -88,6 +105,38 @@ export function KnowledgeVault() {
         }, 0);
       }
     }
+  }, []);
+
+  useEffect(() => {
+    let isMounted = true;
+    Promise.all([getResources("website", 100), getResources("youtube", 100)])
+      .then(([websites, youtube]) => {
+        if (!isMounted) return;
+        setVaultWebsites(
+          websites.map((item) => ({
+            id: item.id,
+            resource: item.name,
+            url: item.url,
+            category: item.category,
+            why_useful: item.whyUseful,
+          }))
+        );
+        setVaultVideos(
+          youtube.map((item, index) => ({
+            id: index + 1,
+            channel: item.name,
+            url: item.url,
+          }))
+        );
+      })
+      .catch(() => {
+        if (!isMounted) return;
+        setVaultWebsites(vaultData.websites || []);
+        setVaultVideos(vaultData.youtube || []);
+      });
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   // Save progress
@@ -162,17 +211,17 @@ export function KnowledgeVault() {
   const currentDocs = useMemo(() => {
     if (activeChapters.length === 0 || activeChapterIndex >= activeChapters.length) return [];
     const chapter = activeChapters[activeChapterIndex];
-    const websites = vaultData.websites || [];
+    const websites = vaultWebsites || [];
     return websites.filter((w) => chapter.documentIds.includes(w.id));
-  }, [activeChapters, activeChapterIndex]);
+  }, [activeChapters, activeChapterIndex, vaultWebsites]);
 
   // Get Excel vault YouTube channels for active chapter
   const currentVideos = useMemo(() => {
     if (activeChapters.length === 0 || activeChapterIndex >= activeChapters.length) return [];
     const chapter = activeChapters[activeChapterIndex];
-    const youtubeList = vaultData.youtube || [];
+    const youtubeList = vaultVideos || [];
     return youtubeList.filter((y) => chapter.youtubeIds.includes(y.id));
-  }, [activeChapters, activeChapterIndex]);
+  }, [activeChapters, activeChapterIndex, vaultVideos]);
 
   // Handle quiz question answer
   const handleSelectQuizAnswer = (qId: string, optionIdx: number) => {

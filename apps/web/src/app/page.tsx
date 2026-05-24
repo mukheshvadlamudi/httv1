@@ -8,7 +8,8 @@ import { GuideDetailView } from "../components/GuideDetailView";
 import { KnowledgeVault } from "../components/KnowledgeVault";
 import { AskAIBox } from "../components/AskAIBox";
 import { MOCK_GUIDES, Guide } from "../data/mock-guides";
-import { Search, Mail, ShieldAlert, PhoneCall, Compass, ChevronRight, X, Key, ShieldCheck, Heart } from "lucide-react";
+import { Search, Mail, ShieldAlert, Award, PhoneCall, Sparkles, BookOpen, Compass, ChevronRight, X, Key, ShieldCheck, Heart } from "lucide-react";
+import { getGuide, getGuides } from "../lib/api";
 
 // Visual Layout Expansion Imports
 import { AccessibilityToolbar, FontScale, ContrastTheme } from "../components/AccessibilityToolbar";
@@ -17,6 +18,7 @@ import { ToolFinder } from "../components/ToolFinder";
 import { UserDashboard } from "../components/UserDashboard";
 import { BusinessTraining } from "../components/BusinessTraining";
 import { AdminCMS } from "../components/AdminCMS";
+
 interface SearchSuggestion {
   label: string;
   slug: string;
@@ -61,6 +63,10 @@ export default function Page() {
   const [track, setTrack] = useState<"selector" | "everyday" | "developer">("selector");
   const [view, setView] = useState<"landing" | "library" | "detail" | "paths" | "tools" | "dashboard" | "b2b" | "admin">("landing");
   const [selectedGuideSlug, setSelectedGuideSlug] = useState<string | null>(null);
+  const [guides, setGuides] = useState<Guide[]>(MOCK_GUIDES);
+  const [selectedGuide, setSelectedGuide] = useState<Guide | null>(null);
+  const [guidesLoading, setGuidesLoading] = useState(false);
+  const [guidesError, setGuidesError] = useState<string | null>(null);
   
   // Autocomplete focus states
   const [isHeroFocused, setIsHeroFocused] = useState(false);
@@ -126,6 +132,49 @@ export default function Page() {
       }, 0);
     }
   }, []);
+
+  useEffect(() => {
+    let isMounted = true;
+    setGuidesLoading(true);
+    getGuides()
+      .then((apiGuides) => {
+        if (!isMounted) return;
+        setGuides(apiGuides);
+        setGuidesError(null);
+      })
+      .catch(() => {
+        if (!isMounted) return;
+        setGuides(MOCK_GUIDES);
+        setGuidesError("Using local guide data because the backend is unavailable.");
+      })
+      .finally(() => {
+        if (isMounted) setGuidesLoading(false);
+      });
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!selectedGuideSlug) {
+      setSelectedGuide(null);
+      return;
+    }
+
+    let isMounted = true;
+    getGuide(selectedGuideSlug)
+      .then((guide) => {
+        if (isMounted) setSelectedGuide(guide);
+      })
+      .catch(() => {
+        if (!isMounted) return;
+        setSelectedGuide(guides.find((g) => g.slug === selectedGuideSlug) || null);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [selectedGuideSlug, guides]);
 
   // Save API Key
   const handleSaveApiKey = () => {
@@ -205,11 +254,14 @@ export default function Page() {
     return map;
   }, [completedSteps, allGuides]);
 
-  // Find active guide details
+  // Find active guide details (prefer API-loaded full guide, fallback to in-memory/custom guides)
   const activeGuide = useMemo(() => {
     if (!selectedGuideSlug) return null;
+    if (selectedGuide && selectedGuide.slug === selectedGuideSlug) {
+      return selectedGuide;
+    }
     return allGuides.find((g) => g.slug === selectedGuideSlug) || null;
-  }, [selectedGuideSlug, allGuides]);
+  }, [selectedGuideSlug, selectedGuide, allGuides]);
 
   // List of distinct categories
   const categoriesList = useMemo(() => {
@@ -637,8 +689,13 @@ export default function Page() {
                   </div>
 
                   <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider pl-1 block">
-                    Showing {filteredGuides.length} matching guides
+                    {guidesLoading ? "Loading guide API..." : `Showing ${filteredGuides.length} matching guides`}
                   </span>
+                  {guidesError && (
+                    <p className="text-[11px] text-amber-600 bg-amber-50 border border-amber-100 px-3 py-2 rounded-xl">
+                      {guidesError}
+                    </p>
+                  )}
 
                   {filteredGuides.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

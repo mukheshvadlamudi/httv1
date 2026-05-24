@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import { Sparkles, Square, Send, Key, Volume2, ArrowRight } from "lucide-react";
 import { useVoice } from "../hooks/useVoice";
+import { askAi } from "../lib/api";
 
 interface AskAIBoxProps {
   track: "everyday" | "developer";
@@ -91,7 +92,27 @@ export function AskAIBox({ track, onSelectGuide, apiKey, onOpenSettings }: AskAI
       await new Promise((resolve) => setTimeout(resolve, 800));
     }
 
-    // Fetch from our local API route (which handles reading the API keys, RAG, and LLM queries)
+    // 1. Try calling the FastAPI backend via askAi
+    try {
+      const response = await askAi(question);
+      const relatedSlug = response.relatedGuideSlugs[0] || "gmail-password-reset";
+      const result = {
+        keywords: [],
+        answer: response.answer,
+        simpleAnswer: response.answer,
+        relatedSlug,
+      };
+      setFullResponse(result);
+      setLiveAnswer(response.answer);
+      setLiveSimpleAnswer(response.answer);
+      setLoading(false);
+      streamText(response.answer);
+      return;
+    } catch (err) {
+      console.warn("FastAPI backend askAi failed/offline, trying local Next.js API route...", err);
+    }
+
+    // 2. Try calling our local Next.js API route
     try {
       const response = await fetch("/api/ai/question", {
         method: "POST",
@@ -116,10 +137,10 @@ export function AskAIBox({ track, onSelectGuide, apiKey, onOpenSettings }: AskAI
         return;
       }
     } catch (err) {
-      console.error("Error calling RAG API route, falling back to offline simulation:", err);
+      console.error("Local Next.js API route failed, falling back to simulated answers...", err);
     }
 
-    // Fallback: Offline local matching if API route fails
+    // 3. Fallback: Simulated offline local keyword match
     const match = SIMULATED_ANSWERS.find((item) =>
       item.keywords.some((kw) => question.toLowerCase().includes(kw))
     );
@@ -345,7 +366,7 @@ export function AskAIBox({ track, onSelectGuide, apiKey, onOpenSettings }: AskAI
           </div>
 
           {/* RAG Matching related guides link */}
-          {!apiKey && fullResponse?.relatedSlug && (
+          {fullResponse?.relatedSlug && (
             <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
                 Grounded in guide content:
@@ -354,7 +375,7 @@ export function AskAIBox({ track, onSelectGuide, apiKey, onOpenSettings }: AskAI
                 onClick={() => onSelectGuide(fullResponse.relatedSlug)}
                 className="flex items-center gap-1 text-[11px] font-bold text-emerald-600 hover:text-emerald-700 bg-emerald-50 border border-emerald-100 px-3 py-1.5 rounded-xl transition-all"
               >
-                Read Gmail Guide
+                Read Related Guide
                 <ArrowRight className="w-3.5 h-3.5" />
               </button>
             </div>
