@@ -17,6 +17,16 @@ def clean(value: object) -> Optional[str]:
     return text or None
 
 
+def clean_int(value: object) -> Optional[int]:
+    text = clean(value)
+    if text is None:
+        return None
+    try:
+        return int(float(text))
+    except ValueError:
+        return None
+
+
 def import_resources(path: str | Optional[Path] = None) -> int:
     source = Path(path or settings.excel_source_path or "")
     if not source.exists():
@@ -25,12 +35,13 @@ def import_resources(path: str | Optional[Path] = None) -> int:
     website_rows = pd.read_excel(source, sheet_name="Websites", header=1).dropna(how="all")
     youtube_rows = pd.read_excel(source, sheet_name="YouTube", header=3).dropna(how="all")
 
-    resources: list[dict[str, Optional[str]]] = []
+    resources: list[dict[str, object]] = []
     for _, row in website_rows.iterrows():
         if clean(row.get("Resource")) and clean(row.get("URL")):
             resources.append(
                 {
                     "source_type": "website",
+                    "source_index": clean_int(row.get("#")),
                     "name": clean(row.get("Resource")),
                     "url": clean(row.get("URL")),
                     "category": clean(row.get("Category")),
@@ -42,6 +53,7 @@ def import_resources(path: str | Optional[Path] = None) -> int:
             resources.append(
                 {
                     "source_type": "youtube",
+                    "source_index": clean_int(row.get("#")),
                     "name": clean(row.get("YouTuber / Channel")),
                     "url": clean(row.get("YouTube Channel URL")),
                     "category": "YouTube Tutorial Channel",
@@ -58,6 +70,7 @@ def import_resources(path: str | Optional[Path] = None) -> int:
             )
             if existing:
                 existing.name = item["name"] or existing.name
+                existing.source_index = item["source_index"]
                 existing.category = item["category"]
                 existing.why_useful = item["why_useful"]
             else:

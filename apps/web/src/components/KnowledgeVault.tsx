@@ -1,8 +1,8 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { ExternalLink, Globe, Video, BookOpen, ChevronRight, ArrowLeft, CheckCircle, Code, Cpu, Shield, Sparkles, Layers, Award, PlayCircle, HelpCircle } from "lucide-react";
+import { ExternalLink, Globe, Video, BookOpen, ChevronRight, ArrowLeft, CheckCircle, Code, Cpu, Shield, Sparkles, Layers, Award, PlayCircle, HelpCircle, Search } from "lucide-react";
 import vaultData from "../data/vault-resources.json";
 import { SYLLABUS_TRACKS, SyllabusTrack, SyllabusChapter, QuizQuestion } from "../data/syllabus-data";
-import { getResources } from "../lib/api";
+import { getResources, Resource } from "../lib/api";
 
 interface VaultWebsite {
   id: number;
@@ -17,6 +17,30 @@ interface VaultVideo {
   channel: string;
   url: string;
 }
+
+interface VaultSearchResult {
+  id: number;
+  sourceType: "website" | "youtube";
+  name: string;
+  url: string;
+  category: string | null;
+  whyUseful: string | null;
+}
+
+const normalizeResourceKey = (value: string | null | undefined) => (value || "").trim().toLowerCase();
+
+const vaultWebsiteByUrl = new Map(
+  (vaultData.websites || []).map((item) => [normalizeResourceKey(item.url), item])
+);
+const vaultWebsiteByName = new Map(
+  (vaultData.websites || []).map((item) => [normalizeResourceKey(item.resource), item])
+);
+const vaultVideoByUrl = new Map(
+  (vaultData.youtube || []).map((item) => [normalizeResourceKey(item.url), item])
+);
+const vaultVideoByName = new Map(
+  (vaultData.youtube || []).map((item) => [normalizeResourceKey(item.channel), item])
+);
 
 // Custom helper to parse and format plain-language textbooks, rendering code blocks beautifully
 const renderFormattedText = (text: string) => {
@@ -90,6 +114,11 @@ export function KnowledgeVault() {
   const [completedLessons, setCompletedLessons] = useState<Record<string, boolean>>({});
   const [vaultWebsites, setVaultWebsites] = useState<VaultWebsite[]>(vaultData.websites || []);
   const [vaultVideos, setVaultVideos] = useState<VaultVideo[]>(vaultData.youtube || []);
+  const [resourceSearchQuery, setResourceSearchQuery] = useState("");
+  const [resourceSearchType, setResourceSearchType] = useState<"all" | "website" | "youtube">("all");
+  const [resourceSearchResults, setResourceSearchResults] = useState<VaultSearchResult[]>([]);
+  const [resourceSearchLoading, setResourceSearchLoading] = useState(false);
+  const [resourceSearchError, setResourceSearchError] = useState<string | null>(null);
 
   // Quiz Attempt State
   const [quizAnswers, setQuizAnswers] = useState<Record<string, number>>({});
@@ -113,20 +142,30 @@ export function KnowledgeVault() {
       .then(([websites, youtube]) => {
         if (!isMounted) return;
         setVaultWebsites(
-          websites.map((item) => ({
-            id: item.id,
-            resource: item.name,
-            url: item.url,
-            category: item.category,
-            why_useful: item.whyUseful,
-          }))
+          websites.map((item) => {
+            const localMatch =
+              vaultWebsiteByUrl.get(normalizeResourceKey(item.url)) ||
+              vaultWebsiteByName.get(normalizeResourceKey(item.name));
+            return {
+              id: item.sourceIndex ?? localMatch?.id ?? item.id,
+              resource: item.name,
+              url: item.url,
+              category: item.category,
+              why_useful: item.whyUseful,
+            };
+          })
         );
         setVaultVideos(
-          youtube.map((item, index) => ({
-            id: index + 1,
-            channel: item.name,
-            url: item.url,
-          }))
+          youtube.map((item) => {
+            const localMatch =
+              vaultVideoByUrl.get(normalizeResourceKey(item.url)) ||
+              vaultVideoByName.get(normalizeResourceKey(item.name));
+            return {
+              id: item.sourceIndex ?? localMatch?.id ?? item.id,
+              channel: item.name,
+              url: item.url,
+            };
+          })
         );
       })
       .catch(() => {
@@ -213,6 +252,40 @@ export function KnowledgeVault() {
     setShowQuizResults(false);
   };
 
+  const normalizeSearchResult = (item: Resource): VaultSearchResult => ({
+    id: item.sourceIndex ?? item.id,
+    sourceType: item.sourceType,
+    name: item.name,
+    url: item.url,
+    category: item.category,
+    whyUseful: item.whyUseful,
+  });
+
+  const handleResourceSearch = async (event: React.FormEvent) => {
+    event.preventDefault();
+    const query = resourceSearchQuery.trim();
+    if (!query) {
+      setResourceSearchResults([]);
+      setResourceSearchError(null);
+      return;
+    }
+
+    setResourceSearchLoading(true);
+    setResourceSearchError(null);
+    try {
+      const results =
+        resourceSearchType === "all"
+          ? await Promise.all([getResources("website", 12, query), getResources("youtube", 12, query)])
+          : [await getResources(resourceSearchType, 12, query)];
+      setResourceSearchResults(results.flat().map(normalizeSearchResult));
+    } catch {
+      setResourceSearchResults([]);
+      setResourceSearchError("Could not reach the backend resource search.");
+    } finally {
+      setResourceSearchLoading(false);
+    }
+  };
+
   // Get Excel vault documentation resources for active chapter
   const currentDocs = useMemo(() => {
     if (activeChapters.length === 0 || activeChapterIndex >= activeChapters.length) return [];
@@ -271,6 +344,91 @@ export function KnowledgeVault() {
             <p className="text-slate-400 text-xs md:text-sm mt-3 max-w-xl leading-relaxed">
               Clear, step-by-step developer textbooks. Skip the confusing jargon and read direct guides grounded in the Futurelab Knowledge Vault.
             </p>
+          </div>
+
+          <div className="bg-white border border-slate-100 rounded-[2rem] p-5 md:p-6 shadow-sm">
+            <div className="flex flex-col md:flex-row md:items-end gap-4">
+              <form onSubmit={handleResourceSearch} className="flex-1">
+                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-2">
+                  Search Knowledge Vault
+                </label>
+                <div className="relative">
+                  <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                  <input
+                    value={resourceSearchQuery}
+                    onChange={(event) => setResourceSearchQuery(event.target.value)}
+                    placeholder="Search docs or channels, e.g. FastAPI, React, AI, testing..."
+                    className="w-full pl-10 pr-28 py-3 border border-slate-200 focus:border-slate-400 rounded-full text-xs outline-none bg-slate-50/60"
+                  />
+                  <button
+                    type="submit"
+                    className="absolute right-1.5 top-1/2 -translate-y-1/2 px-4 py-2 bg-slate-900 text-white rounded-full text-xs font-bold hover:bg-slate-800 transition-colors"
+                  >
+                    Search
+                  </button>
+                </div>
+              </form>
+
+              <div className="flex gap-1.5 bg-slate-100 p-1 rounded-full">
+                {[
+                  { value: "all", label: "All" },
+                  { value: "website", label: "Docs" },
+                  { value: "youtube", label: "YouTube" },
+                ].map((item) => (
+                  <button
+                    key={item.value}
+                    type="button"
+                    onClick={() => setResourceSearchType(item.value as "all" | "website" | "youtube")}
+                    className={`px-3 py-1.5 rounded-full text-[11px] font-bold transition-all ${
+                      resourceSearchType === item.value ? "bg-white text-slate-900 shadow-sm" : "text-slate-500 hover:text-slate-900"
+                    }`}
+                  >
+                    {item.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {(resourceSearchLoading || resourceSearchError || resourceSearchResults.length > 0) && (
+              <div className="mt-5 border-t border-slate-100 pt-4">
+                {resourceSearchLoading && (
+                  <p className="text-xs font-bold text-slate-400">Searching the backend vault...</p>
+                )}
+                {resourceSearchError && (
+                  <p className="text-xs font-bold text-rose-600 bg-rose-50 border border-rose-100 rounded-xl px-3 py-2">
+                    {resourceSearchError}
+                  </p>
+                )}
+                {resourceSearchResults.length > 0 && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {resourceSearchResults.map((item) => (
+                      <a
+                        key={`${item.sourceType}-${item.id}-${item.url}`}
+                        href={item.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group flex items-start gap-3 bg-slate-50 hover:bg-slate-100 border border-slate-100 p-3 rounded-2xl transition-all"
+                      >
+                        <div className={`w-8 h-8 rounded-full bg-white border border-slate-100 flex items-center justify-center shrink-0 ${
+                          item.sourceType === "youtube" ? "text-rose-500" : "text-blue-500"
+                        }`}>
+                          {item.sourceType === "youtube" ? <PlayCircle className="w-4 h-4" /> : <Globe className="w-4 h-4" />}
+                        </div>
+                        <div className="min-w-0">
+                          <div className="flex items-center gap-2">
+                            <h4 className="text-xs font-bold text-slate-900 truncate">{item.name}</h4>
+                            <ExternalLink className="w-3 h-3 text-slate-300 group-hover:text-slate-600 shrink-0" />
+                          </div>
+                          <p className="text-[10px] text-slate-400 mt-0.5 line-clamp-2">
+                            {item.whyUseful || item.category || "External learning resource"}
+                          </p>
+                        </div>
+                      </a>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
           </div>
 
           {/* Grid Selection */}
@@ -768,76 +926,87 @@ export function KnowledgeVault() {
 
                     </div>
 
-                    {/* DYNAMIC REFERENCE CARD FOOTER: Websites & Youtube links from vault */}
+                    {/* DYNAMIC REFERENCE CARD FOOTER: Websites & YouTube links from vault */}
                     {(currentDocs.length > 0 || currentVideos.length > 0) && (
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="space-y-4">
+                        <div>
+                          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                            Chapter References
+                          </span>
+                          <h4 className="font-sans font-bold text-lg text-slate-900 mt-1">
+                            Keep learning with trusted docs and channels
+                          </h4>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         
-                        {/* Section 1: Supplementary Website documentations */}
-                        {currentDocs.length > 0 && (
-                          <div className="bg-white border border-slate-100 rounded-[2rem] p-6 shadow-sm">
-                            <h4 className="font-sans font-bold text-xs text-slate-900 uppercase tracking-widest border-b border-slate-50 pb-3 mb-4 flex items-center gap-2">
-                              <Globe className="w-4 h-4 text-blue-500" />
-                              Official Vault Reference Docs
-                            </h4>
+                          {/* Section 1: Supplementary Website documentations */}
+                          {currentDocs.length > 0 && (
+                            <div className="bg-white border border-slate-100 rounded-[2rem] p-6 shadow-sm">
+                              <h4 className="font-sans font-bold text-xs text-slate-900 uppercase tracking-widest border-b border-slate-50 pb-3 mb-4 flex items-center gap-2">
+                                <Globe className="w-4 h-4 text-blue-500" />
+                                Documentation
+                              </h4>
 
-                            <div className="space-y-3">
-                              {currentDocs.map((doc) => (
-                                <a
-                                  key={doc.id}
-                                  href={doc.url}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="group flex items-start gap-3 bg-slate-50 hover:bg-slate-100/70 border border-slate-100/50 p-3.5 rounded-2xl transition-all"
-                                >
-                                  <div className="w-7 h-7 rounded-full bg-white border border-slate-100 flex items-center justify-center shrink-0">
-                                    <ExternalLink className="w-3.5 h-3.5 text-slate-400 group-hover:text-slate-950 transition-colors" />
-                                  </div>
-                                  <div>
-                                    <h5 className="text-xs font-bold text-slate-900 leading-tight">
-                                      {doc.resource}
-                                    </h5>
-                                    <p className="text-[10px] text-slate-400 leading-relaxed mt-0.5 line-clamp-2">
-                                      {doc.why_useful}
-                                    </p>
-                                  </div>
-                                </a>
-                              ))}
-                            </div>
-                          </div>
-                        )}
-
-                        {/* Section 2: Supplementary YouTube tutorial channels */}
-                        {currentVideos.length > 0 && (
-                          <div className="bg-white border border-slate-100 rounded-[2rem] p-6 shadow-sm">
-                            <h4 className="font-sans font-bold text-xs text-slate-900 uppercase tracking-widest border-b border-slate-50 pb-3 mb-4 flex items-center gap-2">
-                              <Video className="w-4 h-4 text-rose-500" />
-                              Founder Video Libraries
-                            </h4>
-
-                            <div className="space-y-3">
-                              {currentVideos.map((vid) => (
-                                <a
-                                  key={vid.id}
-                                  href={vid.url}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="group flex items-center justify-between gap-3 bg-slate-50 hover:bg-slate-100/70 border border-slate-100/50 p-3.5 rounded-2xl transition-all"
-                                >
-                                  <div className="flex items-center gap-3">
-                                    <div className="w-7 h-7 rounded-full bg-white border border-slate-100 flex items-center justify-center shrink-0 text-rose-500">
-                                      <PlayCircle className="w-4 h-4 fill-rose-50/50" />
+                              <div className="space-y-3">
+                                {currentDocs.map((doc) => (
+                                  <a
+                                    key={doc.id}
+                                    href={doc.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="group flex items-start gap-3 bg-slate-50 hover:bg-slate-100/70 border border-slate-100/50 p-3.5 rounded-2xl transition-all"
+                                  >
+                                    <div className="w-7 h-7 rounded-full bg-white border border-slate-100 flex items-center justify-center shrink-0">
+                                      <ExternalLink className="w-3.5 h-3.5 text-slate-400 group-hover:text-slate-950 transition-colors" />
                                     </div>
-                                    <h5 className="text-xs font-bold text-slate-900 leading-tight">
-                                      {vid.channel}
-                                    </h5>
-                                  </div>
-                                  <ExternalLink className="w-3.5 h-3.5 text-slate-300 group-hover:text-slate-650 transition-colors" />
-                                </a>
-                              ))}
+                                    <div>
+                                      <h5 className="text-xs font-bold text-slate-900 leading-tight">
+                                        {doc.resource}
+                                      </h5>
+                                      <p className="text-[10px] text-slate-400 leading-relaxed mt-0.5 line-clamp-2">
+                                        {doc.why_useful}
+                                      </p>
+                                    </div>
+                                  </a>
+                                ))}
+                              </div>
                             </div>
-                          </div>
-                        )}
+                          )}
 
+                          {/* Section 2: Supplementary YouTube tutorial channels */}
+                          {currentVideos.length > 0 && (
+                            <div className="bg-white border border-slate-100 rounded-[2rem] p-6 shadow-sm">
+                              <h4 className="font-sans font-bold text-xs text-slate-900 uppercase tracking-widest border-b border-slate-50 pb-3 mb-4 flex items-center gap-2">
+                                <Video className="w-4 h-4 text-rose-500" />
+                                YouTube Channels
+                              </h4>
+
+                              <div className="space-y-3">
+                                {currentVideos.map((vid) => (
+                                  <a
+                                    key={vid.id}
+                                    href={vid.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="group flex items-center justify-between gap-3 bg-slate-50 hover:bg-slate-100/70 border border-slate-100/50 p-3.5 rounded-2xl transition-all"
+                                  >
+                                    <div className="flex items-center gap-3">
+                                      <div className="w-7 h-7 rounded-full bg-white border border-slate-100 flex items-center justify-center shrink-0 text-rose-500">
+                                        <PlayCircle className="w-4 h-4 fill-rose-50/50" />
+                                      </div>
+                                      <h5 className="text-xs font-bold text-slate-900 leading-tight">
+                                        {vid.channel}
+                                      </h5>
+                                    </div>
+                                    <ExternalLink className="w-3.5 h-3.5 text-slate-300 group-hover:text-slate-650 transition-colors" />
+                                  </a>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+
+                        </div>
                       </div>
                     )}
 

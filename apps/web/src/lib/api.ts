@@ -44,14 +44,22 @@ export async function getGuide(slug: string): Promise<Guide> {
 export interface Resource {
   id: number;
   sourceType: "website" | "youtube";
+  sourceIndex: number | null;
   name: string;
   url: string;
   category: string | null;
   whyUseful: string | null;
 }
 
-export async function getResources(sourceType: "website" | "youtube", limit = 100): Promise<Resource[]> {
-  return request<Resource[]>(`/resources?source_type=${sourceType}&limit=${limit}`);
+export async function getResources(sourceType: "website" | "youtube", limit = 100, q?: string): Promise<Resource[]> {
+  const params = new URLSearchParams({
+    source_type: sourceType,
+    limit: String(limit),
+  });
+  if (q?.trim()) {
+    params.set("q", q.trim());
+  }
+  return request<Resource[]>(`/resources?${params.toString()}`);
 }
 
 export interface AiAnswer {

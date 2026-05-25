@@ -15,6 +15,7 @@ def serialize_resource(resource: Resource) -> ResourceRead:
     return ResourceRead(
         id=resource.id,
         sourceType=resource.source_type,
+        sourceIndex=resource.source_index,
         name=resource.name,
         url=resource.url,
         category=resource.category,
@@ -30,7 +31,7 @@ def list_resources(
     limit: int = Query(default=50, ge=1, le=100),
     db: Session = Depends(get_db),
 ) -> list[ResourceRead]:
-    stmt = select(Resource).order_by(Resource.name).limit(limit)
+    stmt = select(Resource).order_by(Resource.source_type, Resource.source_index.is_(None), Resource.source_index, Resource.name).limit(limit)
     if source_type:
         stmt = stmt.where(Resource.source_type == source_type)
     if category:
