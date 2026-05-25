@@ -6,6 +6,7 @@ from pydantic import BaseModel, ConfigDict
 class ResourceRead(BaseModel):
     id: int
     sourceType: str
+    sourceIndex: Optional[int] = None
     name: str
     url: str
     category: Optional[str] = None

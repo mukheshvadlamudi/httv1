@@ -85,6 +85,7 @@ Query params:
   {
     "id": 1,
     "sourceType": "website",
+    "sourceIndex": 1,
     "name": "MDN Web Docs",
     "url": "https://developer.mozilla.org",
     "category": "Frontend / Web fundamentals",
@@ -92,6 +93,8 @@ Query params:
   }
 ]
 ```
+
+`sourceIndex` is the original row number from the private Excel sheet. The frontend uses it to attach trusted documentation and YouTube references to syllabus chapters without depending on database auto-increment IDs.
 
 ## Feedback
 
